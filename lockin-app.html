@@ -1204,6 +1204,108 @@ function updateMobProgress(){
 }
 function resetMob(){document.querySelectorAll('.mob-item').forEach(el=>{el.classList.remove('done');el.querySelector('.mob-chk').textContent='';});updateMobProgress();saveState();}
 
+// ─── SUPABASE SYNC ───────────────────────────────────────
+const SB_URL = 'https://jzsdnfdkkutchkmaeopu.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6c2RuZmRra3V0Y2hrbWFlb3B1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxODkwNjEsImV4cCI6MjA5OTc2NTA2MX0.cmLpIiLJCWzNmexUGzVpOjKPmI5QzUI8Yq4bIJ02Wb0';
+
+async function sbFetch(path, method='GET', body=null){
+  const opts = {
+    method,
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'resolution=merge-duplicates' : ''
+    }
+  };
+  if(body) opts.body = JSON.stringify(body);
+  try {
+    const r = await fetch(SB_URL + path, opts);
+    return r.ok ? await r.json().catch(()=>[]) : null;
+  } catch(e) { return null; }
+}
+
+async function syncDailyLog(){
+  const today = new Date().toDateString();
+  const meals = (logData.meals||{})[today]||[];
+  const mealsSafe = meals.map(m => ({
+    id: m.id, name: m.name, protein: m.protein, carbs: m.carbs,
+    fat: m.fat, kcal: m.kcal, time: m.time, notes: m.notes
+  }));
+  await sbFetch('/rest/v1/daily_log', 'POST', {
+    date: today,
+    steps: state.steps || 0,
+    body_weight: logData.bw?.[today] || null,
+    timeline: state.tl || {},
+    supps: state.supps || {},
+    meals: mealsSafe,
+    updated_at: new Date().toISOString()
+  });
+}
+
+async function syncWorkoutSet(session, exercise, setNum, weightKg, reps){
+  const today = new Date().toDateString();
+  await sbFetch('/rest/v1/workout_log', 'POST', {
+    date: today,
+    session,
+    exercise,
+    set_number: setNum,
+    weight_kg: weightKg,
+    reps
+  });
+}
+
+async function syncBodyWeight(weightKg){
+  const today = new Date().toDateString();
+  await sbFetch('/rest/v1/body_weight', 'POST', {
+    date: today,
+    weight_kg: weightKg
+  });
+}
+
+async function fetchWeeklyData(){
+  const days = [];
+  for(let i=6;i>=0;i--){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    days.push(d.toDateString());
+  }
+  const oldest = days[0];
+  const [daily, workouts, bw] = await Promise.all([
+    sbFetch(`/rest/v1/daily_log?date=gte.${encodeURIComponent(oldest)}&order=date.asc`),
+    sbFetch(`/rest/v1/workout_log?date=gte.${encodeURIComponent(oldest)}&order=date.asc`),
+    sbFetch(`/rest/v1/body_weight?date=gte.${encodeURIComponent(oldest)}&order=date.asc`)
+  ]);
+  return { daily, workouts, bw };
+}
+
+// Auto-sync every 5 minutes and on key actions
+setInterval(syncDailyLog, 5 * 60 * 1000);
+document.addEventListener('visibilitychange', () => {
+  if(document.visibilityState === 'hidden') syncDailyLog();
+});
+
+// Patch saveSet to also sync to Supabase
+const _origSaveSet = saveSet;
+window.saveSet = function(exKey, date, si){
+  _origSaveSet(exKey, date, si);
+  const kg = parseFloat(document.getElementById(`kg-${exKey}-${si}`)?.value);
+  const reps = parseInt(document.getElementById(`reps-${exKey}-${si}`)?.value);
+  const parts = exKey.split('_');
+  const session = parts.slice(0,-1).join('_');
+  const exIdx = parseInt(parts[parts.length-1]);
+  const exName = WORKOUTS[session]?.[exIdx]?.n || exKey;
+  if(!isNaN(kg) && !isNaN(reps)) syncWorkoutSet(session, exName, si+1, kg, reps);
+};
+
+// Patch logBodyWeight to also sync
+const _origLogBW = logBodyWeight;
+window.logBodyWeight = function(){
+  _origLogBW();
+  const today = new Date().toDateString();
+  const val = logData.bw?.[today];
+  if(val) syncBodyWeight(val);
+};
+
 // ─── INIT ─────────────────────────────────────────────────
 buildTimeline();
 buildWeekGrid();
@@ -1216,6 +1318,7 @@ renderMealLog();
 renderPhysiqueGrid();
 updateNutritionTotals();
 setInterval(updateSleepCountdown,60000);
+setTimeout(syncDailyLog, 3000);
 </script>
 </body>
 </html>
