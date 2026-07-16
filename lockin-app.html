@@ -219,8 +219,54 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .set-history-data{font-family:var(--mono);font-size:11px;color:var(--text)}
 .set-history-data.is-pr{color:var(--accent)}
 
-/* ===== MOBILITY ===== */
-.mob-hero{margin:16px 16px 0;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px}
+/* ===== NUTRITION PHOTO ===== */
+.daily-totals{margin:16px 16px 0;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px}
+.daily-totals-header{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.daily-totals-header span:last-child{color:var(--accent);cursor:pointer}
+.macro-progress-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.macro-progress-row:last-child{margin-bottom:0}
+.mpr-label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);width:55px;flex-shrink:0}
+.mpr-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.mpr-bar{height:100%;border-radius:3px;transition:width 0.5s ease;max-width:100%}
+.mpr-bar.over{opacity:0.6}
+.mpr-val{font-family:var(--mono);font-size:11px;width:70px;text-align:right;flex-shrink:0}
+.kcal-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.kcal-consumed{font-family:var(--display);font-size:42px;letter-spacing:0.02em;color:var(--text)}
+.kcal-remaining{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right}
+.kcal-remaining strong{display:block;font-size:16px;color:var(--accent)}
+
+.photo-log-btn{margin:12px 16px 0;width:calc(100% - 32px);padding:16px;background:var(--accent-dim);border:2px dashed rgba(200,241,53,0.3);border-radius:12px;color:var(--accent);font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s}
+.photo-log-btn:active{background:rgba(200,241,53,0.2)}
+.photo-log-btn .btn-icon{font-size:20px}
+#photo-input{display:none}
+
+.meal-log-list{padding:0 16px}
+.meal-log-entry{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.meal-log-head{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.meal-log-img{width:52px;height:52px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--surface2)}
+.meal-log-img-placeholder{width:52px;height:52px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.meal-log-info{flex:1;min-width:0}
+.meal-log-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meal-log-macros{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.meal-log-time{font-family:var(--mono);font-size:10px;color:var(--muted);flex-shrink:0}
+.meal-log-del{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px;flex-shrink:0}
+.meal-log-analyzing{display:flex;align-items:center;gap:8px;padding:12px 14px;font-family:var(--mono);font-size:11px;color:var(--accent2)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent2);border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0}
+
+/* PHYSIQUE TRACKER */
+.physique-section{margin:0 16px}
+.physique-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}
+.physique-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;aspect-ratio:3/4;position:relative;cursor:pointer}
+.physique-card img{width:100%;height:100%;object-fit:cover}
+.physique-card-empty{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted)}
+.physique-card-empty .pc-icon{font-size:28px}
+.physique-card-empty .pc-label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase}
+.physique-card-date{position:absolute;bottom:0;left:0;right:0;padding:8px 10px;background:linear-gradient(transparent,rgba(0,0,0,0.8));font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:#fff;text-transform:uppercase}
+.physique-add-btn{width:100%;padding:14px;background:transparent;border:1px dashed var(--border);border-radius:12px;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
+#physique-input{display:none}
+
+/* ===== NUTRITION PHOTO ===== */margin:16px 16px 0;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px}
 .mob-hero-title{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .mob-hero-sub{font-size:13px;color:var(--muted);line-height:1.5}
 .mob-hero-sub strong{color:var(--accent)}
@@ -313,66 +359,82 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <!-- NUTRITION -->
 <div class="screen" id="screen-nutrition">
   <div class="page-header">
-    <div class="page-eyebrow">Recomp Protocol</div>
+    <div class="page-eyebrow">Photo Tracking</div>
     <div class="page-title">FUEL</div>
   </div>
-  <div class="macro-hero">
-    <div class="macro-hero-title"><span>Daily Targets</span><span id="nutrition-day-lbl" style="color:var(--accent)">Training Day</span></div>
-    <div class="macro-row"><span class="macro-name">Protein</span><div class="macro-bar-wrap"><div class="macro-bar bar-p" style="width:45%"></div></div><span class="macro-val" style="color:var(--accent)" id="macro-p">~180g</span></div>
-    <div class="macro-row"><span class="macro-name">Carbs</span><div class="macro-bar-wrap"><div class="macro-bar bar-c" style="width:35%"></div></div><span class="macro-val" style="color:var(--accent2)" id="macro-c">190–200g</span></div>
-    <div class="macro-row"><span class="macro-name">Fat</span><div class="macro-bar-wrap"><div class="macro-bar bar-f" style="width:20%"></div></div><span class="macro-val" style="color:var(--accent3)" id="macro-f">65–70g</span></div>
-    <div class="kcal-total"><span class="kcal-num" id="macro-kcal">~2,200</span><span class="kcal-lbl">kcal target</span></div>
-    <div class="meal-grid">
-      <div class="meal-grid-item"><div class="meal-grid-tag" style="color:var(--accent)">SHAKE 8AM</div><div class="meal-grid-val">50g P · <span id="shake-carbs-sm">~10g</span> C · 0g F</div></div>
-      <div class="meal-grid-item"><div class="meal-grid-tag" style="color:var(--accent2)">LUNCH 12PM</div><div class="meal-grid-val">70g P · <span id="lunch-carbs-sm">110–120g</span> C · 25g F</div></div>
-      <div class="meal-grid-item"><div class="meal-grid-tag" style="color:var(--accent3)">DINNER 7PM</div><div class="meal-grid-val">60g P · 65–70g C · 40–45g F</div></div>
+
+  <!-- DAILY TOTALS -->
+  <div class="daily-totals">
+    <div class="daily-totals-header">
+      <span>Today's Totals</span>
+      <span id="nutrition-day-lbl" style="color:var(--accent)">Training Day</span>
+    </div>
+    <div class="macro-progress-row">
+      <span class="mpr-label">Protein</span>
+      <div class="mpr-bar-wrap"><div class="mpr-bar bar-p" id="bar-protein" style="width:0%"></div></div>
+      <span class="mpr-val" style="color:var(--accent)" id="val-protein">0 / 180g</span>
+    </div>
+    <div class="macro-progress-row">
+      <span class="mpr-label">Carbs</span>
+      <div class="mpr-bar-wrap"><div class="mpr-bar bar-c" id="bar-carbs" style="width:0%"></div></div>
+      <span class="mpr-val" style="color:var(--accent2)" id="val-carbs">0 / 195g</span>
+    </div>
+    <div class="macro-progress-row">
+      <span class="mpr-label">Fat</span>
+      <div class="mpr-bar-wrap"><div class="mpr-bar bar-f" id="bar-fat" style="width:0%"></div></div>
+      <span class="mpr-val" style="color:var(--accent3)" id="val-fat">0 / 68g</span>
+    </div>
+    <div class="kcal-row">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Consumed</div>
+        <div class="kcal-consumed" id="val-kcal">0</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">kcal</div>
+      </div>
+      <div class="kcal-remaining">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Remaining</div>
+        <strong id="val-remaining" style="color:var(--accent)">2,200</strong>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">kcal target: <span id="kcal-target">2,200</span></div>
+      </div>
     </div>
   </div>
-  <div class="section-label">Meals</div>
-  <div class="meal-card" id="meal-shake">
-    <div class="meal-head" onclick="toggleMeal('meal-shake')">
-      <span class="meal-time">8:00 AM</span>
-      <span class="meal-name" style="color:var(--accent)">SHAKE</span>
-      <div class="meal-chk" onclick="event.stopPropagation();checkMeal('meal-shake')">✓</div>
-    </div>
-    <div class="meal-body">
-      <div class="meal-macros">
-        <div class="meal-macro-item"><div class="meal-macro-val" style="color:var(--accent)">50g</div><div class="meal-macro-lbl">Protein</div></div>
-        <div class="meal-macro-item"><div class="meal-macro-val" style="color:var(--accent2)" id="shake-carbs">~10g</div><div class="meal-macro-lbl">Carbs</div></div>
-        <div class="meal-macro-item"><div class="meal-macro-val" style="color:var(--accent3)">0g</div><div class="meal-macro-lbl">Fat</div></div>
-      </div>
-      <div class="meal-note">2 scoops whey isolate + 1 banana. <span id="shake-note">Fast carbs post-workout — intentional.</span> Omega-3 2–3g EPA+DHA taken with this.</div>
-    </div>
+
+  <!-- REST DAY TOGGLE -->
+  <div class="rest-toggle" style="margin-top:10px">
+    <span class="rest-toggle-label">Rest Day Mode</span>
+    <div class="toggle-sw" id="fuel-rest-toggle" onclick="toggleFuelRest()"><div class="toggle-knob"></div></div>
   </div>
-  <div class="meal-card" id="meal-lunch">
-    <div class="meal-head" onclick="toggleMeal('meal-lunch')">
-      <span class="meal-time">12:00 PM</span>
-      <span class="meal-name" style="color:var(--accent2)">LUNCH</span>
-      <div class="meal-chk" onclick="event.stopPropagation();checkMeal('meal-lunch')">✓</div>
-    </div>
-    <div class="meal-body">
-      <div class="meal-macros">
-        <div class="meal-macro-item"><div class="meal-macro-val" style="color:var(--accent)">70g</div><div class="meal-macro-lbl">Protein</div></div>
-        <div class="meal-macro-item"><div class="meal-macro-val" style="color:var(--accent2)" id="lunch-carbs">110–120g</div><div class="meal-macro-lbl">Carbs</div></div>
-        <div class="meal-macro-item"><div class="meal-macro-val" style="color:var(--accent3)">25g</div><div class="meal-macro-lbl">Fat</div></div>
-      </div>
-      <div class="meal-note">Biggest carb meal of the day. Meal prep service. Fat sources: olive oil, avocado, eggs — not seed oils.</div>
-    </div>
+
+  <!-- PHOTO LOG BUTTON -->
+  <input type="file" id="photo-input" accept="image/*" capture="environment" onchange="handlePhotoSelect(event)">
+  <button class="photo-log-btn" onclick="document.getElementById('photo-input').click()">
+    <span class="btn-icon">📸</span>
+    <span>Photo Log a Meal</span>
+  </button>
+
+  <!-- MEAL LOG LIST -->
+  <div class="section-label">Meals Today</div>
+  <div class="meal-log-list" id="meal-log-list">
+    <div id="meal-log-empty" style="padding:24px 0;text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.1em">NO MEALS LOGGED YET — TAP TO PHOTO LOG</div>
   </div>
-  <div class="meal-card" id="meal-dinner">
-    <div class="meal-head" onclick="toggleMeal('meal-dinner')">
-      <span class="meal-time">7:00 PM</span>
-      <span class="meal-name" style="color:var(--accent3)">DINNER</span>
-      <div class="meal-chk" onclick="event.stopPropagation();checkMeal('meal-dinner')">✓</div>
-    </div>
-    <div class="meal-body">
-      <div class="meal-macros">
-        <div class="meal-macro-item"><div class="meal-macro-val" style="color:var(--accent)">60g</div><div class="meal-macro-lbl">Protein</div></div>
-        <div class="meal-macro-item"><div class="meal-macro-val" style="color:var(--accent2)" id="dinner-carbs">65–70g</div><div class="meal-macro-lbl">Carbs</div></div>
-        <div class="meal-macro-item"><div class="meal-macro-val" style="color:var(--accent3)">40–45g</div><div class="meal-macro-lbl">Fat</div></div>
-      </div>
-      <div class="meal-note">Lower carb, higher fat. Meal prep service. Ashwagandha 600mg and Zinc Picolinate 25mg taken with this meal.</div>
-    </div>
+</div>
+
+<!-- PHYSIQUE -->
+<div class="screen" id="screen-physique">
+  <div class="page-header">
+    <div class="page-eyebrow">Monthly Check-In</div>
+    <div class="page-title">PHYSIQUE</div>
+  </div>
+  <div class="warn-card" style="margin-top:16px">
+    <div class="warn-card-lbl">Protocol</div>
+    <p>Monthly photos only. Same time of day, same lighting, same pose. Weekly comparisons lie — monthly tells the truth. Front, side, and back. Store on device only.</p>
+  </div>
+  <div class="section-label">Photo Log</div>
+  <input type="file" id="physique-input" accept="image/*" capture="environment" onchange="handlePhysiquePhoto(event)">
+  <div class="physique-section">
+    <button class="physique-add-btn" onclick="document.getElementById('physique-input').click()">
+      <span>📸</span> Add Monthly Check-In Photo
+    </button>
+    <div class="physique-grid" id="physique-grid"></div>
   </div>
 </div>
 
@@ -593,7 +655,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div id="tabbar">
   <div class="tab active" onclick="switchTab('today',this)"><div class="tab-icon">☀️</div><div class="tab-label">Today</div></div>
   <div class="tab" onclick="switchTab('train',this)"><div class="tab-icon">🏋️</div><div class="tab-label">Train</div></div>
-  <div class="tab" onclick="switchTab('nutrition',this)"><div class="tab-icon">🥗</div><div class="tab-label">Fuel</div></div>
+  <div class="tab" onclick="switchTab('nutrition',this)"><div class="tab-icon">📸</div><div class="tab-label">Fuel</div></div>
+  <div class="tab" onclick="switchTab('physique',this)"><div class="tab-icon">🪞</div><div class="tab-label">Body</div></div>
   <div class="tab" onclick="switchTab('supps',this)"><div class="tab-icon">💊</div><div class="tab-label">Supps</div></div>
   <div class="tab" onclick="switchTab('log',this)"><div class="tab-icon">📈</div><div class="tab-label">Log</div></div>
   <div class="tab" onclick="switchTab('mobility',this)"><div class="tab-icon">🧘</div><div class="tab-label">Move</div></div>
@@ -708,20 +771,9 @@ function updateTodayProgress(){
 function toggleRest(){
   isRestDay=!isRestDay;
   document.getElementById('rest-toggle').classList.toggle('on');
-  updateNutritionForRestDay();
-}
-
-function updateNutritionForRestDay(){
-  const isRest=isRestDay;
-  document.getElementById('nutrition-day-lbl').textContent=isRest?'Rest Day':'Training Day';
-  document.getElementById('macro-kcal').textContent=isRest?'~1,900':'~2,200';
-  document.getElementById('lunch-carbs').textContent=isRest?'60–70g':'110–120g';
-  document.getElementById('lunch-carbs-sm').textContent=isRest?'60–70g':'110–120g';
-  document.getElementById('shake-carbs').textContent=isRest?'0g':'~10g';
-  document.getElementById('shake-carbs-sm').textContent=isRest?'0g':'~10g';
-  document.getElementById('shake-note').textContent=isRest?'No banana on rest days.':'Fast carbs post-workout — intentional.';
-  document.getElementById('steps-tgt-disp').textContent=isRest?'10,000':'8,000';
-  document.getElementById('steps-sublabel').textContent=isRest?'Target: 10,000 steps on rest days':'Target: 8,000 steps on training days';
+  const tgt=isRestDay?10000:8000;
+  document.getElementById('steps-tgt-disp').textContent=isRestDay?'10,000':'8,000';
+  document.getElementById('steps-sublabel').textContent=isRestDay?'Target: 10,000 steps on rest days':'Target: 8,000 steps on training days';
   updateStepsBar();
 }
 
@@ -738,9 +790,228 @@ function updateStepsBar(){
   document.getElementById('steps-bar').style.width=pct+'%';
 }
 
-// ─── MEALS ───────────────────────────────────────────────
-function toggleMeal(id){document.getElementById(id).classList.toggle('open');}
-function checkMeal(id){const c=document.getElementById(id);c.classList.toggle('done');state.meals[id]=c.classList.contains('done');saveState();}
+// ─── NUTRITION TARGETS ───────────────────────────────────
+let fuelIsRestDay = false;
+const TARGETS = { training: { protein:180, carbs:195, fat:68, kcal:2200 }, rest: { protein:180, carbs:130, fat:68, kcal:1900 } };
+
+function toggleFuelRest(){
+  fuelIsRestDay = !fuelIsRestDay;
+  document.getElementById('fuel-rest-toggle').classList.toggle('on');
+  document.getElementById('nutrition-day-lbl').textContent = fuelIsRestDay ? 'Rest Day' : 'Training Day';
+  const t = fuelIsRestDay ? TARGETS.rest : TARGETS.training;
+  document.getElementById('kcal-target').textContent = t.kcal.toLocaleString();
+  updateNutritionTotals();
+}
+
+function updateNutritionTotals(){
+  const today = new Date().toDateString();
+  const meals = (logData.meals || {})[today] || [];
+  const totals = meals.reduce((acc, m) => ({
+    protein: acc.protein + (m.protein||0),
+    carbs: acc.carbs + (m.carbs||0),
+    fat: acc.fat + (m.fat||0),
+    kcal: acc.kcal + (m.kcal||0)
+  }), {protein:0, carbs:0, fat:0, kcal:0});
+
+  const t = fuelIsRestDay ? TARGETS.rest : TARGETS.training;
+
+  document.getElementById('val-protein').textContent = `${Math.round(totals.protein)} / ${t.protein}g`;
+  document.getElementById('val-carbs').textContent = `${Math.round(totals.carbs)} / ${t.carbs}g`;
+  document.getElementById('val-fat').textContent = `${Math.round(totals.fat)} / ${t.fat}g`;
+  document.getElementById('val-kcal').textContent = Math.round(totals.kcal).toLocaleString();
+  document.getElementById('val-remaining').textContent = Math.max(0, t.kcal - Math.round(totals.kcal)).toLocaleString();
+
+  document.getElementById('bar-protein').style.width = Math.min((totals.protein/t.protein)*100, 100) + '%';
+  document.getElementById('bar-carbs').style.width = Math.min((totals.carbs/t.carbs)*100, 100) + '%';
+  document.getElementById('bar-fat').style.width = Math.min((totals.fat/t.fat)*100, 100) + '%';
+}
+
+// ─── PHOTO MEAL LOGGING ──────────────────────────────────
+async function handlePhotoSelect(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  event.target.value = '';
+
+  const today = new Date().toDateString();
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+  const tempId = 'meal_' + Date.now();
+
+  // Show analyzing state immediately
+  const list = document.getElementById('meal-log-list');
+  document.getElementById('meal-log-empty').style.display = 'none';
+  const analyzing = document.createElement('div');
+  analyzing.className = 'meal-log-entry';
+  analyzing.id = tempId;
+  analyzing.innerHTML = `<div class="meal-log-analyzing"><div class="spinner"></div><span>Analysing your meal...</span></div>`;
+  list.appendChild(analyzing);
+
+  try {
+    // Convert image to base64
+    const base64 = await fileToBase64(file);
+    const b64data = base64.split(',')[1];
+    const mediaType = file.type || 'image/jpeg';
+
+    // Call Claude API with image
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            {
+              type: 'image',
+              source: { type: 'base64', media_type: mediaType, data: b64data }
+            },
+            {
+              type: 'text',
+              text: `You are a nutrition analyst. Analyse this meal photo and estimate its macros. Respond ONLY with a JSON object, no markdown, no explanation, just the raw JSON:
+{"name":"meal name in 3 words max","protein":number,"carbs":number,"fat":number,"kcal":number,"notes":"one brief note about accuracy or key ingredient"}
+
+Be realistic with portion sizes. If cooking method affects calories significantly (oil, butter) note it. All values as integers.`
+            }
+          ]
+        }]
+      })
+    });
+
+    const data = await response.json();
+    const text = data.content?.[0]?.text || '{}';
+    let result;
+    try { result = JSON.parse(text.replace(/```json|```/g,'').trim()); }
+    catch(e) { result = {name:'Meal',protein:0,carbs:0,fat:0,kcal:0,notes:'Could not parse'}; }
+
+    // Store the image as object URL for display
+    const imgUrl = URL.createObjectURL(file);
+
+    // Save to log
+    if(!logData.meals) logData.meals = {};
+    if(!logData.meals[today]) logData.meals[today] = [];
+    const mealEntry = { id: tempId, time: timeStr, imgUrl, ...result };
+    logData.meals[today].push(mealEntry);
+    saveLogData();
+
+    // Replace analyzing with result
+    analyzing.innerHTML = `
+      <div class="meal-log-head">
+        <img class="meal-log-img" src="${imgUrl}" alt="meal">
+        <div class="meal-log-info">
+          <div class="meal-log-name">${result.name || 'Meal'}</div>
+          <div class="meal-log-macros">${result.protein}g P · ${result.carbs}g C · ${result.fat}g F · ${result.kcal} kcal</div>
+          ${result.notes ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">${result.notes}</div>` : ''}
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div class="meal-log-time">${timeStr}</div>
+          <button class="meal-log-del" onclick="deleteMeal('${tempId}')">✕</button>
+        </div>
+      </div>`;
+
+    updateNutritionTotals();
+
+  } catch(err) {
+    analyzing.innerHTML = `<div class="meal-log-analyzing" style="color:var(--red)">⚠ Analysis failed — check connection</div>`;
+    setTimeout(() => analyzing.remove(), 3000);
+  }
+}
+
+function deleteMeal(id){
+  const today = new Date().toDateString();
+  if(logData.meals?.[today]){
+    logData.meals[today] = logData.meals[today].filter(m => m.id !== id);
+    saveLogData();
+  }
+  document.getElementById(id)?.remove();
+  updateNutritionTotals();
+  if(!logData.meals?.[today]?.length){
+    document.getElementById('meal-log-empty').style.display = 'block';
+  }
+}
+
+function renderMealLog(){
+  const today = new Date().toDateString();
+  const meals = (logData.meals || {})[today] || [];
+  const list = document.getElementById('meal-log-list');
+  const empty = document.getElementById('meal-log-empty');
+
+  // Clear existing entries (keep empty state)
+  list.querySelectorAll('.meal-log-entry').forEach(el => el.remove());
+
+  if(meals.length === 0){ empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  meals.forEach(meal => {
+    const el = document.createElement('div');
+    el.className = 'meal-log-entry';
+    el.id = meal.id;
+    el.innerHTML = `
+      <div class="meal-log-head">
+        ${meal.imgUrl ? `<img class="meal-log-img" src="${meal.imgUrl}" alt="meal">` : '<div class="meal-log-img-placeholder">🍽</div>'}
+        <div class="meal-log-info">
+          <div class="meal-log-name">${meal.name || 'Meal'}</div>
+          <div class="meal-log-macros">${meal.protein}g P · ${meal.carbs}g C · ${meal.fat}g F · ${meal.kcal} kcal</div>
+          ${meal.notes ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">${meal.notes}</div>` : ''}
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div class="meal-log-time">${meal.time || ''}</div>
+          <button class="meal-log-del" onclick="deleteMeal('${meal.id}')">✕</button>
+        </div>
+      </div>`;
+    list.appendChild(el);
+  });
+  updateNutritionTotals();
+}
+
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ─── PHYSIQUE TRACKER ────────────────────────────────────
+async function handlePhysiquePhoto(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  event.target.value = '';
+
+  const imgUrl = URL.createObjectURL(file);
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+
+  if(!logData.physique) logData.physique = [];
+  logData.physique.unshift({ id: 'ph_' + Date.now(), imgUrl, date: dateStr });
+  saveLogData();
+  renderPhysiqueGrid();
+}
+
+function renderPhysiqueGrid(){
+  const grid = document.getElementById('physique-grid');
+  grid.innerHTML = '';
+  const photos = logData.physique || [];
+  if(photos.length === 0){
+    grid.innerHTML = '<div style="grid-column:span 2;text-align:center;padding:32px 0;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.1em">NO PHOTOS YET — ADD YOUR FIRST CHECK-IN</div>';
+    return;
+  }
+  photos.forEach(photo => {
+    const card = document.createElement('div');
+    card.className = 'physique-card';
+    card.innerHTML = `
+      <img src="${photo.imgUrl}" alt="physique" onerror="this.parentElement.innerHTML='<div class=\\'physique-card-empty\\'><div class=\\'pc-icon\\'>📷</div><div class=\\'pc-label\\'>Photo unavailable</div></div>'">
+      <div class="physique-card-date">${photo.date}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ─── OLD MEAL FUNCTIONS (kept for compatibility) ──────────
+function toggleMeal(id){ document.getElementById(id)?.classList.toggle('open'); }
+function checkMeal(id){ const c=document.getElementById(id); if(c){ c.classList.toggle('done'); state.meals[id]=c.classList.contains('done'); saveState(); } }
+
+
 
 // ─── TRAIN ───────────────────────────────────────────────
 function buildWeekGrid(){
@@ -941,6 +1212,9 @@ updateSuppProgress();
 updateSleepCountdown();
 updateMobProgress();
 renderBodyWeight();
+renderMealLog();
+renderPhysiqueGrid();
+updateNutritionTotals();
 setInterval(updateSleepCountdown,60000);
 </script>
 </body>
