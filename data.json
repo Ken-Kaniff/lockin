@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastSync": "2026-07-23T10:47:57.729Z",
+  "lastSync": "2026-07-23T10:48:14.220Z",
   "bodyWeight": {},
   "workouts": {},
   "dailyLog": {
@@ -13,12 +13,14 @@
         "preworkout": true,
         "walk": true,
         "train": true,
-        "shake": true
+        "shake": true,
+        "lunch": true,
+        "liss": true
       },
       "supps": {},
       "meals": [],
       "bodyWeight": null,
-      "syncedAt": "2026-07-23T10:47:57.729Z"
+      "syncedAt": "2026-07-23T10:48:14.220Z"
     }
   }
 }
