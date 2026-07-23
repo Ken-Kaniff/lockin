@@ -1204,61 +1204,33 @@ function updateMobProgress(){
 }
 function resetMob(){document.querySelectorAll('.mob-item').forEach(el=>{el.classList.remove('done');el.querySelector('.mob-chk').textContent='';});updateMobProgress();saveState();}
 
-// ─── GITHUB DATA SYNC ────────────────────────────────────
-const GH_REPO = 'ken-kaniff/lockin';
-const GH_FILE = 'data.json';
-const CONFIG_URL = 'https://gist.githubusercontent.com/Ken-Kaniff/088e632f43c4132c038f0d3fb37df56e/raw/0fdfd1ffaec7551178fd0de9243da5d53c0a5ff8/lockin-config.json';
-let GH_TOKEN = null;
+// ─── GITHUB DATA SYNC VIA CLOUDFLARE WORKER ─────────────
+const WORKER_URL = 'https://lockin-sync.andrew-560.workers.dev';
 let syncInProgress = false;
 let pendingSync = false;
 
-async function loadConfig(){
+async function ghGet(){
   try {
-    const r = await fetch(CONFIG_URL);
-    const config = await r.json();
-    GH_TOKEN = config.token;
-    console.log('Config loaded OK');
-  } catch(e) {
-    console.log('Config load failed:', e);
-  }
-}
-
-async function ghGet(path){
-  if(!GH_TOKEN) await loadConfig();
-  try {
-    const r = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${path}`, {
-      headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
-    });
+    const r = await fetch(WORKER_URL, { method: 'GET' });
     if(!r.ok) return null;
-    const d = await r.json();
-    return { sha: d.sha, content: JSON.parse(atob(d.content.replace(/\n/g,''))) };
+    return await r.json();
   } catch(e) { return null; }
 }
 
-async function ghPut(path, content, sha, message){
-  if(!GH_TOKEN) await loadConfig();
+async function ghPut(content, sha, message){
   try {
-    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2))));
-    const body = { message, content: b64 };
-    if(sha) body.sha = sha;
-    const r = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${path}`, {
+    const r = await fetch(WORKER_URL, {
       method: 'PUT',
-      headers: {
-        'Authorization': `token ${GH_TOKEN}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github.v3+json'
-      },
-      body: JSON.stringify(body)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content, sha, message })
     });
-    const d = await r.json();
-    return d.content ? d.content.sha : null;
+    if(!r.ok) return null;
+    return await r.json();
   } catch(e) { return null; }
 }
 
 async function syncToGitHub(){
   if(syncInProgress){ pendingSync = true; return; }
-  if(!GH_TOKEN) await loadConfig();
-  if(!GH_TOKEN) return;
   syncInProgress = true;
 
   try {
@@ -1270,7 +1242,7 @@ async function syncToGitHub(){
       time: m.time, notes: m.notes
     }));
 
-    const current = await ghGet(GH_FILE);
+    const current = await ghGet();
     const existing = current?.content || {};
     const sha = current?.sha || null;
 
@@ -1294,9 +1266,9 @@ async function syncToGitHub(){
       }
     };
 
-    const result = await ghPut(GH_FILE, updated, sha, `Sync: ${today}`);
-    if(result) console.log('Synced to GitHub OK');
-    else console.log('Sync failed');
+    const result = await ghPut(updated, sha, `Sync: ${today}`);
+    if(result?.ok) console.log('Synced OK');
+    else console.log('Sync failed:', result);
 
   } catch(e) {
     console.log('Sync error:', e);
@@ -1337,7 +1309,7 @@ renderMealLog();
 renderPhysiqueGrid();
 updateNutritionTotals();
 setInterval(updateSleepCountdown,60000);
-loadConfig().then(() => setTimeout(syncToGitHub, 3000));
+setTimeout(syncToGitHub, 3000);
 </script>
 </body>
 </html>
