@@ -1,1 +1,24 @@
-{"version":1,"lastSync":null,"bodyWeight":{},"workouts":{},"dailyLog":{}}
+{
+  "version": 1,
+  "lastSync": "2026-07-23T10:47:53.733Z",
+  "bodyWeight": {},
+  "workouts": {},
+  "dailyLog": {
+    "Thu Jul 23 2026": {
+      "date": "Thu Jul 23 2026",
+      "steps": 0,
+      "timeline": {
+        "wake": true,
+        "mobility": true,
+        "preworkout": true,
+        "walk": true,
+        "train": true,
+        "shake": true
+      },
+      "supps": {},
+      "meals": [],
+      "bodyWeight": null,
+      "syncedAt": "2026-07-23T10:47:53.733Z"
+    }
+  }
+}
