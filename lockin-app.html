@@ -308,7 +308,54 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .sleep-sub{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4}
 .sleep-t{font-family:var(--mono);font-size:10px;color:var(--accent3);margin-bottom:2px;letter-spacing:0.1em}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+/* ===== TRAIN V2 ===== */
+.week-phase{margin:16px 16px 0;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.week-phase-label{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted)}
+.week-phase-name{font-family:var(--display);font-size:22px;letter-spacing:0.05em;color:var(--accent)}
+.week-num{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right}
+
+.session-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:0 16px 10px}
+.session-card-head{display:flex;align-items:center;padding:14px 16px;gap:12px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.session-card-day{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--muted);width:70px}
+.session-card-type{font-family:var(--display);font-size:26px;letter-spacing:0.05em;flex:1}
+.session-card-chev{color:var(--muted);font-size:12px;transition:transform 0.25s}
+.session-card.open .session-card-chev{transform:rotate(180deg)}
+.session-body{display:none;border-top:1px solid var(--border)}
+.session-card.open .session-body{display:block}
+
+.session-section{padding:14px 16px;border-bottom:1px solid var(--border)}
+.session-section:last-child{border-bottom:none}
+.session-section-title{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.warmup-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.warmup-item:last-child{border-bottom:none}
+.warmup-num{font-family:var(--mono);font-size:10px;color:var(--muted);width:16px}
+.warmup-text{font-size:13px;color:var(--text)}
+.warmup-detail{font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto;flex-shrink:0}
+
+.run-protocol{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.run-protocol-main{font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px}
+.run-protocol-detail{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.6}
+.run-target{display:flex;gap:12px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.run-target-item{flex:1;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 6px}
+.run-target-val{font-family:var(--display);font-size:22px;letter-spacing:0.03em}
+.run-target-lbl{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+
+.lift-item{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);gap:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.lift-item:last-child{border-bottom:none}
+.lift-chk{width:20px;height:20px;border-radius:4px;border:1.5px solid var(--muted2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all 0.2s}
+.lift-item.done .lift-chk{background:var(--accent);border-color:var(--accent);color:#000}
+.lift-item.done .lift-name{color:var(--muted);text-decoration:line-through}
+.lift-info{flex:1;min-width:0}
+.lift-name{font-size:13px;color:var(--text);font-weight:400;transition:color 0.2s}
+.lift-sets{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:1px}
+.lift-prev{font-family:var(--mono);font-size:10px;color:var(--accent2);margin-top:2px}
+.lift-kg-input{background:var(--surface2);border:1px solid rgba(200,241,53,0.3);border-radius:6px;padding:5px 8px;color:var(--accent);font-family:var(--mono);font-size:12px;width:70px;text-align:center;outline:none;-webkit-appearance:none;display:none}
+.lift-item.done .lift-kg-input{display:block}
+.lift-kg-input.show{display:block}
+
+/* ===== TRAIN V2 ===== */
 .screen.active>*{animation:fadeUp 0.3s ease both}
 @keyframes checkPop{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
 .pop{animation:checkPop 0.3s cubic-bezier(0.34,1.56,0.64,1)}
@@ -358,8 +405,15 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <!-- TRAIN -->
 <div class="screen" id="screen-train">
   <div class="page-header">
-    <div class="page-eyebrow">Push / Pull / Legs × 6</div>
+    <div class="page-eyebrow" id="train-phase-eyebrow">Base Building</div>
     <div class="page-title">TRAIN</div>
+  </div>
+  <div class="week-phase">
+    <div>
+      <div class="week-phase-label">Current Week</div>
+      <div class="week-phase-name" id="train-week-name">Week 1</div>
+    </div>
+    <div class="week-num" id="train-week-detail">3 min run / 2 min walk</div>
   </div>
   <div class="week-grid" id="week-grid"></div>
   <div class="section-label">This Week</div>
@@ -417,7 +471,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   <!-- PHOTO LOG BUTTON -->
   <input type="file" id="photo-input" accept="image/*" capture="environment" onchange="handlePhotoSelect(event)">
   <button class="photo-log-btn" onclick="document.getElementById('photo-input').click()">
-    <span class="btn-icon">📸</span>
+    <span class="btn-icon">🍽️</span>
     <span>Photo Log a Meal</span>
   </button>
 
@@ -615,10 +669,9 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div id="tabbar">
   <div class="tab active" onclick="switchTab('today',this)"><div class="tab-icon">☀️</div><div class="tab-label">Today</div></div>
   <div class="tab" onclick="switchTab('train',this)"><div class="tab-icon">🏋️</div><div class="tab-label">Train</div></div>
-  <div class="tab" onclick="switchTab('nutrition',this)"><div class="tab-icon">📸</div><div class="tab-label">Fuel</div></div>
+  <div class="tab" onclick="switchTab('nutrition',this)"><div class="tab-icon">🍽️</div><div class="tab-label">Fuel</div></div>
   <div class="tab" onclick="switchTab('supps',this)"><div class="tab-icon">💊</div><div class="tab-label">Supps</div></div>
   <div class="tab" onclick="switchTab('log',this)"><div class="tab-icon">📈</div><div class="tab-label">Log</div></div>
-  <div class="tab" onclick="switchTab('mobility',this)"><div class="tab-icon">🧘</div><div class="tab-label">Move</div></div>
 </div>
 </div>
 
@@ -846,7 +899,11 @@ async function handlePhotoSelect(event){
     // Call Claude API with image
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1000,
@@ -1004,51 +1061,243 @@ function checkMeal(id){ const c=document.getElementById(id); if(c){ c.classList.
 
 
 
+// ─── MARATHON WEEK PROGRESSION ───────────────────────────
+const RACE_START = new Date('2026-07-24');
+
+function getCurrentWeek(){
+  const now = new Date();
+  const diff = Math.floor((now - RACE_START) / (7 * 24 * 60 * 60 * 1000));
+  return Math.max(1, Math.min(diff + 1, 25));
+}
+
+const WEEK_PLANS = {
+  1:  {phase:'Base Building',       run:'3 min run / 2 min walk',  kph:8.0, mins:25, longMins:30,  longKm:4.0,  longKph:6.5},
+  2:  {phase:'Base Building',       run:'4 min run / 1 min walk',  kph:8.0, mins:25, longMins:35,  longKm:5.0,  longKph:7.0},
+  3:  {phase:'Base Building',       run:'8 min run / 2 min walk',  kph:8.0, mins:25, longMins:40,  longKm:5.5,  longKph:7.0},
+  4:  {phase:'Base Building',       run:'20 min continuous',        kph:8.0, mins:25, longMins:50,  longKm:7.0,  longKph:7.0},
+  5:  {phase:'Building Continuity', run:'30 min continuous',        kph:8.0, mins:30, longMins:55,  longKm:8.0,  longKph:7.0},
+  6:  {phase:'Building Continuity', run:'30 min continuous',        kph:8.0, mins:30, longMins:60,  longKm:9.0,  longKph:7.5},
+  7:  {phase:'Building Continuity', run:'35 min continuous',        kph:8.5, mins:35, longMins:65,  longKm:10.0, longKph:7.5},
+  8:  {phase:'Building Continuity', run:'35 min continuous',        kph:8.5, mins:35, longMins:70,  longKm:11.0, longKph:7.5},
+  9:  {phase:'Building Continuity', run:'35 min continuous',        kph:8.5, mins:35, longMins:75,  longKm:12.0, longKph:7.5},
+  10: {phase:'Building Continuity', run:'35 min continuous',        kph:8.5, mins:35, longMins:80,  longKm:13.0, longKph:7.5},
+  11: {phase:'Thailand Week',       run:'30 min treadmill',         kph:8.0, mins:30, longMins:80,  longKm:13.0, longKph:7.5},
+  12: {phase:'The Build',           run:'35 min continuous',        kph:8.5, mins:35, longMins:85,  longKm:14.0, longKph:7.5},
+  13: {phase:'The Build',           run:'40 min continuous',        kph:9.0, mins:40, longMins:90,  longKm:16.0, longKph:8.0},
+  14: {phase:'The Build',           run:'40 min continuous',        kph:9.0, mins:40, longMins:100, longKm:18.0, longKph:8.0},
+  15: {phase:'The Build',           run:'40 min continuous',        kph:9.0, mins:40, longMins:110, longKm:20.0, longKph:8.0},
+  16: {phase:'The Build',           run:'45 min continuous',        kph:9.0, mins:45, longMins:120, longKm:22.0, longKph:8.0},
+  17: {phase:'The Build',           run:'45 min continuous',        kph:9.0, mins:45, longMins:130, longKm:24.0, longKph:8.0},
+  18: {phase:'The Build',           run:'45 min continuous',        kph:9.0, mins:45, longMins:140, longKm:26.0, longKph:8.0},
+  19: {phase:'The Build',           run:'45 min continuous',        kph:9.0, mins:45, longMins:150, longKm:28.0, longKph:8.0},
+  20: {phase:'Peak',                run:'45 min continuous',        kph:9.0, mins:45, longMins:160, longKm:30.0, longKph:8.0},
+  21: {phase:'Peak',                run:'45 min continuous',        kph:9.0, mins:45, longMins:170, longKm:32.0, longKph:8.0},
+  22: {phase:'Peak',                run:'40 min continuous',        kph:9.0, mins:40, longMins:175, longKm:34.0, longKph:8.0},
+  23: {phase:'Taper',               run:'30 min easy',              kph:8.0, mins:30, longMins:120, longKm:24.0, longKph:7.5},
+  24: {phase:'Taper',               run:'25 min easy',              kph:7.5, mins:25, longMins:90,  longKm:18.0, longKph:7.0},
+  25: {phase:'Race Week',           run:'20 min easy Mon+Wed only', kph:7.5, mins:20, longMins:null,longKm:null, longKph:null},
+};
+
+const PRE_RUN_WARMUP = [
+  {move:'Walking knee hugs',         detail:'10 each leg'},
+  {move:'Walking lunge with twist',  detail:'8 each side'},
+  {move:'Ankle circles',             detail:'15 each direction each foot'},
+  {move:'High knees',                detail:'30 seconds easy'},
+  {move:'Leg swings side to side',   detail:'15 each leg'},
+];
+
+const POST_RUN_STRETCH = [
+  {move:'Hip flexor lunge',                    detail:'90s each side — priority'},
+  {move:'Figure four glute stretch',           detail:'90s each side'},
+  {move:'Knees to chest',                      detail:'60s, rock gently'},
+  {move:'Child\'s pose',                       detail:'60s, breathe into lower back'},
+  {move:'Calf — straight leg against wall',    detail:'90s each side'},
+  {move:'Calf — bent knee against wall',       detail:'90s each side (soleus)'},
+  {move:'Quad stretch',                        detail:'60s each side'},
+  {move:'Seated hamstring reach',              detail:'60s each side'},
+];
+
+const PRE_LIFT_ACTIVATION = [
+  {move:'Leg swings front to back', detail:'15 each leg'},
+  {move:'Arm circles',              detail:'20 each direction'},
+  {move:'Hip circles',              detail:'10 each direction'},
+  {move:'Bodyweight squat to stand',detail:'10 slow reps'},
+  {move:'Dead bugs',                detail:'8 each side'},
+  {move:'Bird dogs',                detail:'8 each side'},
+  {move:'Glute bridges',            detail:'3 × 15, squeeze 2s at top'},
+];
+
 // ─── TRAIN ───────────────────────────────────────────────
 function buildWeekGrid(){
-  const grid=document.getElementById('week-grid');
-  const todayIdx=(new Date().getDay()+6)%7;
-  const dshort=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const dtypes=['push','pull','legs','push','pull','legs','rest'];
-  grid.innerHTML='';
-  dshort.forEach((d,i)=>{
-    const el=document.createElement('div');
-    el.className='wday '+dtypes[i]+(i===todayIdx?' today':'');
-    const letter=DAYS_META[i].label.charAt(0);
-    el.innerHTML=`<div class="wday-lbl">${d}</div><div class="wday-dot">${letter}</div>`;
+  const grid = document.getElementById('week-grid');
+  const todayIdx = (new Date().getDay() + 6) % 7;
+  const dshort = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const dtypes = ['push','pull','legs','push','pull','longrun','rest'];
+  grid.innerHTML = '';
+  dshort.forEach((d,i) => {
+    const el = document.createElement('div');
+    el.className = 'wday ' + dtypes[i] + (i === todayIdx ? ' today' : '');
+    const letter = DAYS_META[i].label.charAt(0);
+    el.innerHTML = `<div class="wday-lbl">${d}</div><div class="wday-dot">${letter}</div>`;
     grid.appendChild(el);
   });
+  const week = getCurrentWeek();
+  const plan = WEEK_PLANS[week] || WEEK_PLANS[1];
+  if(document.getElementById('train-phase-eyebrow')) document.getElementById('train-phase-eyebrow').textContent = plan.phase;
+  if(document.getElementById('train-week-name')) document.getElementById('train-week-name').textContent = `Week ${week} of 25`;
+  if(document.getElementById('train-week-detail')) document.getElementById('train-week-detail').textContent = plan.run;
   buildDayCards();
 }
 
 function buildDayCards(){
-  const container=document.getElementById('day-cards');
-  container.innerHTML='';
-  DAYS_META.forEach((entry,idx)=>{
-    const card=document.createElement('div');
-    card.className='day-card';
-    card.id='dc-'+idx;
-    const exList=entry.wkey!=='rest'?WORKOUTS[entry.wkey]:[];
-    const exHTML=exList.map((ex,ei)=>{
-      const key=`ex_${entry.wkey}_${ei}`;
-      const done=state.tl[key];
-      return `<div class="ex-item${done?' done':''}" onclick="toggleEx(this,'${key}')"><div class="ex-chk">${done?'✓':''}</div><div class="ex-info"><div class="ex-nm">${ex.n}</div><div class="ex-st">${ex.s}</div></div><div class="ex-tp tp-${ex.t}">${ex.t}</div></div>`;
-    }).join('');
-    card.innerHTML=`<div class="day-card-head" onclick="toggleDC(${idx})"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--muted);margin-bottom:2px">${entry.day}</div><div class="day-card-type ${entry.col}">${entry.label}</div></div><div class="day-card-meta">${exList.length>0?exList.length+' exercises':'Recovery'}</div>${entry.wkey!=='rest'?'<div class="day-card-chev">▼</div>':''}</div>${exList.length>0?`<div class="exercises">${exHTML}</div>`:''}`;
+  const container = document.getElementById('day-cards');
+  container.innerHTML = '';
+  const week = getCurrentWeek();
+  const plan = WEEK_PLANS[week] || WEEK_PLANS[1];
+
+  DAYS_META.forEach((entry, idx) => {
+    const card = document.createElement('div');
+    card.className = 'session-card';
+    card.id = 'dc-' + idx;
+    const isLongRun = entry.wkey === 'longrun';
+    const isRest = entry.wkey === 'rest';
+
+    const warmupHTML = PRE_RUN_WARMUP.map((w,i) =>
+      `<div class="warmup-item"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail">${w.detail}</div></div>`
+    ).join('');
+
+    const stretchHTML = POST_RUN_STRETCH.map((w,i) =>
+      `<div class="warmup-item"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail">${w.detail}</div></div>`
+    ).join('');
+
+    const activationHTML = PRE_LIFT_ACTIVATION.map((w,i) =>
+      `<div class="warmup-item"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail">${w.detail}</div></div>`
+    ).join('');
+
+    let bodyHTML = '';
+
+    if(isRest){
+      bodyHTML = `<div class="session-section"><div style="font-size:13px;color:var(--muted);line-height:1.7">Active recovery. 45–60 min brisk walk. 10,000 step target. No running. Sunday is meal prep day — cook 7 lunch containers.</div></div>`;
+    } else if(isLongRun){
+      const runBlock = plan.longKm ? `
+        <div class="run-protocol">
+          <div class="run-protocol-main">Easy conversational pace throughout</div>
+          <div class="run-protocol-detail">Nasal breathing only · Walk breaks fine · Finish feeling you could keep going</div>
+          <div class="run-target">
+            <div class="run-target-item"><div class="run-target-val" style="color:var(--accent2)">${plan.longKph}</div><div class="run-target-lbl">KPH</div></div>
+            <div class="run-target-item"><div class="run-target-val" style="color:var(--accent)">${plan.longMins}</div><div class="run-target-lbl">Mins</div></div>
+            <div class="run-target-item"><div class="run-target-val" style="color:var(--accent3)">${plan.longKm}</div><div class="run-target-lbl">Target KM</div></div>
+          </div>
+        </div>` : `<div class="run-protocol"><div class="run-protocol-main">Race Week — easy 20 min Mon+Wed only. Rest Thu–Sat.</div></div>`;
+
+      bodyHTML = `
+        <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:var(--accent)"></div><span style="color:var(--accent)">Pre-Run Warm-Up — 5 min</span></div>
+          ${warmupHTML}
+        </div>
+        <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:var(--accent2)"></div><span style="color:var(--accent2)">Long Run</span></div>
+          ${runBlock}
+        </div>
+        <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:var(--accent3)"></div><span style="color:var(--accent3)">Post-Run Stretch — full 12 min</span></div>
+          ${stretchHTML}
+        </div>`;
+    } else {
+      const exList = WORKOUTS[entry.wkey] || [];
+      const liftHTML = exList.map((ex, ei) => {
+        const key = `ex_${entry.wkey}_${ei}`;
+        const done = state.tl[key];
+        const sessions = logData.sessions || {};
+        const allDates = Object.keys(sessions).filter(k => k.startsWith(`${entry.wkey}_${ei}_`)).sort().reverse();
+        let prevWeight = '';
+        for(const dk of allDates){
+          const sets = sessions[dk]?.sets || [];
+          const weights = sets.filter(s => s && s.kg).map(s => s.kg);
+          if(weights.length > 0){ prevWeight = Math.max(...weights) + 'kg'; break; }
+        }
+        return `<div class="lift-item${done?' done':''}" id="lift-${key}">
+          <div class="lift-chk" onclick="toggleLift('${key}','${entry.wkey}',${ei})">✓</div>
+          <div class="lift-info">
+            <div class="lift-name">${ex.n}</div>
+            <div class="lift-sets">${ex.s}</div>
+            ${prevWeight ? `<div class="lift-prev">Last: ${prevWeight}</div>` : ''}
+          </div>
+          <input class="lift-kg-input${done?' show':''}" type="number" step="0.5" placeholder="kg"
+            id="liftkg-${key}" onchange="saveLiftKg('${entry.wkey}',${ei},this.value)"
+            onclick="event.stopPropagation()">
+        </div>`;
+      }).join('');
+
+      const targetKm = (plan.kph * plan.mins / 60).toFixed(1);
+      bodyHTML = `
+        <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:var(--accent)"></div><span style="color:var(--accent)">Pre-Run Warm-Up — 5 min</span></div>
+          ${warmupHTML}
+        </div>
+        <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:var(--accent2)"></div><span style="color:var(--accent2)">Run Protocol</span></div>
+          <div class="run-protocol">
+            <div class="run-protocol-main">${plan.run}</div>
+            <div class="run-protocol-detail">1% incline · Nasal breathing · Arms relaxed, elbows front-back · Shoulder drop every 5 min</div>
+            <div class="run-target">
+              <div class="run-target-item"><div class="run-target-val" style="color:var(--accent2)">${plan.kph}</div><div class="run-target-lbl">KPH</div></div>
+              <div class="run-target-item"><div class="run-target-val" style="color:var(--accent)">${plan.mins}</div><div class="run-target-lbl">Mins</div></div>
+              <div class="run-target-item"><div class="run-target-val" style="color:var(--accent3)">${targetKm}</div><div class="run-target-lbl">Target KM</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:var(--accent3)"></div><span style="color:var(--accent3)">Post-Run Stretch — 12 min</span></div>
+          ${stretchHTML}
+        </div>
+        <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:var(--accent2)"></div><span style="color:var(--accent2)">Pre-Lift Activation — 7 min</span></div>
+          ${activationHTML}
+        </div>
+        <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:var(--accent)"></div><span style="color:var(--accent)">The Lift — ${entry.label}</span></div>
+          ${liftHTML}
+        </div>`;
+    }
+
+    card.innerHTML = `
+      <div class="session-card-head" onclick="toggleDC(${idx})">
+        <div class="session-card-day">${entry.day}</div>
+        <div class="session-card-type ${entry.col}">${entry.label}</div>
+        ${!isRest ? '<div class="session-card-chev">▼</div>' : ''}
+      </div>
+      <div class="session-body">${bodyHTML}</div>`;
+
     container.appendChild(card);
   });
 }
 
-function toggleDC(idx){document.getElementById('dc-'+idx).classList.toggle('open');}
+function toggleDC(idx){ document.getElementById('dc-'+idx).classList.toggle('open'); }
 
-function toggleEx(el,key){
-  el.classList.toggle('done');
-  const c=el.querySelector('.ex-chk');
-  const isDone=el.classList.contains('done');
-  c.textContent=isDone?'✓':'';
-  state.tl[key]=isDone;saveState();
-  if(isDone)startTimer(90);
+function toggleLift(key, wkey, ei){
+  const item = document.getElementById('lift-' + key);
+  const kgInput = document.getElementById('liftkg-' + key);
+  item.classList.toggle('done');
+  const isDone = item.classList.contains('done');
+  state.tl[key] = isDone;
+  if(isDone){ kgInput.classList.add('show'); kgInput.focus(); startTimer(90); }
+  else { kgInput.classList.remove('show'); }
+  saveState();
 }
+
+function saveLiftKg(wkey, ei, val){
+  const kg = parseFloat(val);
+  if(isNaN(kg)) return;
+  const today = new Date().toDateString();
+  if(!logData.sessions) logData.sessions = {};
+  const sessionKey = `${wkey}_${ei}_${today}`;
+  if(!logData.sessions[sessionKey]) logData.sessions[sessionKey] = {date: today, sets: []};
+  logData.sessions[sessionKey].sets[0] = {kg, reps: null};
+  saveLogData();
+}
+
+
 
 // ─── REST TIMER ──────────────────────────────────────────
 function startTimer(secs){
@@ -1294,11 +1543,9 @@ buildWeekGrid();
 updateStepsBar();
 updateSuppProgress();
 updateMarathonCountdown();
-updateMobProgress();
 renderBodyWeight();
 renderMealLog();
 updateNutritionTotals();
-setInterval(updateMarathonCountdown, 60 * 60 * 1000);
 setTimeout(syncToGitHub, 3000);
 </script>
 </body>
