@@ -24,13 +24,13 @@
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5}
-#app{display:flex;flex-direction:column;height:100%;padding-top:var(--safe-top)}
-.screen{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--tab-height) + var(--safe-bottom) + 24px)}
+#app{display:flex;flex-direction:column;height:100dvh;padding-top:var(--safe-top)}
+.screen{display:none;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--tab-height) + var(--safe-bottom) + 32px)}
 .screen.active{display:block}
 .screen::-webkit-scrollbar{display:none}
 
 /* TAB BAR */
-#tabbar{position:fixed;bottom:0;left:0;right:0;height:calc(var(--tab-height) + var(--safe-bottom));padding-bottom:var(--safe-bottom);background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;align-items:flex-start;z-index:100}
+#tabbar{position:fixed;bottom:0;left:0;right:0;height:calc(var(--tab-height) + var(--safe-bottom));padding-bottom:var(--safe-bottom);background:rgba(8,8,8,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;align-items:flex-start;z-index:100;width:100%}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:12px;gap:5px;cursor:pointer}
 .tab-icon{font-size:24px;line-height:1;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1)}
 .tab-label{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);transition:color 0.15s}
@@ -703,20 +703,33 @@ const DAYS_META = [
   {day:'Sunday',   label:'Recovery',   wkey:'rest',     col:'rest-c'},
 ];
 
-const TIMELINE_TRAINING = [
+const TIMELINE_TRAINING_BASE = [
   {id:'wake',      time:'5:45 AM',   title:'Wake — water + salt + supplements',           sub:'Creatine 5g · D3 4,000IU + K2 100mcg · out the door by 6:15AM'},
   {id:'prerun',    time:'6:15 AM',   title:'Pre-run dynamic warm-up — 5 min',             sub:'Knee hugs · walking lunges with twist · ankle circles · high knees · leg swings'},
-  {id:'run',       time:'6:20 AM',   title:'Run — Week 1: 3 min on / 2 min off × 25 min',sub:'Nasal breathing sets pace. Treadmill 1% incline. Log pace in app.'},
-  {id:'postrun',   time:'6:50 AM',   title:'Post-run stretch — 10 min',                   sub:'Hip flexor lunge 90s · figure four 90s · knees to chest · child\'s pose · calf stretch 90s · quad stretch'},
-  {id:'prelift',   time:'7:00 AM',   title:'Pre-lift activation — 5 min',                 sub:'Leg swings · arm circles · hip circles · 10 slow squats · dead bugs · bird dogs'},
-  {id:'train',     time:'7:05 AM',   title:'Lift — 60–70 min',                            sub:'Same weight across all sets. Log every exercise. Progressive overload.'},
-  {id:'sauna',     time:'8:15 AM',   title:'Sauna 12–15 min at 93°C (Wed/Thu/Fri only)', sub:'Cold shower after on non-sauna days. Exit when heart rate climbs noticeably.'},
+  {id:'run',       time:'6:20 AM',   title:'Run — see Train tab for this week\'s protocol',sub:'Nasal breathing sets pace. Treadmill 1% incline. Log pace in app.'},
+  {id:'postrun',   time:'6:50 AM',   title:'Post-run stretch — 12 min',                   sub:'Hip flexor lunge 90s · figure four 90s · knees to chest · child\'s pose · calf straight + bent knee · quad stretch'},
+  {id:'prelift',   time:'7:05 AM',   title:'Pre-lift activation — 7 min',                 sub:'Leg swings · arm circles · hip circles · squats · dead bugs · bird dogs · glute bridges'},
+  {id:'train',     time:'7:15 AM',   title:'Lift — 60–70 min',                            sub:'Same weight across all sets. Log every exercise. Progressive overload.'},
   {id:'shake',     time:'8:30 AM',   title:'Post-workout shake + Omega-3',                sub:'50g whey isolate + banana + 2–3g EPA/DHA. Non-negotiable — always.'},
   {id:'lunch',     time:'12:00 PM',  title:'Lunch — bulk prep',                           sub:'~70g protein · 110–120g carbs · 25g fat'},
   {id:'dinner',    time:'7:00 PM',   title:'Dinner + Ashwagandha + Zinc',                 sub:'~60g protein · 65–70g carbs · 40–45g fat'},
   {id:'winddown',  time:'9:00 PM',   title:'Magnesium 400mg + L-Theanine 200mg',          sub:'Phone away. Brain dump. Room to 18–20°C.'},
   {id:'bed',       time:'11:00 PM',  title:'Lights out — hard ceiling',                   sub:'Left side sleeping. Box breathe if racing. 5:45AM alarm regardless.'},
 ];
+
+const SAUNA_ITEM = {id:'sauna', time:'8:15 AM', title:'Sauna 12–15 min at 93°C', sub:'Cold shower on non-sauna days. Exit when heart rate climbs noticeably. Wed/Thu/Fri only.'};
+
+// Build timeline based on day — insert sauna only on Wed(3)/Thu(4)/Fri(5)
+function buildTrainingTimeline(){
+  const day = new Date().getDay(); // 0=Sun,1=Mon...
+  const hasSauna = [3,4,5].includes(day); // Wed, Thu, Fri
+  const tl = [...TIMELINE_TRAINING_BASE];
+  if(hasSauna){
+    // Insert sauna after train (index 5), before shake (index 6)
+    tl.splice(6, 0, SAUNA_ITEM);
+  }
+  return tl;
+}
 
 const TIMELINE_SATURDAY = [
   {id:'wake',      time:'5:45 AM',   title:'Wake — water + salt + supplements',           sub:'Creatine 5g · D3 4,000IU + K2 100mcg'},
@@ -740,12 +753,19 @@ const TIMELINE_SUNDAY = [
 
 // Pick correct timeline based on day
 const todayDayIdx = new Date().getDay(); // 0=Sun,1=Mon...6=Sat
-const TIMELINE = todayDayIdx === 6 ? TIMELINE_SATURDAY : todayDayIdx === 0 ? TIMELINE_SUNDAY : TIMELINE_TRAINING;
+const TIMELINE = todayDayIdx === 6 ? TIMELINE_SATURDAY : todayDayIdx === 0 ? TIMELINE_SUNDAY : buildTrainingTimeline();
 
 // ─── STATE ───────────────────────────────────────────────
 function loadState(){
   const today=new Date().toDateString();
-  try{const s=JSON.parse(localStorage.getItem('li_state')||'{}');if(s.date!==today)return{date:today,tl:{},meals:{},supps:{},sleep:{},steps:0};return s;}
+  try{
+    const s=JSON.parse(localStorage.getItem('li_state')||'{}');
+    if(s.date!==today){
+      // New day — reset timeline and exercise checks but keep steps/meals/supps structure
+      return{date:today,tl:{},meals:{},supps:{},sleep:{},steps:0};
+    }
+    return s;
+  }
   catch(e){return{date:today,tl:{},meals:{},supps:{},sleep:{},steps:0};}
 }
 function saveState(){try{localStorage.setItem('li_state',JSON.stringify(state));}catch(e){}}
@@ -796,7 +816,7 @@ function toggleTl(id,el){
 }
 
 function updateMarathonCountdown(){
-  const race = new Date('2026-01-15T00:00:00');
+  const race = new Date('2027-01-15T00:00:00');
   const now = new Date();
   const days = Math.ceil((race - now) / (1000 * 60 * 60 * 24));
   const el = document.getElementById('marathon-days');
@@ -1066,8 +1086,12 @@ const RACE_START = new Date('2026-07-24');
 
 function getCurrentWeek(){
   const now = new Date();
-  const diff = Math.floor((now - RACE_START) / (7 * 24 * 60 * 60 * 1000));
-  return Math.max(1, Math.min(diff + 1, 25));
+  const start = new Date('2026-07-24');
+  start.setHours(0,0,0,0);
+  const diffMs = now - start;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const week = Math.floor(diffDays / 7) + 1;
+  return Math.max(1, Math.min(week, 25));
 }
 
 const WEEK_PLANS = {
@@ -1281,7 +1305,7 @@ function toggleLift(key, wkey, ei){
   item.classList.toggle('done');
   const isDone = item.classList.contains('done');
   state.tl[key] = isDone;
-  if(isDone){ kgInput.classList.add('show'); kgInput.focus(); startTimer(90); }
+  if(isDone){ kgInput.classList.add('show'); kgInput.focus(); }
   else { kgInput.classList.remove('show'); }
   saveState();
 }
