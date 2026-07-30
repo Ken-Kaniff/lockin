@@ -7,9 +7,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LOCK IN">
 <meta name="theme-color" content="#080808">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><!-- v2.1 -->
 <title>LOCK IN</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -1234,7 +1231,7 @@ function buildDayCards(){
       const exList = WORKOUTS[entry.wkey] || [];
       const liftHTML = exList.map((ex, ei) => {
         const key = `ex_${entry.wkey}_${ei}`;
-        const done = state.tl[key];
+        const done = false; // Always start unchecked — user checks during session
         const sessions = logData.sessions || {};
         const allDates = Object.keys(sessions).filter(k => k.startsWith(`${entry.wkey}_${ei}_`)).sort().reverse();
         let prevWeight = '';
