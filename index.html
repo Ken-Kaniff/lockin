@@ -1234,7 +1234,7 @@ function buildDayCards(){
       const exList = WORKOUTS[entry.wkey] || [];
       const liftHTML = exList.map((ex, ei) => {
         const key = `ex_${entry.wkey}_${ei}`;
-        const done = state.tl[key];
+        const done = false; // Always start unchecked — user checks during session
         const sessions = logData.sessions || {};
         const allDates = Object.keys(sessions).filter(k => k.startsWith(`${entry.wkey}_${ei}_`)).sort().reverse();
         let prevWeight = '';
