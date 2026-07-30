@@ -409,7 +409,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="screen" id="screen-train">
   <div class="page-header">
     <div class="page-eyebrow" id="train-phase-eyebrow">Base Building</div>
-    <div class="page-title" style="color:red">TRAIN ← TEST</div>
+    <div class="page-title">TRAIN</div>
   </div>
   <div class="week-phase">
     <div>
@@ -1089,7 +1089,7 @@ const RACE_START = new Date('2026-07-24');
 
 function getCurrentWeek(){
   const now = new Date();
-  const start = new Date('2026-07-24');
+  const start = new Date('2026-07-21');
   start.setHours(0,0,0,0);
   const diffMs = now - start;
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
