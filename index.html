@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LOCK IN">
@@ -359,7 +359,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .lift-name{font-size:13px;color:var(--text);font-weight:400;transition:color 0.2s}
 .lift-sets{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:1px}
 .lift-prev{font-family:var(--mono);font-size:10px;color:var(--accent2);margin-top:2px}
-.lift-kg-input{background:var(--surface2);border:1px solid rgba(200,241,53,0.3);border-radius:6px;padding:5px 8px;color:var(--accent);font-family:var(--mono);font-size:12px;width:70px;text-align:center;outline:none;-webkit-appearance:none;display:none}
+.lift-kg-input{background:var(--surface2);border:1px solid rgba(200,241,53,0.3);border-radius:6px;padding:5px 8px;color:var(--accent);font-family:var(--mono);font-size:16px;width:70px;text-align:center;outline:none;-webkit-appearance:none;display:none}
 .lift-item.done .lift-kg-input{display:block}
 .lift-kg-input.show{display:block}
 
@@ -382,7 +382,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
       <div>
         <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Doha Marathon</div>
-        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--muted)">January 15, 2026</div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--muted)">January 15, 2027</div>
       </div>
       <div style="text-align:right">
         <div id="marathon-days" style="font-family:var(--display);font-size:48px;letter-spacing:0.02em;color:var(--accent);line-height:1">--</div>
@@ -1310,8 +1310,10 @@ function toggleDC(idx){ document.getElementById('dc-'+idx).classList.toggle('ope
 function toggleLift(key, wkey, ei){
   const item = document.getElementById('lift-' + key);
   const kgInput = document.getElementById('liftkg-' + key);
+  const chk = item.querySelector('.lift-chk');
   item.classList.toggle('done');
   const isDone = item.classList.contains('done');
+  chk.textContent = isDone ? '✓' : '';
   state.tl[key] = isDone;
   if(isDone){ kgInput.classList.add('show'); kgInput.focus(); }
   else { kgInput.classList.remove('show'); }
