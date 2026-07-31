@@ -703,17 +703,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   <div class="timer-cnt" id="timer-display">1:30</div>
   <button class="timer-btn" onclick="resetTimer()">Skip</button>
 
-<!-- STRETCH MODAL - Fixed approach using body-level div -->
-<div id="stretch-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9000;">
-  <div id="stretch-sheet" style="position:absolute;bottom:0;left:0;right:0;background:#111;border-radius:20px 20px 0 0;padding:20px;max-height:85vh;overflow-y:auto;">
-    <div style="width:36px;height:4px;background:#333;border-radius:2px;margin:0 auto 16px"></div>
-    <div id="stretch-name" style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.05em;color:#c8f135;margin-bottom:4px"></div>
-    <div id="stretch-hold" style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#c8f135;margin-bottom:16px"></div>
-    <div id="stretch-svg" style="width:100%;display:flex;justify-content:center;margin-bottom:16px"></div>
-    <div id="stretch-cue" style="background:#161616;border:1px solid #1f1f1f;border-left:3px solid #c8f135;border-radius:8px;padding:12px 14px;font-size:13px;color:#ccc;line-height:1.6;margin-bottom:16px"></div>
-    <button id="stretch-close-btn" style="width:100%;padding:14px;background:transparent;border:1px solid #333;border-radius:10px;color:#555;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer">Done</button>
-  </div>
-</div>
+<!-- stretch modal moved to body -->
 
 </div>
 
@@ -1720,5 +1710,16 @@ renderMealLog();
 updateNutritionTotals();
 setTimeout(syncToGitHub, 3000);
 </script>
+
+<div id="stretch-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:99999;">
+  <div style="position:absolute;bottom:0;left:0;right:0;background:#111;border-radius:20px 20px 0 0;padding:20px 20px 40px;max-height:85vh;overflow-y:auto;">
+    <div style="width:36px;height:4px;background:#333;border-radius:2px;margin:0 auto 16px"></div>
+    <div id="stretch-name" style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.05em;color:#c8f135;margin-bottom:4px"></div>
+    <div id="stretch-hold" style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#c8f135;margin-bottom:16px"></div>
+    <div id="stretch-svg" style="width:100%;display:flex;justify-content:center;margin-bottom:16px"></div>
+    <div id="stretch-cue" style="background:#161616;border:1px solid #1f1f1f;border-left:3px solid #c8f135;border-radius:8px;padding:12px 14px;font-size:13px;color:#ccc;line-height:1.6;margin-bottom:16px"></div>
+    <button id="stretch-close-btn" style="width:100%;padding:14px;background:transparent;border:1px solid #333;border-radius:10px;color:#aaa;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer">✕ Done</button>
+  </div>
+</div>
 </body>
 </html>
