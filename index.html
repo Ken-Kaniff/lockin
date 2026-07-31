@@ -1249,7 +1249,7 @@ function buildDayCards(){
           if(weights.length > 0){ prevWeight = Math.max(...weights) + 'kg'; break; }
         }
         return `<div class="lift-item${done?' done':''}" id="lift-${key}">
-          <div class="lift-chk" onclick="toggleLift('${key}','${entry.wkey}',${ei})">✓</div>
+          <div class="lift-chk" onclick="toggleLift('${key}','${entry.wkey}',${ei})">${done?'✓':''}</div>
           <div class="lift-info">
             <div class="lift-name">${ex.n}</div>
             <div class="lift-sets">${ex.s}</div>
@@ -1570,6 +1570,13 @@ window.saveLogData = function(){ _origSaveLogData(); queueSync(); };
 
 
 // ─── INIT ─────────────────────────────────────────────────
+// Fix screen height for PWA on iPhone
+(function(){
+  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+  if(isStandalone){
+    document.documentElement.style.setProperty('--safe-bottom', 'env(safe-area-inset-bottom, 24px)');
+  }
+})();
 buildTimeline();
 buildWeekGrid();
 updateStepsBar();
