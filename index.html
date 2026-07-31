@@ -1659,17 +1659,33 @@ function handleStretchTap(el){
 }
 
 function openStretch(name, detail, color){
-  const key = STRETCH_KEY_MAP[name];
-  const anim = key ? STRETCH_ANIMATIONS[key] : null;
-  const c = color || '#c8f135';
-  document.getElementById('stretch-name').textContent = anim ? anim.name : name;
-  document.getElementById('stretch-name').style.color = c;
-  document.getElementById('stretch-hold').textContent = anim ? anim.hold : detail;
-  document.getElementById('stretch-hold').style.color = c;
-  document.getElementById('stretch-svg').innerHTML = anim ? anim.svg : '<div style="height:120px;display:flex;align-items:center;justify-content:center;color:#555;font-size:13px">No animation available</div>';
-  document.getElementById('stretch-cue').textContent = anim ? anim.cue : detail;
-  document.getElementById('stretch-cue').style.borderColor = c;
-  document.getElementById('stretch-overlay').classList.add('show');
+  try {
+    const key = STRETCH_KEY_MAP[name];
+    const anim = key ? STRETCH_ANIMATIONS[key] : null;
+    const c = color || '#c8f135';
+    const overlay = document.getElementById('stretch-overlay');
+    const nameEl = document.getElementById('stretch-name');
+    const holdEl = document.getElementById('stretch-hold');
+    const svgEl = document.getElementById('stretch-svg');
+    const cueEl = document.getElementById('stretch-cue');
+    const debug = document.getElementById('debug-banner');
+    
+    if(debug) debug.textContent = 'openStretch called: ' + name + ' | key: ' + key + ' | anim: ' + (anim?'found':'null') + ' | overlay: ' + (overlay?'found':'NULL');
+    
+    if(!overlay){ console.error('stretch-overlay not found'); return; }
+    
+    if(nameEl){ nameEl.textContent = anim ? anim.name : name; nameEl.style.color = c; }
+    if(holdEl){ holdEl.textContent = anim ? anim.hold : (detail||''); holdEl.style.color = c; }
+    if(svgEl){ svgEl.innerHTML = anim ? anim.svg : '<div style="padding:20px;color:#555;text-align:center">No animation for: ' + name + '</div>'; }
+    if(cueEl){ cueEl.textContent = anim ? anim.cue : (detail||''); cueEl.style.borderColor = c; }
+    
+    overlay.classList.add('show');
+    if(debug) debug.textContent += ' | SHOW ADDED';
+  } catch(err) {
+    const debug = document.getElementById('debug-banner');
+    if(debug) debug.textContent = 'ERROR in openStretch: ' + err.message;
+    console.error('openStretch error:', err);
+  }
 }
 
 function closeStretch(e){
