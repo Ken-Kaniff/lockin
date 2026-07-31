@@ -429,7 +429,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div class="page-eyebrow" id="train-phase-eyebrow">Base Building</div>
     <div class="page-title">TRAIN</div>
   </div>
-  <div id="debug-banner" style="background:#f1a835;color:#000;padding:8px 16px;font-family:monospace;font-size:11px;word-break:break-all">v9 loaded — tap any movement</div>
+  
   <div class="week-phase">
     <div>
       <div class="week-phase-label">Current Week</div>
@@ -1160,9 +1160,11 @@ const POST_RUN_STRETCH = [
   {move:'Figure four glute stretch',           detail:'90s each side'},
   {move:'Knees to chest',                      detail:'60s, rock gently'},
   {move:'Child\'s pose',                       detail:'60s, breathe into lower back'},
+  {move:'Supine twist',                        detail:'60s each side — releases QL and piriformis'},
+  {move:'Cat cow',                             detail:'10 slow cycles — lumbar mobilisation'},
   {move:'Calf — straight leg against wall',    detail:'90s each side'},
   {move:'Calf — bent knee against wall',       detail:'90s each side (soleus)'},
-  {move:'Quad stretch',                        detail:'60s each side'},
+  {move:'Quad stretch',                        detail:'60s each side — right side hold longer'},
   {move:'Seated hamstring reach',              detail:'60s each side'},
 ];
 
@@ -1171,9 +1173,11 @@ const PRE_LIFT_ACTIVATION = [
   {move:'Arm circles',              detail:'20 each direction'},
   {move:'Hip circles',              detail:'10 each direction'},
   {move:'Bodyweight squat to stand',detail:'10 slow reps'},
-  {move:'Dead bugs',                detail:'8 each side'},
-  {move:'Bird dogs',                detail:'8 each side'},
+  {move:'Dead bugs',                detail:'3 × 8 each side — back flat'},
+  {move:'Bird dogs',                detail:'3 × 8 each side, hold 3s'},
   {move:'Glute bridges',            detail:'3 × 15, squeeze 2s at top'},
+  {move:'McGill curl up',           detail:'3 × 5, hold 10s — disc safe'},
+  {move:'Pallof press',             detail:'3 × 12 each side — anti-rotation'},
 ];
 
 // ─── TRAIN ───────────────────────────────────────────────
@@ -1241,7 +1245,7 @@ function buildDayCards(){
 
       bodyHTML = `
         <div class="session-section">
-          <div class="session-section-title"><div class="section-dot" style="background:var(--accent)"></div><span style="color:var(--accent)">Pre-Run Warm-Up — 5 min</span></div>
+          <div class="session-section-title"><div class="section-dot" style="background:#35c8f1"></div><span style="color:#35c8f1">Pre-Run Warm-Up — 5 min</span></div>
           ${warmupHTML}
         </div>
         <div class="session-section">
@@ -1249,7 +1253,7 @@ function buildDayCards(){
           ${runBlock}
         </div>
         <div class="session-section">
-          <div class="session-section-title"><div class="section-dot" style="background:var(--accent3)"></div><span style="color:var(--accent3)">Post-Run Stretch — full 12 min</span></div>
+          <div class="session-section-title"><div class="section-dot" style="background:#c8f135"></div><span style="color:#c8f135">Post-Run Stretch — full 12 min</span></div>
           ${stretchHTML}
         </div>`;
     } else {
@@ -1281,7 +1285,7 @@ function buildDayCards(){
       const targetKm = (plan.kph * plan.mins / 60).toFixed(1);
       bodyHTML = `
         <div class="session-section">
-          <div class="session-section-title"><div class="section-dot" style="background:var(--accent)"></div><span style="color:var(--accent)">Pre-Run Warm-Up — 5 min</span></div>
+          <div class="session-section-title"><div class="section-dot" style="background:#35c8f1"></div><span style="color:#35c8f1">Pre-Run Warm-Up — 5 min</span></div>
           ${warmupHTML}
         </div>
         <div class="session-section">
@@ -1297,7 +1301,7 @@ function buildDayCards(){
           </div>
         </div>
         <div class="session-section">
-          <div class="session-section-title"><div class="section-dot" style="background:var(--accent3)"></div><span style="color:var(--accent3)">Post-Run Stretch — 12 min</span></div>
+          <div class="session-section-title"><div class="section-dot" style="background:#c8f135"></div><span style="color:#c8f135">Post-Run Stretch — 12 min</span></div>
           ${stretchHTML}
         </div>
         <div class="session-section">
@@ -1591,26 +1595,906 @@ window.saveLogData = function(){ _origSaveLogData(); queueSync(); };
 
 // ─── STRETCH ANIMATIONS ──────────────────────────────────
 const STRETCH_ANIMATIONS = {
-'hip_flexor_lunge':{name:'Hip Flexor Lunge',hold:'90 seconds each side',cue:'Drive hips forward, squeeze the glute on the back leg. Do not lean forward.',color:'#c8f135',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes lunge_drive{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}.drive{animation:lunge_drive 2s ease-in-out infinite}@keyframes pulse_hip{0%,100%{opacity:0.3;r:8}50%{opacity:0.9;r:11}}.hip_pulse{animation:pulse_hip 2s ease-in-out infinite}</style><line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="1.5"/><line class="fig" x1="80" y1="90" x2="80" y2="130"/><line class="fig" x1="80" y1="130" x2="90" y2="155"/><circle class="joint" cx="80" cy="130" r="4"/><circle class="joint" cx="90" cy="155" r="3"/><line class="fig" x1="80" y1="90" x2="120" y2="90"/><line class="fig" x1="120" y1="90" x2="130" y2="155"/><circle class="joint" cx="120" cy="90" r="4"/><circle class="joint" cx="130" cy="155" r="3"/><g class="drive"><line class="fig" x1="80" y1="90" x2="80" y2="55"/><circle class="joint" cx="80" cy="46" r="9"/><line class="fig" x1="80" y1="65" x2="60" y2="80"/><line class="fig" x1="80" y1="65" x2="100" y2="80"/><circle class="joint" cx="60" cy="80" r="3"/><circle class="joint" cx="100" cy="80" r="3"/><circle class="hip_pulse" cx="80" cy="90" r="8" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="4,2"/></g><text x="100" y="172" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">DRIVE HIPS FORWARD</text></svg>`},
-'figure_four':{name:'Figure Four Glute Stretch',hold:'90 seconds each side',cue:'Pull the bottom leg toward you. Feel it deep in the glute of the crossed leg.',color:'#c8f135',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes pull{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}.pulling{animation:pull 2s ease-in-out infinite}@keyframes pulse_glute{0%,100%{opacity:0.3;r:9}50%{opacity:0.9;r:13}}.glute_pulse{animation:pulse_glute 2s ease-in-out infinite}</style><rect x="20" y="148" width="160" height="4" rx="2" fill="#222"/><line class="fig" x1="50" y1="100" x2="130" y2="100"/><circle class="joint" cx="145" cy="100" r="9"/><line class="fig" x1="50" y1="100" x2="40" y2="130"/><line class="fig" x1="40" y1="130" x2="65" y2="145"/><circle class="joint" cx="40" cy="130" r="4"/><circle class="joint" cx="65" cy="145" r="3"/><line class="fig" x1="50" y1="100" x2="35" y2="118"/><line class="fig" x1="35" y1="118" x2="55" y2="118"/><circle class="joint" cx="35" cy="118" r="4"/><circle class="glute_pulse" cx="43" cy="109" r="9" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2"/><g class="pulling"><line class="fig" x1="130" y1="95" x2="110" y2="78"/><line class="fig" x1="130" y1="95" x2="115" y2="75"/><circle class="joint" cx="110" cy="78" r="3"/><circle class="joint" cx="115" cy="75" r="3"/></g><text x="100" y="170" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">PULL KNEE TOWARD CHEST</text></svg>`},
-'knees_to_chest':{name:'Knees to Chest',hold:'60 seconds, rock gently',cue:'Rock side to side gently. Feel the lower back decompressing.',color:'#c8f135',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes rock{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}.rocking{animation:rock 2s ease-in-out infinite;transform-origin:100px 110px}@keyframes pulse_back{0%,100%{opacity:0.3}50%{opacity:0.9}}.back_pulse{animation:pulse_back 2s ease-in-out infinite}</style><rect x="20" y="148" width="160" height="4" rx="2" fill="#222"/><g class="rocking"><line class="fig" x1="70" y1="105" x2="130" y2="105"/><circle class="joint" cx="142" cy="105" r="9"/><line class="fig" x1="70" y1="105" x2="65" y2="82"/><line class="fig" x1="65" y1="82" x2="85" y2="75"/><line class="fig" x1="70" y1="105" x2="62" y2="85"/><line class="fig" x1="62" y1="85" x2="80" y2="77"/><circle class="joint" cx="65" cy="82" r="4"/><circle class="joint" cx="62" cy="85" r="4"/><circle class="joint" cx="85" cy="75" r="3"/><circle class="joint" cx="80" cy="77" r="3"/><path class="fig" d="M125,100 Q80,65 85,75"/><path class="fig" d="M125,110 Q78,70 80,77"/><ellipse class="back_pulse" cx="100" cy="105" rx="18" ry="6" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2"/></g><text x="100" y="170" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">ROCK GENTLY SIDE TO SIDE</text></svg>`},
-'childs_pose':{name:"Child's Pose",hold:'60 seconds',cue:'Breathe into your lower back. Let gravity do the work.',color:'#c8f135',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.04)}}.breathing{animation:breathe 3s ease-in-out infinite;transform-origin:100px 110px}@keyframes pulse_lb{0%,100%{opacity:0.2}50%{opacity:0.8}}.lb_pulse{animation:pulse_lb 3s ease-in-out infinite}</style><rect x="20" y="148" width="160" height="4" rx="2" fill="#222"/><g class="breathing"><circle class="joint" cx="110" cy="108" r="5"/><line class="fig" x1="110" y1="108" x2="95" y2="100"/><line class="fig" x1="95" y1="100" x2="60" y2="112"/><circle class="joint" cx="52" cy="115" r="8"/><line class="fig" x1="85" y1="105" x2="50" y2="130"/><line class="fig" x1="85" y1="105" x2="48" y2="134"/><circle class="joint" cx="50" cy="130" r="3"/><circle class="joint" cx="48" cy="134" r="3"/><line class="fig" x1="110" y1="108" x2="125" y2="130"/><line class="fig" x1="125" y1="130" x2="115" y2="147"/><circle class="joint" cx="125" cy="130" r="4"/><ellipse class="lb_pulse" cx="100" cy="103" rx="14" ry="7" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2"/></g><text x="100" y="170" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">BREATHE INTO LOWER BACK</text></svg>`},
-'calf_straight':{name:'Calf — Straight Leg',hold:'90 seconds each side',cue:'Heel drives into the floor. Keep the back leg straight. Targets gastrocnemius.',color:'#35c8f1',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes heel_drive{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}.heel{animation:heel_drive 2s ease-in-out infinite}@keyframes calf_pulse{0%,100%{opacity:0.3}50%{opacity:0.9}}.calf_p{animation:calf_pulse 2s ease-in-out infinite}</style><rect x="155" y="40" width="8" height="120" fill="#1a1a1a" rx="2"/><line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="1.5"/><circle class="joint" cx="130" cy="52" r="9"/><line class="fig" x1="130" y1="61" x2="118" y2="95"/><line class="fig" x1="125" y1="70" x2="148" y2="65"/><line class="fig" x1="125" y1="70" x2="150" y2="75"/><circle class="joint" cx="148" cy="65" r="3"/><circle class="joint" cx="150" cy="75" r="3"/><line class="fig" x1="118" y1="95" x2="130" y2="125"/><line class="fig" x1="130" y1="125" x2="138" y2="155"/><circle class="joint" cx="130" cy="125" r="4"/><line class="fig" x1="118" y1="95" x2="100" y2="130"/><g class="heel"><line class="fig" x1="100" y1="130" x2="88" y2="155"/><circle class="joint" cx="88" cy="155" r="3"/><ellipse class="calf_p" cx="94" cy="142" rx="9" ry="14" fill="none" stroke="#35c8f1" stroke-width="2" stroke-dasharray="3,2" transform="rotate(-10,94,142)"/></g><circle class="joint" cx="100" cy="130" r="4"/><text x="90" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">HEEL INTO FLOOR</text></svg>`},
-'calf_bent':{name:'Calf — Bent Knee (Soleus)',hold:'90 seconds each side',cue:'Same position, bend the back knee. Targets the soleus — the deep calf you have been feeling.',color:'#35c8f1',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes soleus_pulse{0%,100%{opacity:0.3;r:8}50%{opacity:0.9;r:12}}.soleus_p{animation:soleus_pulse 2s ease-in-out infinite}</style><rect x="155" y="40" width="8" height="120" fill="#1a1a1a" rx="2"/><line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="1.5"/><circle class="joint" cx="130" cy="52" r="9"/><line class="fig" x1="130" y1="61" x2="118" y2="95"/><line class="fig" x1="125" y1="70" x2="148" y2="65"/><line class="fig" x1="125" y1="70" x2="150" y2="75"/><circle class="joint" cx="148" cy="65" r="3"/><circle class="joint" cx="150" cy="75" r="3"/><line class="fig" x1="118" y1="95" x2="130" y2="125"/><line class="fig" x1="130" y1="125" x2="138" y2="155"/><circle class="joint" cx="130" cy="125" r="4"/><line class="fig" x1="118" y1="95" x2="98" y2="125"/><line class="fig" x1="98" y1="125" x2="92" y2="148"/><line class="fig" x1="92" y1="148" x2="82" y2="155"/><circle class="joint" cx="98" cy="125" r="4"/><circle class="joint" cx="82" cy="155" r="3"/><circle class="soleus_p" cx="88" cy="148" r="8" fill="none" stroke="#35c8f1" stroke-width="2"/><text x="90" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">KNEE BENT — DEEP CALF</text></svg>`},
-'quad_stretch':{name:'Quad Stretch',hold:'60 seconds each side',cue:'Keep knees together. Stand tall. Right side hold longer given your history.',color:'#c8f135',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes quad_pulse{0%,100%{opacity:0.3}50%{opacity:0.9}}.q_pulse{animation:quad_pulse 2s ease-in-out infinite}@keyframes sway{0%,100%{transform:rotate(0deg)}50%{transform:rotate(2deg)}}.body{animation:sway 3s ease-in-out infinite;transform-origin:100px 130px}</style><line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="1.5"/><g class="body"><circle class="joint" cx="100" cy="38" r="9"/><line class="fig" x1="100" y1="47" x2="100" y2="95"/><line class="fig" x1="100" y1="65" x2="75" y2="78"/><line class="fig" x1="100" y1="65" x2="125" y2="78"/><circle class="joint" cx="75" cy="78" r="3"/><circle class="joint" cx="125" cy="78" r="3"/><line class="fig" x1="100" y1="95" x2="97" y2="130"/><line class="fig" x1="97" y1="130" x2="95" y2="158"/><circle class="joint" cx="97" cy="130" r="4"/><circle class="joint" cx="95" cy="158" r="3"/><line class="fig" x1="100" y1="95" x2="103" y2="120"/><line class="fig" x1="103" y1="120" x2="108" y2="95"/><circle class="joint" cx="103" cy="120" r="4"/><circle class="joint" cx="108" cy="95" r="3"/><line class="fig" x1="125" y1="78" x2="108" y2="95"/><ellipse class="q_pulse" cx="100" cy="110" rx="8" ry="16" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2"/></g><text x="100" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">KNEES TOGETHER, STAND TALL</text></svg>`},
-'hamstring':{name:'Seated Hamstring Reach',hold:'60 seconds each side',cue:'Spine long, do not round the back. Reach toward your feet.',color:'#c8f135',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes reach{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}.reaching{animation:reach 2.5s ease-in-out infinite}@keyframes ham_pulse{0%,100%{opacity:0.3}50%{opacity:0.9}}.ham_p{animation:ham_pulse 2.5s ease-in-out infinite}</style><rect x="20" y="130" width="160" height="4" rx="2" fill="#222"/><line class="fig" x1="60" y1="118" x2="150" y2="118"/><line class="fig" x1="60" y1="122" x2="150" y2="122"/><circle class="joint" cx="152" cy="120" r="3"/><circle class="joint" cx="60" cy="120" r="5"/><line class="fig" x1="60" y1="118" x2="52" y2="85"/><circle class="joint" cx="49" cy="76" r="9"/><g class="ham_p"><ellipse cx="105" cy="126" rx="45" ry="6" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="4,2"/></g><g class="reaching"><line class="fig" x1="55" y1="95" x2="100" y2="115"/><line class="fig" x1="55" y1="95" x2="102" y2="119"/><circle class="joint" cx="100" cy="115" r="3"/><circle class="joint" cx="102" cy="119" r="3"/></g><text x="100" y="150" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">SPINE LONG — REACH FORWARD</text></svg>`},
-'dead_bug':{name:'Dead Bug',hold:'3 sets × 8 each side',cue:'Lower back MUST stay flat on the floor the entire time. Go only as far as you can control.',color:'#f1a835',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes arm_lower{0%,100%{transform:rotate(0deg)}50%{transform:rotate(70deg)}}.arm_move{animation:arm_lower 2.5s ease-in-out infinite;transform-origin:70px 85px}@keyframes leg_lower{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-60deg)}}.leg_move{animation:leg_lower 2.5s ease-in-out infinite;transform-origin:115px 110px}@keyframes core_pulse{0%,100%{opacity:0.3}50%{opacity:0.8}}.core_p{animation:core_pulse 2.5s ease-in-out infinite}</style><rect x="20" y="148" width="160" height="4" rx="2" fill="#222"/><circle class="joint" cx="155" cy="112" r="9"/><line class="fig" x1="145" y1="112" x2="75" y2="112"/><ellipse class="core_p" cx="110" cy="112" rx="30" ry="6" fill="none" stroke="#f1a835" stroke-width="2" stroke-dasharray="3,2"/><line class="fig" x1="130" y1="105" x2="130" y2="78"/><circle class="joint" cx="130" cy="78" r="3"/><g class="arm_move"><line class="fig" x1="70" y1="85" x2="55" y2="62"/><circle class="joint" cx="55" cy="62" r="3"/></g><circle class="joint" cx="70" cy="85" r="4"/><line class="fig" x1="90" y1="112" x2="90" y2="85"/><line class="fig" x1="90" y1="85" x2="75" y2="85"/><circle class="joint" cx="90" cy="85" r="4"/><circle class="joint" cx="75" cy="85" r="3"/><g class="leg_move"><line class="fig" x1="115" y1="110" x2="115" y2="83"/><line class="fig" x1="115" y1="83" x2="130" y2="83"/><circle class="joint" cx="115" cy="83" r="4"/><circle class="joint" cx="130" cy="83" r="3"/></g><text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">BACK FLAT ON FLOOR</text></svg>`},
-'bird_dog':{name:'Bird Dog',hold:'3 sets × 8 each side, hold 3s',cue:'No rotation. No arching. Spine stays perfectly neutral. Glute fires on the extending side.',color:'#f1a835',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes extend{0%,40%{transform:translate(0,0)}60%,100%{transform:translate(18px,-8px)}}.leg_ext{animation:extend 3s ease-in-out infinite;transform-origin:95px 100px}@keyframes arm_extend{0%,40%{transform:translate(0,0)}60%,100%{transform:translate(-15px,-8px)}}.arm_ext{animation:arm_extend 3s ease-in-out infinite;transform-origin:110px 90px}@keyframes glute_pulse{0%,100%{opacity:0.2}60%{opacity:0.9}}.g_pulse{animation:glute_pulse 3s ease-in-out infinite}</style><line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="1.5"/><circle class="joint" cx="148" cy="82" r="9"/><line class="fig" x1="140" y1="82" x2="100" y2="88"/><line class="fig" x1="100" y1="88" x2="75" y2="95"/><circle class="joint" cx="75" cy="95" r="5"/><line class="fig" x1="138" y1="88" x2="145" y2="118"/><circle class="joint" cx="145" cy="118" r="3"/><g class="arm_ext"><line class="fig" x1="110" y1="90" x2="95" y2="118"/><circle class="joint" cx="95" cy="118" r="3"/></g><circle class="joint" cx="110" cy="90" r="4"/><line class="fig" x1="75" y1="95" x2="78" y2="128"/><line class="fig" x1="78" y1="128" x2="85" y2="155"/><circle class="joint" cx="78" cy="128" r="3"/><g class="leg_ext"><line class="fig" x1="95" y1="100" x2="92" y2="130"/><line class="fig" x1="92" y1="130" x2="88" y2="155"/><circle class="joint" cx="92" cy="130" r="3"/></g><circle class="joint" cx="95" cy="100" r="4"/><circle class="g_pulse" cx="82" cy="95" r="10" fill="none" stroke="#f1a835" stroke-width="2" stroke-dasharray="3,2"/><text x="100" y="172" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">NO ROTATION — SPINE NEUTRAL</text></svg>`},
-'glute_bridge':{name:'Glute Bridge',hold:'3 × 15, squeeze 2s at top',cue:'Squeeze hard at the top. Hold 2 seconds. Directly counteracts your anterior pelvic tilt.',color:'#f1a835',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes bridge{0%,100%{transform:translateY(0)}40%,60%{transform:translateY(-22px)}}.hips{animation:bridge 2.5s ease-in-out infinite}@keyframes glute_sq{0%,100%{opacity:0.2;r:8}40%,60%{opacity:1;r:13}}.g_sq{animation:glute_sq 2.5s ease-in-out infinite}</style><rect x="20" y="148" width="160" height="4" rx="2" fill="#222"/><circle class="joint" cx="155" cy="120" r="9"/><line class="fig" x1="145" y1="120" x2="115" y2="120"/><line class="fig" x1="140" y1="120" x2="155" y2="138"/><line class="fig" x1="140" y1="120" x2="160" y2="132"/><g class="hips"><line class="fig" x1="115" y1="120" x2="95" y2="115"/><circle class="joint" cx="95" cy="115" r="5"/><circle class="g_sq" cx="95" cy="115" r="8" fill="none" stroke="#f1a835" stroke-width="2"/><line class="fig" x1="95" y1="115" x2="85" y2="145"/><circle class="joint" cx="85" cy="145" r="4"/><line class="fig" x1="85" y1="145" x2="75" y2="148"/><circle class="joint" cx="75" cy="148" r="3"/></g><text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">SQUEEZE HARD AT TOP</text></svg>`},
-'supine_twist':{name:'Supine Twist',hold:'60 seconds each side',cue:'Releases the QL and piriformis. Critical for your lower back flare relief. Shoulders stay flat.',color:'#c8f135',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes ql_pulse{0%,100%{opacity:0.2}50%{opacity:0.9}}.ql_p{animation:ql_pulse 2.5s ease-in-out infinite}</style><rect x="20" y="148" width="160" height="4" rx="2" fill="#222"/><circle class="joint" cx="155" cy="108" r="9"/><line class="fig" x1="145" y1="108" x2="65" y2="108"/><line class="fig" x1="145" y1="108" x2="165" y2="128"/><line class="fig" x1="65" y1="108" x2="45" y2="128"/><circle class="joint" cx="165" cy="128" r="3"/><circle class="joint" cx="45" cy="128" r="3"/><circle class="joint" cx="95" cy="108" r="5"/><line class="fig" x1="95" y1="108" x2="75" y2="90"/><line class="fig" x1="75" y1="90" x2="55" y2="108"/><circle class="joint" cx="75" cy="90" r="4"/><circle class="joint" cx="55" cy="108" r="3"/><line class="fig" x1="95" y1="108" x2="85" y2="130"/><line class="fig" x1="85" y1="130" x2="78" y2="148"/><circle class="joint" cx="85" cy="130" r="4"/><ellipse class="ql_p" cx="110" cy="108" rx="20" ry="7" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2"/><text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">SHOULDERS STAY FLAT</text></svg>`},
-'cat_cow':{name:'Cat Cow',hold:'10 slow cycles',cue:'Cat: round the spine up. Cow: let it drop. Slow and controlled. Mobilises each lumbar segment.',color:'#c8f135',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes cat_cow{0%{d:path("M 60,100 Q 100,80 140,100")}50%{d:path("M 60,95 Q 100,115 140,95")}100%{d:path("M 60,100 Q 100,80 140,100")}}.spine_anim{animation:cat_cow 2.5s ease-in-out infinite}@keyframes head_m{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}.head_move{animation:head_m 2.5s ease-in-out infinite;transform-origin:148px 90px}</style><line x1="20" y1="150" x2="180" y2="150" stroke="#333" stroke-width="1.5"/><path class="fig spine_anim" d="M 60,100 Q 100,80 140,100"/><g class="head_move"><circle class="joint" cx="152" cy="95" r="9"/><line class="fig" x1="143" y1="95" x2="140" y2="100"/></g><line class="fig" x1="128" y1="103" x2="132" y2="150"/><line class="fig" x1="115" y1="103" x2="118" y2="150"/><circle class="joint" cx="132" cy="150" r="3"/><circle class="joint" cx="118" cy="150" r="3"/><line class="fig" x1="72" y1="100" x2="70" y2="150"/><line class="fig" x1="60" y1="100" x2="58" y2="150"/><circle class="joint" cx="70" cy="150" r="3"/><circle class="joint" cx="58" cy="150" r="3"/><text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">CAT UP ↑ · COW DOWN ↓</text></svg>`},
-'mcgill_curl':{name:'McGill Curl Up',hold:'3 sets × 5, hold 10 seconds',cue:'Hands under lower back. Lift ONLY head and shoulders. Micro movement. Protects your disc.',color:'#f1a835',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes micro_curl{0%,100%{transform:translateY(0)}40%,60%{transform:translateY(-8px)}}.curl{animation:micro_curl 3s ease-in-out infinite;transform-origin:130px 110px}@keyframes core_act{0%,100%{opacity:0.2}40%,60%{opacity:0.9}}.core_a{animation:core_act 3s ease-in-out infinite}</style><rect x="20" y="140" width="160" height="4" rx="2" fill="#222"/><line class="fig" x1="50" y1="118" x2="90" y2="118"/><line class="fig" x1="90" y1="118" x2="100" y2="100"/><line class="fig" x1="100" y1="100" x2="118" y2="118"/><circle class="joint" cx="90" cy="118" r="4"/><circle class="joint" cx="100" cy="100" r="4"/><line class="fig" x1="50" y1="118" x2="30" y2="120"/><circle class="joint" cx="30" cy="120" r="3"/><line class="fig" x1="118" y1="118" x2="158" y2="118"/><line class="fig" x1="125" y1="118" x2="123" y2="128"/><line class="fig" x1="133" y1="118" x2="131" y2="128"/><circle class="joint" cx="123" cy="128" r="3"/><circle class="joint" cx="131" cy="128" r="3"/><g class="curl"><circle class="joint" cx="168" cy="108" r="9"/><line class="fig" x1="158" y1="112" x2="158" y2="118"/></g><ellipse class="core_a" cx="138" cy="118" rx="18" ry="5" fill="none" stroke="#f1a835" stroke-width="2" stroke-dasharray="3,2"/><text x="100" y="158" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">HEAD + SHOULDERS ONLY</text></svg>`},
-'pallof_press':{name:'Pallof Press',hold:'3 sets × 12 each side',cue:'Press straight out and hold 2 seconds. Resist rotation. This is your spine protection.',color:'#f1a835',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes press_out{0%,100%{transform:translateX(0)}50%{transform:translateX(20px)}}.pressing{animation:press_out 2s ease-in-out infinite}@keyframes resist{0%,100%{opacity:0.3}50%{opacity:0.9}}.resist_p{animation:resist 2s ease-in-out infinite}</style><rect x="18" y="75" width="8" height="8" fill="#333" rx="1"/><line x1="26" y1="79" x2="95" y2="90" stroke="#555" stroke-width="1.5" stroke-dasharray="4,2"/><line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="1.5"/><circle class="joint" cx="110" cy="45" r="9"/><line class="fig" x1="110" y1="54" x2="110" y2="108"/><circle class="joint" cx="110" cy="108" r="5"/><line class="fig" x1="110" y1="108" x2="105" y2="135"/><line class="fig" x1="105" y1="135" x2="102" y2="155"/><line class="fig" x1="110" y1="108" x2="115" y2="135"/><line class="fig" x1="115" y1="135" x2="118" y2="155"/><circle class="joint" cx="105" cy="135" r="3"/><circle class="joint" cx="115" cy="135" r="3"/><g class="pressing"><line class="fig" x1="110" y1="80" x2="95" y2="90"/><line class="fig" x1="95" y1="90" x2="75" y2="90"/><circle class="joint" cx="75" cy="90" r="3"/></g><ellipse class="resist_p" cx="110" cy="82" rx="10" ry="22" fill="none" stroke="#f1a835" stroke-width="2" stroke-dasharray="3,2"/><text x="100" y="172" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">RESIST ROTATION — HOLD 2s</text></svg>`},
-'knee_hugs':{name:'Walking Knee Hugs',hold:'10 each leg',cue:'Drive the knee up high. Brief hold. Step forward and repeat.',color:'#35c8f1',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes knee_up{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-15px) rotate(-5deg)}}.knee_lift{animation:knee_up 1.5s ease-in-out infinite}</style><line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="1.5"/><circle class="joint" cx="100" cy="38" r="9"/><line class="fig" x1="100" y1="47" x2="100" y2="100"/><circle class="joint" cx="100" cy="100" r="5"/><line class="fig" x1="100" y1="65" x2="78" y2="85"/><line class="fig" x1="100" y1="65" x2="122" y2="75"/><circle class="joint" cx="78" cy="85" r="3"/><circle class="joint" cx="122" cy="75" r="3"/><line class="fig" x1="100" y1="100" x2="108" y2="132"/><line class="fig" x1="108" y1="132" x2="112" y2="158"/><circle class="joint" cx="108" cy="132" r="4"/><g class="knee_lift"><line class="fig" x1="100" y1="100" x2="92" y2="118"/><line class="fig" x1="92" y1="118" x2="96" y2="100"/><circle class="joint" cx="92" cy="118" r="4"/><circle class="joint" cx="96" cy="100" r="3"/><path class="fig" d="M78,85 Q85,105 92,118"/><path class="fig" d="M122,75 Q105,95 96,100"/></g><text x="100" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">KNEE HIGH — BRIEF HOLD</text></svg>`},
-'ankle_circles':{name:'Ankle Circles',hold:'15 each direction each foot',cue:'Full range of motion. Slow and deliberate. Both clockwise and counterclockwise.',color:'#35c8f1',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes circle_foot{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.foot_circle{animation:circle_foot 2s linear infinite;transform-origin:100px 130px}.circle_path{fill:none;stroke:#35c8f1;stroke-width:1.5;stroke-dasharray:4,3;opacity:0.6}</style><line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="1.5"/><circle class="joint" cx="100" cy="38" r="9"/><line class="fig" x1="100" y1="47" x2="100" y2="100"/><line class="fig" x1="100" y1="65" x2="78" y2="80"/><line class="fig" x1="100" y1="65" x2="122" y2="80"/><circle class="joint" cx="78" cy="80" r="3"/><circle class="joint" cx="122" cy="80" r="3"/><circle class="joint" cx="100" cy="100" r="5"/><line class="fig" x1="100" y1="100" x2="108" y2="132"/><line class="fig" x1="108" y1="132" x2="112" y2="158"/><circle class="joint" cx="108" cy="132" r="4"/><line class="fig" x1="100" y1="100" x2="90" y2="128"/><circle class="joint" cx="90" cy="128" r="4"/><g class="foot_circle"><line class="fig" x1="90" y1="128" x2="100" y2="138"/><circle class="joint" cx="100" cy="138" r="3"/></g><circle class="circle_path" cx="100" cy="130" r="12"/><text x="100" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">FULL RANGE — BOTH WAYS</text></svg>`},
-'high_knees':{name:'High Knees',hold:'30 seconds easy',cue:'Drive knees up to hip height. Light on your feet. Keep it easy — this is a warm-up.',color:'#35c8f1',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes lk{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}.lk{animation:lk 0.8s ease-in-out infinite}@keyframes rk{0%,100%{transform:translateY(-20px)}50%{transform:translateY(0)}}.rk{animation:rk 0.8s ease-in-out infinite}</style><line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="1.5"/><circle class="joint" cx="100" cy="38" r="9"/><line class="fig" x1="100" y1="47" x2="100" y2="100"/><circle class="joint" cx="100" cy="100" r="5"/><line class="fig" x1="100" y1="65" x2="78" y2="82"/><line class="fig" x1="100" y1="65" x2="122" y2="75"/><circle class="joint" cx="78" cy="82" r="3"/><circle class="joint" cx="122" cy="75" r="3"/><g class="lk"><line class="fig" x1="97" y1="100" x2="90" y2="122"/><line class="fig" x1="90" y1="122" x2="88" y2="145"/><circle class="joint" cx="90" cy="122" r="4"/></g><g class="rk"><line class="fig" x1="103" y1="100" x2="110" y2="128"/><line class="fig" x1="110" y1="128" x2="113" y2="155"/><circle class="joint" cx="110" cy="128" r="4"/></g><text x="100" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">KNEE TO HIP HEIGHT</text></svg>`},
-'leg_swings':{name:'Leg Swings',hold:'15 each leg each direction',cue:'Let the leg swing freely from the hip. Do not force range. Hold something for balance.',color:'#35c8f1',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes swing{0%{transform:rotate(-35deg)}50%{transform:rotate(35deg)}100%{transform:rotate(-35deg)}}.swinging{animation:swing 1.2s ease-in-out infinite;transform-origin:92px 100px}</style><rect x="148" y="40" width="8" height="100" fill="#1a1a1a" rx="2"/><line x1="20" y1="158" x2="180" y2="158" stroke="#333" stroke-width="1.5"/><circle class="joint" cx="100" cy="38" r="9"/><line class="fig" x1="100" y1="47" x2="100" y2="100"/><circle class="joint" cx="100" cy="100" r="5"/><line class="fig" x1="100" y1="65" x2="148" y2="72"/><circle class="joint" cx="148" cy="72" r="3"/><line class="fig" x1="100" y1="65" x2="78" y2="78"/><circle class="joint" cx="78" cy="78" r="3"/><line class="fig" x1="100" y1="100" x2="104" y2="132"/><line class="fig" x1="104" y1="132" x2="106" y2="158"/><circle class="joint" cx="104" cy="132" r="4"/><g class="swinging"><line class="fig" x1="92" y1="100" x2="88" y2="132"/><line class="fig" x1="88" y1="132" x2="86" y2="158"/><circle class="joint" cx="88" cy="132" r="4"/></g><text x="90" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">FREE SWING — BOTH WAYS</text></svg>`},
-'lunge_twist':{name:'Walking Lunge with Twist',hold:'8 each side',cue:'Twist toward the front knee. Opens the thoracic spine and hip flexor simultaneously.',color:'#35c8f1',svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg"><style>.fig{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}.joint{fill:#efefef;stroke:none}@keyframes twist{0%,100%{transform:rotate(0deg)}50%{transform:rotate(20deg)}}.torso_twist{animation:twist 2s ease-in-out infinite;transform-origin:100px 88px}@keyframes t_pulse{0%,100%{opacity:0.3}50%{opacity:0.9}}.t_p{animation:t_pulse 2s ease-in-out infinite}</style><line x1="20" y1="155" x2="180" y2="155" stroke="#333" stroke-width="1.5"/><line class="fig" x1="80" y1="88" x2="75" y2="118"/><line class="fig" x1="75" y1="118" x2="82" y2="155"/><circle class="joint" cx="75" cy="118" r="4"/><circle class="joint" cx="82" cy="155" r="3"/><line class="fig" x1="80" y1="88" x2="118" y2="100"/><line class="fig" x1="118" y1="100" x2="122" y2="155"/><circle class="joint" cx="118" cy="100" r="4"/><circle class="joint" cx="122" cy="155" r="3"/><g class="torso_twist"><line class="fig" x1="80" y1="88" x2="85" y2="55"/><circle class="joint" cx="87" cy="46" r="9"/><line class="fig" x1="82" y1="68" x2="110" y2="58"/><line class="fig" x1="82" y1="68" x2="55" y2="72"/><circle class="joint" cx="110" cy="58" r="3"/><circle class="joint" cx="55" cy="72" r="3"/><ellipse class="t_p" cx="83" cy="70" rx="12" ry="16" fill="none" stroke="#35c8f1" stroke-width="2" stroke-dasharray="3,2" transform="rotate(-5,83,70)"/></g><text x="100" y="172" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">TWIST TOWARD FRONT KNEE</text></svg>`}
+'knee_hugs':{
+  name:'Walking Knee Hugs',
+  hold:'10 each leg',
+  cue:'Drive the knee up to chest height. Grip just below the knee. Stand tall on the support leg. Step forward after each rep.',
+  color:'#35c8f1',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes kh_up{0%,100%{transform:translateY(0)}45%,55%{transform:translateY(-28px)}}
+.kh_leg{animation:kh_up 2s ease-in-out infinite;transform-origin:100px 108px}
+@keyframes kh_arms{0%,100%{transform:translateY(0)}45%,55%{transform:translateY(-28px)}}
+.kh_arms{animation:kh_arms 2s ease-in-out infinite;transform-origin:100px 75px}
+</style></defs>
+<line x1="20" y1="158" x2="180" y2="158" stroke="#444" stroke-width="1.5"/>
+<!-- Head -->
+<circle class="j" cx="100" cy="35" r="9"/>
+<!-- Neck to hips -->
+<line class="f" x1="100" y1="44" x2="100" y2="108"/>
+<circle class="j" cx="100" cy="108" r="5"/>
+<!-- Static standing leg (right) -->
+<line class="f" x1="103" y1="108" x2="108" y2="135"/>
+<line class="f" x1="108" y1="135" x2="112" y2="158"/>
+<circle class="j" cx="108" cy="135" r="4"/>
+<circle class="j" cx="112" cy="158" r="3"/>
+<!-- Lifting leg + arms move together -->
+<g class="kh_leg">
+  <!-- Left knee coming up to chest -->
+  <line class="f" x1="97" y1="108" x2="88" y2="125"/>
+  <line class="f" x1="88" y1="125" x2="92" y2="108"/>
+  <circle class="j" cx="88" cy="125" r="4"/>
+  <circle class="j" cx="92" cy="108" r="3"/>
+</g>
+<!-- Arms grabbing the knee -->
+<g class="kh_arms">
+  <line class="f" x1="100" y1="68" x2="80" y2="90"/>
+  <line class="f" x1="100" y1="68" x2="78" y2="95"/>
+  <circle class="j" cx="80" cy="90" r="3"/>
+  <circle class="j" cx="78" cy="95" r="3"/>
+</g>
+<!-- Other arm swings back -->
+<line class="f" x1="100" y1="68" x2="122" y2="82"/>
+<circle class="j" cx="122" cy="82" r="3"/>
+<text x="100" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">KNEE TO CHEST — STAND TALL</text>
+</svg>`
+},
+'lunge_twist':{
+  name:'Walking Lunge with Twist',
+  hold:'8 each side',
+  cue:'Front knee at 90°. Back knee hovers above floor. Rotate torso toward the front knee. Arms help drive the rotation.',
+  color:'#35c8f1',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes lt_rot{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(15deg)}}
+.lt_torso{animation:lt_rot 2.5s ease-in-out infinite;transform-origin:95px 95px}
+@keyframes lt_pulse{0%,100%{opacity:0.2}50%{opacity:0.8}}
+.lt_p{animation:lt_pulse 2.5s ease-in-out infinite}
+</style></defs>
+<line x1="20" y1="158" x2="180" y2="158" stroke="#444" stroke-width="1.5"/>
+<!-- Front leg (right) — 90 degree knee -->
+<line class="f" x1="95" y1="95" x2="125" y2="95"/>
+<line class="f" x1="125" y1="95" x2="130" y2="158"/>
+<circle class="j" cx="125" cy="95" r="4"/>
+<circle class="j" cx="130" cy="158" r="3"/>
+<!-- Back leg (left) — knee near floor -->
+<line class="f" x1="95" y1="95" x2="72" y2="120"/>
+<line class="f" x1="72" y1="120" x2="78" y2="158"/>
+<circle class="j" cx="72" cy="120" r="4"/>
+<circle class="j" cx="78" cy="158" r="3"/>
+<!-- Hips -->
+<circle class="j" cx="95" cy="95" r="5"/>
+<!-- Rotating torso -->
+<g class="lt_torso">
+  <line class="f" x1="95" y1="95" x2="95" y2="58"/>
+  <circle class="j" cx="95" cy="49" r="9"/>
+  <!-- Arms extended in rotation -->
+  <line class="f" x1="95" y1="72" x2="118" y2="62"/>
+  <line class="f" x1="95" y1="72" x2="70" y2="78"/>
+  <circle class="j" cx="118" cy="62" r="3"/>
+  <circle class="j" cx="70" cy="78" r="3"/>
+  <!-- Thoracic pulse -->
+  <ellipse class="lt_p" cx="95" cy="75" rx="14" ry="18" fill="none" stroke="#35c8f1" stroke-width="1.5" stroke-dasharray="3,2"/>
+</g>
+<text x="100" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">ROTATE TOWARD FRONT KNEE</text>
+</svg>`
+},
+'ankle_circles':{
+  name:'Ankle Circles',
+  hold:'15 each direction each foot',
+  cue:'Lift the foot off the floor. Draw the largest circle you can with your toes. Do all 15 one way, then reverse.',
+  color:'#35c8f1',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes ac_foot{
+  0%{transform:translate(12px,0)}
+  25%{transform:translate(0px,10px)}
+  50%{transform:translate(-12px,0)}
+  75%{transform:translate(0,-10px)}
+  100%{transform:translate(12px,0)}
+}
+.ac_foot{animation:ac_foot 1.8s linear infinite;transform-origin:100px 145px}
+</style></defs>
+<line x1="20" y1="162" x2="180" y2="162" stroke="#444" stroke-width="1.5"/>
+<!-- Seated figure -->
+<!-- Torso -->
+<line class="f" x1="100" y1="40" x2="100" y2="95"/>
+<circle class="j" cx="100" cy="31" r="9"/>
+<circle class="j" cx="100" cy="95" r="5"/>
+<!-- Arms resting on sides -->
+<line class="f" x1="100" y1="60" x2="78" y2="78"/>
+<line class="f" x1="100" y1="60" x2="122" y2="78"/>
+<circle class="j" cx="78" cy="78" r="3"/>
+<circle class="j" cx="122" cy="78" r="3"/>
+<!-- Standing leg (left) — static on floor -->
+<line class="f" x1="97" y1="95" x2="94" y2="130"/>
+<line class="f" x1="94" y1="130" x2="88" y2="162"/>
+<circle class="j" cx="94" cy="130" r="4"/>
+<circle class="j" cx="88" cy="162" r="3"/>
+<!-- Lifted leg with circling foot -->
+<line class="f" x1="103" y1="95" x2="110" y2="125"/>
+<circle class="j" cx="110" cy="125" r="4"/>
+<!-- Foot rotating in circle -->
+<g class="ac_foot">
+  <line class="f" x1="110" y1="125" x2="100" y2="145"/>
+  <circle class="j" cx="100" cy="145" r="3"/>
+</g>
+<!-- Circle path indicator -->
+<circle cx="100" cy="145" r="13" fill="none" stroke="#35c8f1" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+<text x="100" y="178" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">DRAW BIG CIRCLES WITH TOE</text>
+</svg>`
+},
+'high_knees':{
+  name:'High Knees',
+  hold:'30 seconds easy',
+  cue:'Drive each knee up to hip height. Stay light on your feet. Easy pace — this is a warm-up, not a sprint.',
+  color:'#35c8f1',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes hn_l{0%,100%{transform:translateY(-22px)}50%{transform:translateY(0)}}
+@keyframes hn_r{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+@keyframes hn_la{0%,100%{transform:rotate(20deg)}50%{transform:rotate(-20deg)}}
+@keyframes hn_ra{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(20deg)}}
+.hn_lleg{animation:hn_l 0.7s ease-in-out infinite;transform-origin:97px 105px}
+.hn_rleg{animation:hn_r 0.7s ease-in-out infinite;transform-origin:103px 105px}
+.hn_larm{animation:hn_la 0.7s ease-in-out infinite;transform-origin:100px 68px}
+.hn_rarm{animation:hn_ra 0.7s ease-in-out infinite;transform-origin:100px 68px}
+</style></defs>
+<line x1="20" y1="162" x2="180" y2="162" stroke="#444" stroke-width="1.5"/>
+<!-- Head -->
+<circle class="j" cx="100" cy="33" r="9"/>
+<!-- Torso -->
+<line class="f" x1="100" y1="42" x2="100" y2="105"/>
+<circle class="j" cx="100" cy="105" r="5"/>
+<!-- Left arm -->
+<g class="hn_larm">
+  <line class="f" x1="100" y1="68" x2="78" y2="88"/>
+  <circle class="j" cx="78" cy="88" r="3"/>
+</g>
+<!-- Right arm -->
+<g class="hn_rarm">
+  <line class="f" x1="100" y1="68" x2="122" y2="82"/>
+  <circle class="j" cx="122" cy="82" r="3"/>
+</g>
+<!-- Left leg driving up -->
+<g class="hn_lleg">
+  <line class="f" x1="97" y1="105" x2="88" y2="128"/>
+  <line class="f" x1="88" y1="128" x2="85" y2="155"/>
+  <circle class="j" cx="88" cy="128" r="4"/>
+  <circle class="j" cx="85" cy="155" r="3"/>
+</g>
+<!-- Right leg pushing off -->
+<g class="hn_rleg">
+  <line class="f" x1="103" y1="105" x2="112" y2="130"/>
+  <line class="f" x1="112" y1="130" x2="115" y2="155"/>
+  <circle class="j" cx="112" cy="130" r="4"/>
+  <circle class="j" cx="115" cy="155" r="3"/>
+</g>
+<text x="100" y="178" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">KNEE TO HIP HEIGHT — STAY LIGHT</text>
+</svg>`
+},
+'leg_swings':{
+  name:'Leg Swings',
+  hold:'15 each leg, each direction',
+  cue:'Hold a wall for balance. Let the leg swing freely from the hip — do not force range. Pendulum motion, relaxed.',
+  color:'#35c8f1',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes ls_swing{
+  0%{transform:rotate(-40deg)}
+  50%{transform:rotate(40deg)}
+  100%{transform:rotate(-40deg)}
+}
+.ls_leg{animation:ls_swing 1.2s ease-in-out infinite;transform-origin:103px 105px}
+</style></defs>
+<!-- Wall -->
+<rect x="155" y="30" width="7" height="130" rx="2" fill="#1e1e1e"/>
+<line x1="20" y1="158" x2="180" y2="158" stroke="#444" stroke-width="1.5"/>
+<!-- Head -->
+<circle class="j" cx="100" cy="35" r="9"/>
+<!-- Torso — upright -->
+<line class="f" x1="100" y1="44" x2="100" y2="105"/>
+<circle class="j" cx="100" cy="105" r="5"/>
+<!-- Arm on wall -->
+<line class="f" x1="100" y1="65" x2="148" y2="70"/>
+<circle class="j" cx="148" cy="70" r="3"/>
+<!-- Other arm relaxed -->
+<line class="f" x1="100" y1="65" x2="82" y2="82"/>
+<circle class="j" cx="82" cy="82" r="3"/>
+<!-- Standing leg (left) — static -->
+<line class="f" x1="97" y1="105" x2="94" y2="135"/>
+<line class="f" x1="94" y1="135" x2="90" y2="158"/>
+<circle class="j" cx="94" cy="135" r="4"/>
+<circle class="j" cx="90" cy="158" r="3"/>
+<!-- Swinging leg (right) — pendulum -->
+<g class="ls_leg">
+  <line class="f" x1="103" y1="105" x2="108" y2="135"/>
+  <line class="f" x1="108" y1="135" x2="112" y2="158"/>
+  <circle class="j" cx="108" cy="135" r="4"/>
+  <circle class="j" cx="112" cy="158" r="3"/>
+</g>
+<text x="88" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">FREE PENDULUM — RELAX HIP</text>
+</svg>`
+},
+'hip_flexor_lunge':{
+  name:'Hip Flexor Lunge',
+  hold:'90 seconds each side',
+  cue:'Back knee on the floor. Drive your hips forward — not your chest. Squeeze the glute of the back leg. You should feel the stretch at the front of the back hip.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes hfl_drive{0%,100%{transform:translateX(0)}50%{transform:translateX(7px)}}
+.hfl_body{animation:hfl_drive 2.5s ease-in-out infinite}
+@keyframes hfl_p{0%,100%{opacity:0.2;r:9}50%{opacity:0.9;r:12}}
+.hfl_pulse{animation:hfl_p 2.5s ease-in-out infinite}
+</style></defs>
+<line x1="20" y1="158" x2="180" y2="158" stroke="#444" stroke-width="1.5"/>
+<!-- Back leg — knee on floor, shin flat -->
+<line class="f" x1="78" y1="98" x2="68" y2="130"/>
+<line class="f" x1="68" y1="130" x2="55" y2="130"/>
+<circle class="j" cx="68" cy="130" r="4"/>
+<circle class="j" cx="55" cy="130" r="3"/>
+<!-- Front leg — foot flat, knee at 90° -->
+<line class="f" x1="78" y1="98" x2="118" y2="98"/>
+<line class="f" x1="118" y1="98" x2="125" y2="158"/>
+<circle class="j" cx="118" cy="98" r="4"/>
+<circle class="j" cx="125" cy="158" r="3"/>
+<!-- Hips -->
+<circle class="j" cx="78" cy="98" r="5"/>
+<!-- Driving body (torso + head) -->
+<g class="hfl_body">
+  <line class="f" x1="78" y1="98" x2="82" y2="60"/>
+  <circle class="j" cx="83" cy="51" r="9"/>
+  <!-- Arms up or at sides for balance -->
+  <line class="f" x1="80" y1="75" x2="62" y2="88"/>
+  <line class="f" x1="80" y1="75" x2="100" y2="82"/>
+  <circle class="j" cx="62" cy="88" r="3"/>
+  <circle class="j" cx="100" cy="82" r="3"/>
+  <!-- Hip flexor pulse at back hip crease -->
+  <circle class="hfl_pulse" cx="78" cy="98" r="9" fill="none" stroke="#c8f135" stroke-width="2"/>
+</g>
+<!-- Arrow showing direction -->
+<text x="105" y="148" fill="#c8f135" font-size="9" font-family="monospace">→ HIPS</text>
+<text x="100" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">DRIVE HIPS FORWARD NOT CHEST</text>
+</svg>`
+},
+'figure_four':{
+  name:'Figure Four Glute Stretch',
+  hold:'90 seconds each side',
+  cue:'Cross the ankle over the opposite knee. Reach through the gap and pull the bottom leg toward your chest. Feel the stretch deep in the crossed leg\'s glute.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes ff_pull{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.ff_pull{animation:ff_pull 2.5s ease-in-out infinite}
+@keyframes ff_p{0%,100%{opacity:0.2}50%{opacity:0.9}}
+.ff_pulse{animation:ff_p 2.5s ease-in-out infinite}
+</style></defs>
+<rect x="20" y="148" width="160" height="5" rx="2" fill="#1e1e1e"/>
+<!-- Figure lying on back -->
+<!-- Head (right side) -->
+<circle class="j" cx="158" cy="112" r="9"/>
+<!-- Torso horizontal -->
+<line class="f" x1="148" y1="112" x2="65" y2="112"/>
+<!-- Hips -->
+<circle class="j" cx="65" cy="112" r="5"/>
+<!-- Arms out for stability -->
+<line class="f" x1="140" y1="112" x2="160" y2="130"/>
+<circle class="j" cx="160" cy="130" r="3"/>
+<!-- Bottom leg — bent at 90° (left leg, going up) -->
+<g class="ff_pull">
+  <line class="f" x1="65" y1="112" x2="55" y2="88"/>
+  <line class="f" x1="55" y1="88" x2="72" y2="78"/>
+  <circle class="j" cx="55" cy="88" r="4"/>
+  <circle class="j" cx="72" cy="78" r="3"/>
+  <!-- Hands pulling the bottom leg -->
+  <line class="f" x1="148" y1="108" x2="120" y2="85"/>
+  <line class="f" x1="148" y1="116" x2="122" y2="90"/>
+  <circle class="j" cx="120" cy="85" r="3"/>
+  <circle class="j" cx="122" cy="90" r="3"/>
+</g>
+<!-- Crossed leg — ankle on knee forming figure 4 -->
+<line class="f" x1="65" y1="112" x2="48" y2="100"/>
+<line class="f" x1="48" y1="100" x2="55" y2="88"/>
+<circle class="j" cx="48" cy="100" r="4"/>
+<!-- Glute pulse on crossed leg side -->
+<circle class="ff_pulse" cx="57" cy="106" r="10" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2"/>
+<text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">PULL LEG — FEEL IT IN GLUTE</text>
+</svg>`
+},
+'knees_to_chest':{
+  name:'Knees to Chest',
+  hold:'60 seconds — rock gently',
+  cue:'Both knees pulled firmly to your chest. Arms wrapped around shins. Rock slowly side to side to massage the lower back.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes ktc_rock{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.ktc_all{animation:ktc_rock 2s ease-in-out infinite;transform-origin:105px 112px}
+@keyframes ktc_p{0%,100%{opacity:0.2}50%{opacity:0.8}}
+.ktc_pulse{animation:ktc_p 2s ease-in-out infinite}
+</style></defs>
+<rect x="20" y="148" width="160" height="5" rx="2" fill="#1e1e1e"/>
+<g class="ktc_all">
+  <!-- Head -->
+  <circle class="j" cx="155" cy="112" r="9"/>
+  <!-- Torso (shorter — curled) -->
+  <line class="f" x1="145" y1="112" x2="95" y2="112"/>
+  <!-- Both knees up to chest -->
+  <!-- Right knee -->
+  <line class="f" x1="95" y1="112" x2="82" y2="92"/>
+  <line class="f" x1="82" y1="92" x2="95" y2="82"/>
+  <circle class="j" cx="82" cy="92" r="4"/>
+  <circle class="j" cx="95" cy="82" r="3"/>
+  <!-- Left knee -->
+  <line class="f" x1="95" y1="112" x2="80" y2="98"/>
+  <line class="f" x1="80" y1="98" x2="90" y2="86"/>
+  <circle class="j" cx="80" cy="98" r="4"/>
+  <circle class="j" cx="90" cy="86" r="3"/>
+  <!-- Arms wrapped around shins -->
+  <path class="f" d="M145,107 Q110,78 95,82"/>
+  <path class="f" d="M145,117 Q108,84 90,86"/>
+  <!-- Lower back pulse -->
+  <ellipse class="ktc_pulse" cx="120" cy="112" rx="22" ry="6" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2"/>
+</g>
+<text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">ROCK GENTLY — DECOMPRESS SPINE</text>
+</svg>`
+},
+'childs_pose':{
+  name:'Child\'s Pose',
+  hold:'60 seconds',
+  cue:'Knees wide or together. Arms extended fully forward. Let the chest drop toward the floor. Breathe deeply into your lower back — feel it expand on each inhale.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes cp_breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.06)}}
+.cp_body{animation:cp_breathe 3s ease-in-out infinite;transform-origin:115px 108px}
+@keyframes cp_p{0%,100%{opacity:0.15}50%{opacity:0.85}}
+.cp_pulse{animation:cp_p 3s ease-in-out infinite}
+</style></defs>
+<rect x="20" y="148" width="160" height="5" rx="2" fill="#1e1e1e"/>
+<g class="cp_body">
+  <!-- Hips up (right side of figure) -->
+  <circle class="j" cx="130" cy="100" r="5"/>
+  <!-- Spine curves down and forward to floor -->
+  <path class="f" d="M130,100 Q110,105 88,118 Q70,125 55,128"/>
+  <!-- Head resting on floor/arms -->
+  <circle class="j" cx="48" cy="130" r="8"/>
+  <!-- Lower back / hip pulse -->
+  <ellipse class="cp_pulse" cx="118" cy="102" rx="15" ry="7" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2" transform="rotate(-5,118,102)"/>
+  <!-- Thighs folded back (sitting on heels) -->
+  <line class="f" x1="130" y1="100" x2="148" y2="122"/>
+  <line class="f" x1="148" y1="122" x2="142" y2="148"/>
+  <circle class="j" cx="148" cy="122" r="4"/>
+  <circle class="j" cx="142" cy="148" r="3"/>
+  <!-- Arms extended forward on floor -->
+  <line class="f" x1="72" y1="122" x2="42" y2="140"/>
+  <line class="f" x1="68" y1="126" x2="38" y2="144"/>
+  <circle class="j" cx="42" cy="140" r="3"/>
+  <circle class="j" cx="38" cy="144" r="3"/>
+</g>
+<text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">BREATHE INTO LOWER BACK</text>
+</svg>`
+},
+'calf_straight':{
+  name:'Calf Stretch — Straight Leg',
+  hold:'90 seconds each side',
+  cue:'Hands on wall, back leg straight, heel flat on floor. Lean hips toward wall. You should feel this in the upper calf (gastrocnemius). Keep the back foot pointed straight.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes cs_lean{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+.cs_body{animation:cs_lean 3s ease-in-out infinite}
+@keyframes cs_p{0%,100%{opacity:0.2}50%{opacity:0.9}}
+.cs_pulse{animation:cs_p 3s ease-in-out infinite}
+</style></defs>
+<!-- Wall -->
+<rect x="158" y="30" width="7" height="128" rx="2" fill="#1e1e1e"/>
+<line x1="20" y1="158" x2="180" y2="158" stroke="#444" stroke-width="1.5"/>
+<g class="cs_body">
+  <!-- Head -->
+  <circle class="j" cx="128" cy="48" r="9"/>
+  <!-- Torso angled forward -->
+  <line class="f" x1="128" y1="57" x2="118" y2="92"/>
+  <!-- Arms on wall -->
+  <line class="f" x1="122" y1="68" x2="152" y2="60"/>
+  <line class="f" x1="122" y1="72" x2="153" y2="68"/>
+  <circle class="j" cx="152" cy="60" r="3"/>
+  <circle class="j" cx="153" cy="68" r="3"/>
+</g>
+<!-- Hips -->
+<circle class="j" cx="118" cy="92" r="5"/>
+<!-- Front leg bent -->
+<line class="f" x1="118" y1="92" x2="128" y2="122"/>
+<line class="f" x1="128" y1="122" x2="135" y2="158"/>
+<circle class="j" cx="128" cy="122" r="4"/>
+<circle class="j" cx="135" cy="158" r="3"/>
+<!-- Back leg STRAIGHT — heel on floor -->
+<line class="f" x1="118" y1="92" x2="100" y2="128"/>
+<line class="f" x1="100" y1="128" x2="88" y2="158"/>
+<circle class="j" cx="100" cy="128" r="4"/>
+<circle class="j" cx="88" cy="158" r="3"/>
+<!-- Calf pulse — upper calf of back leg -->
+<ellipse class="cs_pulse" cx="94" cy="140" rx="8" ry="14" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2" transform="rotate(-12,94,140)"/>
+<text x="95" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">HEEL FLAT — BACK LEG STRAIGHT</text>
+</svg>`
+},
+'calf_bent':{
+  name:'Calf Stretch — Bent Knee',
+  hold:'90 seconds each side',
+  cue:'Same position as straight leg but bend the back knee slightly. This shifts the stretch from the gastrocnemius to the soleus — the deep calf muscle you have been feeling.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes cb_p{0%,100%{opacity:0.2;r:9}50%{opacity:0.95;r:13}}
+.cb_pulse{animation:cb_p 2s ease-in-out infinite}
+</style></defs>
+<rect x="158" y="30" width="7" height="128" rx="2" fill="#1e1e1e"/>
+<line x1="20" y1="158" x2="180" y2="158" stroke="#444" stroke-width="1.5"/>
+<!-- Head -->
+<circle class="j" cx="128" cy="48" r="9"/>
+<!-- Torso angled forward -->
+<line class="f" x1="128" y1="57" x2="118" y2="92"/>
+<!-- Arms on wall -->
+<line class="f" x1="122" y1="68" x2="152" y2="60"/>
+<line class="f" x1="122" y1="72" x2="153" y2="68"/>
+<circle class="j" cx="152" cy="60" r="3"/>
+<circle class="j" cx="153" cy="68" r="3"/>
+<!-- Hips -->
+<circle class="j" cx="118" cy="92" r="5"/>
+<!-- Front leg bent -->
+<line class="f" x1="118" y1="92" x2="128" y2="122"/>
+<line class="f" x1="128" y1="122" x2="135" y2="158"/>
+<circle class="j" cx="128" cy="122" r="4"/>
+<circle class="j" cx="135" cy="158" r="3"/>
+<!-- Back leg with BENT KNEE -->
+<line class="f" x1="118" y1="92" x2="102" y2="122"/>
+<line class="f" x1="102" y1="122" x2="95" y2="142"/>
+<line class="f" x1="95" y1="142" x2="86" y2="158"/>
+<circle class="j" cx="102" cy="122" r="4"/>
+<circle class="j" cx="95" cy="142" r="3"/>
+<circle class="j" cx="86" cy="158" r="3"/>
+<!-- Soleus pulse — low calf near ankle -->
+<circle class="cb_pulse" cx="90" cy="148" r="9" fill="none" stroke="#c8f135" stroke-width="2"/>
+<!-- Label the bent knee -->
+<text x="116" y="118" fill="#c8f135" font-size="8" font-family="monospace">BENT</text>
+<text x="95" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">BENT KNEE = DEEP SOLEUS</text>
+</svg>`
+},
+'quad_stretch':{
+  name:'Quad Stretch',
+  hold:'60 seconds each side — right side hold longer',
+  cue:'Stand tall. Bring heel to glute. Keep knees together — they must not splay apart. Tuck the pelvis under slightly. If balance is hard, hold a wall.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes qs_sway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.qs_all{animation:qs_sway 3s ease-in-out infinite;transform-origin:100px 130px}
+@keyframes qs_p{0%,100%{opacity:0.2}50%{opacity:0.9}}
+.qs_pulse{animation:qs_p 2s ease-in-out infinite}
+</style></defs>
+<line x1="20" y1="158" x2="180" y2="158" stroke="#444" stroke-width="1.5"/>
+<g class="qs_all">
+  <!-- Head -->
+  <circle class="j" cx="100" cy="32" r="9"/>
+  <!-- Torso — upright -->
+  <line class="f" x1="100" y1="41" x2="100" y2="100"/>
+  <circle class="j" cx="100" cy="100" r="5"/>
+  <!-- Standing leg (left) -->
+  <line class="f" x1="98" y1="100" x2="95" y2="132"/>
+  <line class="f" x1="95" y1="132" x2="93" y2="158"/>
+  <circle class="j" cx="95" cy="132" r="4"/>
+  <circle class="j" cx="93" cy="158" r="3"/>
+  <!-- Bent leg — heel to glute, knee pointing down -->
+  <line class="f" x1="102" y1="100" x2="105" y2="125"/>
+  <line class="f" x1="105" y1="125" x2="103" y2="100"/>
+  <circle class="j" cx="105" cy="125" r="4"/>
+  <!-- Hand grabbing ankle -->
+  <line class="f" x1="100" y1="70" x2="120" y2="82"/>
+  <line class="f" x1="120" y1="82" x2="103" y2="100"/>
+  <circle class="j" cx="120" cy="82" r="3"/>
+  <!-- Other arm out for balance -->
+  <line class="f" x1="100" y1="70" x2="78" y2="80"/>
+  <circle class="j" cx="78" cy="80" r="3"/>
+  <!-- Quad pulse on bent leg thigh -->
+  <ellipse class="qs_pulse" cx="103" cy="112" rx="6" ry="14" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2"/>
+</g>
+<text x="100" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">KNEES TOGETHER — STAND TALL</text>
+</svg>`
+},
+'hamstring':{
+  name:'Seated Hamstring Reach',
+  hold:'60 seconds each side',
+  cue:'Sit tall, one leg extended. Hinge forward from the hips — do NOT round your back. Reach toward your foot. Stop when you feel the stretch in the back of the thigh.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes shr_reach{0%,100%{transform:rotate(0deg)}50%{transform:rotate(12deg)}}
+.shr_torso{animation:shr_reach 2.5s ease-in-out infinite;transform-origin:72px 115px}
+@keyframes shr_p{0%,100%{opacity:0.2}50%{opacity:0.9}}
+.shr_pulse{animation:shr_p 2.5s ease-in-out infinite}
+</style></defs>
+<!-- Floor -->
+<rect x="20" y="130" width="160" height="5" rx="2" fill="#1e1e1e"/>
+<!-- Legs extended on floor -->
+<!-- Extended leg (right) -->
+<line class="f" x1="72" y1="115" x2="165" y2="115"/>
+<line class="f" x1="72" y1="118" x2="165" y2="118"/>
+<circle class="j" cx="167" cy="116" r="3"/>
+<!-- Bent leg (left) slightly bent for comfort -->
+<line class="f" x1="72" y1="115" x2="45" y2="125"/>
+<circle class="j" cx="45" cy="125" r="3"/>
+<!-- Hips on floor -->
+<circle class="j" cx="72" cy="115" r="5"/>
+<!-- Hamstring pulse along extended leg -->
+<g class="shr_pulse">
+  <ellipse cx="118" cy="121" rx="42" ry="5" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="4,2"/>
+</g>
+<!-- Torso hinging forward -->
+<g class="shr_torso">
+  <!-- Spine stays straight (not rounded) -->
+  <line class="f" x1="72" y1="115" x2="60" y2="78"/>
+  <!-- Head -->
+  <circle class="j" cx="57" cy="69" r="9"/>
+  <!-- Arms reaching toward foot -->
+  <line class="f" x1="65" y1="92" x2="108" y2="112"/>
+  <line class="f" x1="63" y1="97" x2="106" y2="116"/>
+  <circle class="j" cx="108" cy="112" r="3"/>
+  <circle class="j" cx="106" cy="116" r="3"/>
+</g>
+<text x="100" y="150" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">HINGE FROM HIP — SPINE LONG</text>
+</svg>`
+},
+'dead_bug':{
+  name:'Dead Bug',
+  hold:'3 sets × 8 each side',
+  cue:'Lower back pressed FLAT into the floor — the whole time. Extend opposite arm and leg slowly until 2 inches from floor. Return and switch. If your back lifts, you went too far.',
+  color:'#f1a835',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes db_arm{0%,35%{transform:rotate(0deg)}65%,100%{transform:rotate(75deg)}}
+.db_arm{animation:db_arm 2.5s ease-in-out infinite;transform-origin:68px 100px}
+@keyframes db_leg{0%,35%{transform:rotate(0deg)}65%,100%{transform:rotate(-55deg)}}
+.db_leg{animation:db_leg 2.5s ease-in-out infinite;transform-origin:118px 112px}
+@keyframes db_p{0%,100%{opacity:0.2}50%{opacity:0.85}}
+.db_pulse{animation:db_p 2.5s ease-in-out infinite}
+</style></defs>
+<rect x="20" y="148" width="160" height="5" rx="2" fill="#1e1e1e"/>
+<!-- Head -->
+<circle class="j" cx="158" cy="118" r="9"/>
+<!-- Torso — flat on back -->
+<line class="f" x1="148" y1="118" x2="68" y2="118"/>
+<!-- Core pulse -->
+<g class="db_pulse">
+  <ellipse cx="108" cy="118" rx="32" ry="6" fill="none" stroke="#f1a835" stroke-width="2" stroke-dasharray="3,2"/>
+</g>
+<!-- Static arm up (right) — 90° from body -->
+<line class="f" x1="135" y1="112" x2="135" y2="88"/>
+<circle class="j" cx="135" cy="88" r="3"/>
+<!-- Moving arm extending down (left) -->
+<g class="db_arm">
+  <line class="f" x1="68" y1="100" x2="50" y2="78"/>
+  <circle class="j" cx="50" cy="78" r="3"/>
+</g>
+<circle class="j" cx="68" cy="100" r="4"/>
+<!-- Static leg up (left) — hip and knee at 90° -->
+<line class="f" x1="82" y1="118" x2="82" y2="95"/>
+<line class="f" x1="82" y1="95" x2="65" y2="95"/>
+<circle class="j" cx="82" cy="95" r="4"/>
+<circle class="j" cx="65" cy="95" r="3"/>
+<!-- Moving leg extending (right) -->
+<g class="db_leg">
+  <line class="f" x1="118" y1="112" x2="118" y2="89"/>
+  <line class="f" x1="118" y1="89" x2="135" y2="89"/>
+  <circle class="j" cx="118" cy="89" r="4"/>
+  <circle class="j" cx="135" cy="89" r="3"/>
+</g>
+<text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">BACK FLAT — NEVER ARCHES</text>
+</svg>`
+},
+'bird_dog':{
+  name:'Bird Dog',
+  hold:'3 sets × 8 each side — hold 3 seconds',
+  cue:'From all fours. Extend opposite arm and leg until both are parallel to the floor. Hold 3 seconds. No rotation — hip stays level. Squeeze the glute on the extending leg.',
+  color:'#f1a835',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes bd_arm{0%,30%{transform:translate(0,0)}60%,100%{transform:translate(-22px,-6px)}}
+.bd_arm{animation:bd_arm 3s ease-in-out infinite;transform-origin:115px 92px}
+@keyframes bd_leg{0%,30%{transform:translate(0,0)}60%,100%{transform:translate(20px,-8px)}}
+.bd_leg{animation:bd_leg 3s ease-in-out infinite;transform-origin:88px 105px}
+@keyframes bd_p{0%,100%{opacity:0.15}60%{opacity:0.95}}
+.bd_pulse{animation:bd_p 3s ease-in-out infinite}
+</style></defs>
+<line x1="20" y1="155" x2="180" y2="155" stroke="#444" stroke-width="1.5"/>
+<!-- Head -->
+<circle class="j" cx="152" cy="85" r="9"/>
+<!-- Neck -->
+<line class="f" x1="143" y1="85" x2="135" y2="92"/>
+<!-- Spine — horizontal (neutral) -->
+<line class="f" x1="135" y1="92" x2="78" y2="98"/>
+<circle class="j" cx="78" cy="98" r="5"/>
+<!-- Static support arm (right) — straight down -->
+<line class="f" x1="135" y1="92" x2="140" y2="122"/>
+<line class="f" x1="140" y1="122" x2="145" y2="155"/>
+<circle class="j" cx="140" cy="122" r="3"/>
+<!-- Extending arm (left) -->
+<g class="bd_arm">
+  <line class="f" x1="115" y1="92" x2="108" y2="120"/>
+  <circle class="j" cx="108" cy="120" r="3"/>
+</g>
+<circle class="j" cx="115" cy="92" r="4"/>
+<!-- Static support leg (left) -->
+<line class="f" x1="78" y1="98" x2="72" y2="128"/>
+<line class="f" x1="72" y1="128" x2="68" y2="155"/>
+<circle class="j" cx="72" cy="128" r="3"/>
+<!-- Extending leg (right) -->
+<g class="bd_leg">
+  <line class="f" x1="88" y1="105" x2="82" y2="132"/>
+  <line class="f" x1="82" y1="132" x2="78" y2="155"/>
+  <circle class="j" cx="82" cy="132" r="3"/>
+</g>
+<circle class="j" cx="88" cy="105" r="4"/>
+<!-- Glute pulse on extending leg side -->
+<circle class="bd_pulse" cx="83" cy="98" r="10" fill="none" stroke="#f1a835" stroke-width="2" stroke-dasharray="3,2"/>
+<text x="100" y="172" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">PARALLEL TO FLOOR — NO ROTATION</text>
+</svg>`
+},
+'glute_bridge':{
+  name:'Glute Bridge',
+  hold:'3 sets × 15 — squeeze 2 seconds at top',
+  cue:'Feet flat, hip width apart. Drive hips straight up. Squeeze your glutes HARD at the top — 2 full seconds. Lower slowly. Your lower back should not arch.',
+  color:'#f1a835',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes gb_up{0%,100%{transform:translateY(0)}40%,60%{transform:translateY(-26px)}}
+.gb_hips{animation:gb_up 2.5s ease-in-out infinite}
+@keyframes gb_p{0%,100%{opacity:0.1;r:7}40%,60%{opacity:1;r:13}}
+.gb_pulse{animation:gb_p 2.5s ease-in-out infinite}
+</style></defs>
+<rect x="20" y="148" width="160" height="5" rx="2" fill="#1e1e1e"/>
+<!-- Head and upper back on floor (static) -->
+<circle class="j" cx="158" cy="125" r="9"/>
+<line class="f" x1="148" y1="125" x2="112" y2="125"/>
+<!-- Arms flat on floor -->
+<line class="f" x1="148" y1="125" x2="162" y2="140"/>
+<line class="f" x1="148" y1="125" x2="165" y2="135"/>
+<circle class="j" cx="162" cy="140" r="3"/>
+<circle class="j" cx="165" cy="135" r="3"/>
+<!-- Hips and legs moving up -->
+<g class="gb_hips">
+  <!-- Lower back to hips -->
+  <line class="f" x1="112" y1="125" x2="90" y2="120"/>
+  <circle class="j" cx="90" cy="120" r="5"/>
+  <!-- Glute squeeze pulse -->
+  <circle class="gb_pulse" cx="90" cy="120" r="7" fill="none" stroke="#f1a835" stroke-width="2.5"/>
+  <!-- Thigh (upper leg) -->
+  <line class="f" x1="90" y1="120" x2="78" y2="148"/>
+  <circle class="j" cx="78" cy="148" r="4"/>
+  <!-- Shin (lower leg) — vertical -->
+  <line class="f" x1="78" y1="148" x2="70" y2="148"/>
+  <circle class="j" cx="70" cy="148" r="3"/>
+</g>
+<text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">SQUEEZE HARD — HOLD 2 SECONDS</text>
+</svg>`
+},
+'supine_twist':{
+  name:'Supine Twist',
+  hold:'60 seconds each side',
+  cue:'Lying on back. One knee crosses to opposite side. Opposite arm extended. SHOULDERS stay flat on the floor — do not let them peel up. Breathe into the rotation.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes st_p{0%,100%{opacity:0.15}50%{opacity:0.9}}
+.st_pulse{animation:st_p 3s ease-in-out infinite}
+</style></defs>
+<rect x="20" y="148" width="160" height="5" rx="2" fill="#1e1e1e"/>
+<!-- Lying on back -->
+<!-- Head -->
+<circle class="j" cx="158" cy="108" r="9"/>
+<!-- Shoulders flat — wide -->
+<line class="f" x1="148" y1="108" x2="55" y2="108"/>
+<!-- Arms out wide — T position -->
+<line class="f" x1="148" y1="108" x2="168" y2="125"/>
+<circle class="j" cx="168" cy="125" r="3"/>
+<line class="f" x1="55" y1="108" x2="35" y2="125"/>
+<circle class="j" cx="35" cy="125" r="3"/>
+<!-- Hips -->
+<circle class="j" cx="90" cy="108" r="5"/>
+<!-- Leg crossing over (left knee to right) -->
+<line class="f" x1="90" y1="108" x2="72" y2="90"/>
+<line class="f" x1="72" y1="90" x2="52" y2="108"/>
+<circle class="j" cx="72" cy="90" r="4"/>
+<circle class="j" cx="52" cy="108" r="3"/>
+<!-- Other leg flat/relaxed -->
+<line class="f" x1="90" y1="108" x2="95" y2="130"/>
+<line class="f" x1="95" y1="130" x2="92" y2="148"/>
+<circle class="j" cx="95" cy="130" r="4"/>
+<!-- QL and piriformis pulse -->
+<g class="st_pulse">
+  <ellipse cx="110" cy="108" rx="18" ry="7" fill="none" stroke="#c8f135" stroke-width="2" stroke-dasharray="3,2"/>
+</g>
+<!-- Shoulder flat indicator -->
+<text x="100" y="98" text-anchor="middle" fill="#c8f135" font-size="8" font-family="monospace">SHOULDERS FLAT ↓</text>
+<text x="100" y="168" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">BREATHE INTO THE ROTATION</text>
+</svg>`
+},
+'cat_cow':{
+  name:'Cat Cow',
+  hold:'10 slow cycles',
+  cue:'Cat: exhale and round the spine up toward the ceiling — tuck chin and tailbone. Cow: inhale and let the spine drop — lift head and tailbone. Move slowly through each vertebra.',
+  color:'#c8f135',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes cc_cat{
+  0%,100%{d:path("M 58,102 C 80,82 120,82 142,102")}
+  50%{d:path("M 58,96 C 80,116 120,116 142,96")}
+}
+.cc_spine{animation:cc_cat 3s ease-in-out infinite}
+@keyframes cc_head{0%,100%{transform:translateY(-8px) rotate(-10deg)}50%{transform:translateY(6px) rotate(8deg)}}
+.cc_head{animation:cc_head 3s ease-in-out infinite;transform-origin:148px 90px}
+@keyframes cc_tail{0%,100%{transform:translateY(-6px) rotate(10deg)}50%{transform:translateY(4px) rotate(-8deg)}}
+.cc_tail{animation:cc_tail 3s ease-in-out infinite;transform-origin:52px 95px}
+</style></defs>
+<line x1="20" y1="155" x2="180" y2="155" stroke="#444" stroke-width="1.5"/>
+<!-- Animated spine path -->
+<path class="f cc_spine" d="M 58,102 C 80,82 120,82 142,102"/>
+<!-- Head end -->
+<g class="cc_head">
+  <circle class="j" cx="155" cy="88" r="9"/>
+  <line class="f" x1="146" y1="90" x2="142" y2="100"/>
+</g>
+<!-- Tail end -->
+<g class="cc_tail">
+  <circle class="j" cx="48" cy="92" r="4"/>
+  <line class="f" x1="52" y1="95" x2="58" y2="102"/>
+</g>
+<!-- Four support points (hands and knees) — static -->
+<line class="f" x1="130" y1="105" x2="135" y2="135"/>
+<line class="f" x1="135" y1="135" x2="138" y2="155"/>
+<circle class="j" cx="135" cy="135" r="3"/>
+<circle class="j" cx="138" cy="155" r="3"/>
+<line class="f" x1="115" y1="105" x2="118" y2="135"/>
+<line class="f" x1="118" y1="135" x2="120" y2="155"/>
+<circle class="j" cx="118" cy="135" r="3"/>
+<line class="f" x1="72" y1="104" x2="68" y2="135"/>
+<line class="f" x1="68" y1="135" x2="65" y2="155"/>
+<circle class="j" cx="68" cy="135" r="3"/>
+<line class="f" x1="58" y1="104" x2="55" y2="135"/>
+<line class="f" x1="55" y1="135" x2="52" y2="155"/>
+<circle class="j" cx="55" cy="135" r="3"/>
+<text x="100" y="172" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">CAT: ROUND UP  ·  COW: DROP DOWN</text>
+</svg>`
+},
+'mcgill_curl':{
+  name:'McGill Curl Up',
+  hold:'3 sets × 5 — hold 10 seconds each',
+  cue:'Hands flat under lower back to maintain its natural curve. One knee bent, one leg flat. Lift ONLY head and shoulders slightly. This is a micro-movement. Hold 10 seconds. Designed specifically for disc safety.',
+  color:'#f1a835',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes mc_lift{0%,100%{transform:translateY(0)}35%,65%{transform:translateY(-9px)}}
+.mc_head{animation:mc_lift 3.5s ease-in-out infinite;transform-origin:155px 115px}
+@keyframes mc_p{0%,100%{opacity:0.15}35%,65%{opacity:0.9}}
+.mc_pulse{animation:mc_p 3.5s ease-in-out infinite}
+</style></defs>
+<rect x="20" y="140" width="160" height="5" rx="2" fill="#1e1e1e"/>
+<!-- Body lying flat -->
+<!-- One knee bent (right) -->
+<line class="f" x1="50" y1="118" x2="90" y2="118"/>
+<line class="f" x1="90" y1="118" x2="100" y2="100"/>
+<line class="f" x1="100" y1="100" x2="118" y2="118"/>
+<circle class="j" cx="90" cy="118" r="4"/>
+<circle class="j" cx="100" cy="100" r="4"/>
+<!-- Other leg flat -->
+<line class="f" x1="50" y1="118" x2="32" y2="120"/>
+<circle class="j" cx="32" cy="120" r="3"/>
+<!-- Torso flat -->
+<line class="f" x1="118" y1="118" x2="158" y2="118"/>
+<!-- Hands under lower back -->
+<line class="f" x1="128" y1="118" x2="125" y2="130"/>
+<line class="f" x1="138" y1="118" x2="135" y2="130"/>
+<circle class="j" cx="125" cy="130" r="3"/>
+<circle class="j" cx="135" cy="130" r="3"/>
+<!-- Head and shoulders slightly lifting -->
+<g class="mc_head">
+  <circle class="j" cx="168" cy="108" r="9"/>
+  <line class="f" x1="158" y1="113" x2="158" y2="118"/>
+</g>
+<!-- Core activation -->
+<g class="mc_pulse">
+  <ellipse cx="140" cy="118" rx="16" ry="5" fill="none" stroke="#f1a835" stroke-width="2" stroke-dasharray="3,2"/>
+</g>
+<text x="100" y="158" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">MICRO LIFT — HEAD + SHOULDERS ONLY</text>
+</svg>`
+},
+'pallof_press':{
+  name:'Pallof Press',
+  hold:'3 sets × 12 each side',
+  cue:'Stand sideways to the cable. Hold the handle at your chest. Press straight out — hold 2 seconds — return. Your entire job is to NOT rotate. The core works to resist the pull.',
+  color:'#f1a835',
+  svg:`<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+<defs><style>
+.f{stroke:#efefef;stroke-width:2.5;stroke-linecap:round;fill:none}
+.j{fill:#efefef;stroke:none}
+@keyframes pp_press{0%,100%{transform:translateX(0)}40%,60%{transform:translateX(22px)}}
+.pp_arms{animation:pp_press 2.5s ease-in-out infinite}
+@keyframes pp_p{0%,100%{opacity:0.2}40%,60%{opacity:0.9}}
+.pp_pulse{animation:pp_p 2.5s ease-in-out infinite}
+</style></defs>
+<!-- Cable anchor point (left wall) -->
+<rect x="20" y="75" width="7" height="10" rx="2" fill="#444"/>
+<!-- Cable line -->
+<line x1="27" y1="80" x2="100" y2="88" stroke="#555" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="20" y1="158" x2="180" y2="158" stroke="#444" stroke-width="1.5"/>
+<!-- Standing figure — side on, facing right -->
+<!-- Head -->
+<circle class="j" cx="112" cy="42" r="9"/>
+<!-- Torso — upright, NO rotation -->
+<line class="f" x1="112" y1="51" x2="112" y2="108"/>
+<circle class="j" cx="112" cy="108" r="5"/>
+<!-- Legs in athletic stance -->
+<line class="f" x1="112" y1="108" x2="106" y2="135"/>
+<line class="f" x1="106" y1="135" x2="102" y2="158"/>
+<circle class="j" cx="106" cy="135" r="4"/>
+<circle class="j" cx="102" cy="158" r="3"/>
+<line class="f" x1="112" y1="108" x2="118" y2="135"/>
+<line class="f" x1="118" y1="135" x2="122" y2="158"/>
+<circle class="j" cx="118" cy="135" r="4"/>
+<circle class="j" cx="122" cy="158" r="3"/>
+<!-- Arms pressing out (horizontal) -->
+<g class="pp_arms">
+  <line class="f" x1="112" y1="82" x2="92" y2="88"/>
+  <line class="f" x1="92" y1="88" x2="72" y2="88"/>
+  <circle class="j" cx="72" cy="88" r="3"/>
+</g>
+<!-- Anti-rotation core pulse -->
+<g class="pp_pulse">
+  <ellipse cx="112" cy="78" rx="10" ry="25" fill="none" stroke="#f1a835" stroke-width="2" stroke-dasharray="3,2"/>
+</g>
+<!-- No rotation indicator -->
+<text x="140" y="75" fill="#555" font-size="8" font-family="monospace">NO ROTATE</text>
+<text x="100" y="175" text-anchor="middle" fill="#555" font-size="9" font-family="monospace">PRESS OUT — RESIST ROTATION</text>
+</svg>`
+}
 };
 
 // Map stretch names to animation keys
@@ -1618,6 +2502,7 @@ const STRETCH_KEY_MAP = {
   'Hip flexor lunge': 'hip_flexor_lunge',
   'Hip Flexor Lunge': 'hip_flexor_lunge',
   'Figure four glute stretch': 'figure_four',
+  'Figure Four Glute Stretch': 'figure_four',
   'Knees to chest': 'knees_to_chest',
   "Child's pose": 'childs_pose',
   'Calf — straight leg against wall': 'calf_straight',
@@ -1637,6 +2522,9 @@ const STRETCH_KEY_MAP = {
   'Leg swings side to side': 'leg_swings',
   'Leg swings front to back': 'leg_swings',
   'Walking lunge with twist': 'lunge_twist',
+  'Arm circles': null,
+  'Hip circles': null,
+  'Bodyweight squat to stand': null,
 };
 
 function handleStretchTap(el){
@@ -1682,20 +2570,13 @@ function closeStretch(e){}
 })();
 // Event delegation for stretch taps — works with dynamically injected innerHTML
 document.addEventListener('click', function(e){
-  const debugEl = document.getElementById('debug-banner');
-  if(debugEl) debugEl.textContent = 'Clicked: ' + e.target.className + ' | closest: ' + (e.target.closest('.stretch-tap') ? 'YES' : 'NO');
-  
   const item = e.target.closest('.stretch-tap');
   if(item){
     e.stopPropagation();
     e.preventDefault();
     const name = decodeURIComponent(item.dataset.stretch || '');
     const color = item.dataset.color || '#c8f135';
-    if(debugEl) debugEl.textContent += ' | name: ' + name;
-    if(name){
-      // Delay to ensure click event is fully consumed before overlay appears
-      setTimeout(() => openStretch(name, '', color), 10);
-    }
+    if(name) setTimeout(() => openStretch(name, '', color), 10);
     return false;
   }
 }, true);
