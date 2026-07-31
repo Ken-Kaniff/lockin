@@ -430,6 +430,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div class="page-eyebrow" id="train-phase-eyebrow">Base Building</div>
     <div class="page-title">TRAIN</div>
   </div>
+  <div id="debug-banner" style="background:#f1a835;color:#000;padding:8px 16px;font-family:monospace;font-size:11px;word-break:break-all">Tap any movement to debug</div>
   <div class="week-phase">
     <div>
       <div class="week-phase-label">Current Week</div>
@@ -1687,15 +1688,20 @@ function closeStretch(e){
 })();
 // Event delegation for stretch taps — works with dynamically injected innerHTML
 document.addEventListener('click', function(e){
+  // Debug: show what was clicked
+  const debugEl = document.getElementById('debug-banner');
+  if(debugEl) debugEl.textContent = 'Clicked: ' + e.target.className + ' | closest stretch-tap: ' + (e.target.closest('.stretch-tap') ? 'YES' : 'NO');
+  
   const item = e.target.closest('.stretch-tap');
   if(item){
     e.stopPropagation();
     const name = decodeURIComponent(item.dataset.stretch || '');
     const color = item.dataset.color || '#c8f135';
+    if(debugEl) debugEl.textContent += ' | name: ' + name;
     if(name) openStretch(name, '', color);
     return;
   }
-}, true); // Use capture phase to catch before other handlers
+}, true);
 
 buildTimeline();
 buildWeekGrid();
