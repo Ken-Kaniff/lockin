@@ -1680,6 +1680,7 @@ function openStretch(name, detail, color){
     if(cueEl){ cueEl.textContent = anim ? anim.cue : (detail||''); cueEl.style.borderColor = c; }
     
     overlay.classList.add('show');
+    stretchOpenTime = Date.now();
     if(debug) debug.textContent += ' | SHOW ADDED';
   } catch(err) {
     const debug = document.getElementById('debug-banner');
@@ -1688,8 +1689,10 @@ function openStretch(name, detail, color){
   }
 }
 
+let stretchOpenTime = 0;
 function closeStretch(e){
-  if(e.target === document.getElementById('stretch-overlay')){
+  // Only close if overlay has been open for at least 300ms
+  if(e.target === document.getElementById('stretch-overlay') && Date.now() - stretchOpenTime > 300){
     document.getElementById('stretch-overlay').classList.remove('show');
   }
 }
@@ -1704,18 +1707,21 @@ function closeStretch(e){
 })();
 // Event delegation for stretch taps — works with dynamically injected innerHTML
 document.addEventListener('click', function(e){
-  // Debug: show what was clicked
   const debugEl = document.getElementById('debug-banner');
-  if(debugEl) debugEl.textContent = 'Clicked: ' + e.target.className + ' | closest stretch-tap: ' + (e.target.closest('.stretch-tap') ? 'YES' : 'NO');
+  if(debugEl) debugEl.textContent = 'Clicked: ' + e.target.className + ' | closest: ' + (e.target.closest('.stretch-tap') ? 'YES' : 'NO');
   
   const item = e.target.closest('.stretch-tap');
   if(item){
     e.stopPropagation();
+    e.preventDefault();
     const name = decodeURIComponent(item.dataset.stretch || '');
     const color = item.dataset.color || '#c8f135';
     if(debugEl) debugEl.textContent += ' | name: ' + name;
-    if(name) openStretch(name, '', color);
-    return;
+    if(name){
+      // Delay to ensure click event is fully consumed before overlay appears
+      setTimeout(() => openStretch(name, '', color), 10);
+    }
+    return false;
   }
 }, true);
 
