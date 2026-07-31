@@ -1224,15 +1224,15 @@ function buildDayCards(){
     const isRest = entry.wkey === 'rest';
 
     const warmupHTML = PRE_RUN_WARMUP.map((w,i) =>
-      `<div class="warmup-item" data-stretch="${encodeURIComponent(w.move)}" data-color="#35c8f1" style="cursor:pointer" onclick="handleStretchTap(this)"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#35c8f1">▶ tap</div></div>`
+      `<div class="warmup-item stretch-tap" data-stretch="${encodeURIComponent(w.move)}" data-color="#35c8f1" style="cursor:pointer"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#35c8f1">▶ tap</div></div>`
     ).join('');
 
     const stretchHTML = POST_RUN_STRETCH.map((w,i) =>
-      `<div class="warmup-item" data-stretch="${encodeURIComponent(w.move)}" data-color="#c8f135" style="cursor:pointer" onclick="handleStretchTap(this)"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#c8f135">▶ tap</div></div>`
+      `<div class="warmup-item stretch-tap" data-stretch="${encodeURIComponent(w.move)}" data-color="#c8f135" style="cursor:pointer"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#c8f135">▶ tap</div></div>`
     ).join('');
 
     const activationHTML = PRE_LIFT_ACTIVATION.map((w,i) =>
-      `<div class="warmup-item" data-stretch="${encodeURIComponent(w.move)}" data-color="#f1a835" style="cursor:pointer" onclick="handleStretchTap(this)"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#f1a835">▶ tap</div></div>`
+      `<div class="warmup-item stretch-tap" data-stretch="${encodeURIComponent(w.move)}" data-color="#f1a835" style="cursor:pointer"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#f1a835">▶ tap</div></div>`
     ).join('');
 
     let bodyHTML = '';
@@ -1685,6 +1685,16 @@ function closeStretch(e){
     document.documentElement.style.setProperty('--safe-bottom', 'env(safe-area-inset-bottom, 24px)');
   }
 })();
+// Event delegation for stretch taps — works with dynamically injected innerHTML
+document.addEventListener('click', function(e){
+  const item = e.target.closest('.stretch-tap');
+  if(item){
+    const name = decodeURIComponent(item.dataset.stretch || '');
+    const color = item.dataset.color || '#c8f135';
+    if(name) openStretch(name, '', color);
+  }
+});
+
 buildTimeline();
 buildWeekGrid();
 updateStepsBar();
