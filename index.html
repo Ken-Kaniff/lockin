@@ -336,7 +336,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .session-section-title{font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .section-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 
-.warmup-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.warmup-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}.warmup-item *{pointer-events:none}
 .warmup-item:last-child{border-bottom:none}
 .warmup-num{font-family:var(--mono);font-size:10px;color:var(--muted);width:16px}
 .warmup-text{font-size:13px;color:var(--text)}
@@ -1689,11 +1689,13 @@ function closeStretch(e){
 document.addEventListener('click', function(e){
   const item = e.target.closest('.stretch-tap');
   if(item){
+    e.stopPropagation();
     const name = decodeURIComponent(item.dataset.stretch || '');
     const color = item.dataset.color || '#c8f135';
     if(name) openStretch(name, '', color);
+    return;
   }
-});
+}, true); // Use capture phase to catch before other handlers
 
 buildTimeline();
 buildWeekGrid();
