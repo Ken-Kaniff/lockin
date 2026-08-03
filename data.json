@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastSync": "2026-08-03T05:26:27.857Z",
+  "lastSync": "2026-08-03T05:36:28.149Z",
   "bodyWeight": {
     "Thu Jul 23 2026": 85.9,
     "Mon Jul 27 2026": 85.6
@@ -209,7 +209,7 @@
       "supps": {},
       "meals": [],
       "bodyWeight": null,
-      "syncedAt": "2026-08-03T05:26:27.857Z"
+      "syncedAt": "2026-08-03T05:36:28.149Z"
     }
   }
 }
