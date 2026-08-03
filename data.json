@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastSync": "2026-08-03T17:30:59.800Z",
+  "lastSync": "2026-08-03T17:34:56.066Z",
   "bodyWeight": {
     "Thu Jul 23 2026": 85.9,
     "Mon Jul 27 2026": 85.6
@@ -101,6 +101,24 @@
       "sets": [
         {
           "kg": 5,
+          "reps": null
+        }
+      ]
+    },
+    "push_0_Mon Aug 03 2026": {
+      "date": "Mon Aug 03 2026",
+      "sets": [
+        {
+          "kg": 20,
+          "reps": null
+        }
+      ]
+    },
+    "push_1_Mon Aug 03 2026": {
+      "date": "Mon Aug 03 2026",
+      "sets": [
+        {
+          "kg": 10,
           "reps": null
         }
       ]
@@ -205,11 +223,14 @@
     "Mon Aug 03 2026": {
       "date": "Mon Aug 03 2026",
       "steps": 0,
-      "timeline": {},
+      "timeline": {
+        "ex_push_0": true,
+        "ex_push_1": true
+      },
       "supps": {},
       "meals": [],
       "bodyWeight": null,
-      "syncedAt": "2026-08-03T17:30:59.800Z"
+      "syncedAt": "2026-08-03T17:34:56.066Z"
     }
   }
 }
