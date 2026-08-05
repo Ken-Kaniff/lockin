@@ -1310,13 +1310,14 @@ function buildDayCards(){
       bodyHTML = `<div class="session-section"><div style="font-size:13px;color:var(--muted);line-height:1.7">Active recovery. 45–60 min brisk walk. 10,000 step target. No running. Sunday is meal prep day — cook 7 lunch containers.</div></div>`;
     } else if(isSatBike){
       const bs = BIKE_SESSIONS.long;
-      const intervalsHTML = bs.intervals.map((iv,i) =>
+      const dayIdx = idx;
+      const intervalsHTML = bs.intervals.map((iv,ii) =>
         `<div class="warmup-item"><div class="warmup-num">${iv.mins}m</div><div class="lift-info"><div class="lift-name">${iv.label}</div><div class="lift-sets">${iv.rpm} · Resistance ${iv.resistance}</div><div class="lift-prev">${iv.effort}</div></div></div>`
       ).join('');
       card.innerHTML = `
-        <div class="session-card-head" onclick="toggleDC(${idx})">
+        <div class="session-card-head" onclick="toggleDC(${dayIdx})">
           <div class="session-card-day">${entry.day}</div>
-          <div class="session-card-type ${entry.col}">Spin Bike</div>
+          <div class="session-card-type ${entry.col}">Long Bike</div>
           <div class="session-card-chev">▼</div>
         </div>
         <div class="session-body">
