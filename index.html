@@ -1360,24 +1360,8 @@ function buildDayCards(){
       card.id = 'dc-' + satIdx;
       container.appendChild(card);
       continue;
-    } else if(false){      <div class="session-section">
-            <div class="session-section-title"><div class="section-dot" style="background:#35c8f1"></div><span style="color:#35c8f1">Physio Protocol — 15 min</span></div>
-            ${PHYSIO_EXERCISES.map((w,i) => `<div class="warmup-item stretch-tap" data-stretch="${encodeURIComponent(w.move)}" data-color="#35c8f1" style="cursor:pointer"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#35c8f1">▶ tap</div></div>`).join('')}
-          </div>
-          <div class="session-section">
-            <div class="session-section-title"><div class="section-dot" style="background:#c8f135"></div><span style="color:#c8f135">${bs.label}</span></div>
-            <div class="run-protocol">
-              <div class="run-protocol-main">${bs.description}</div>
-              <div class="run-target">
-                <div class="run-target-item"><div class="run-target-val" style="color:#c8f135">45</div><div class="run-target-lbl">Minutes</div></div>
-                <div class="run-target-item"><div class="run-target-val" style="color:#35c8f1">140–155</div><div class="run-target-lbl">Target BPM</div></div>
-                <div class="run-target-item"><div class="run-target-val" style="color:#f1a835">5–8</div><div class="run-target-lbl">Resistance</div></div>
-              </div>
-            </div>
-            ${intervalsHTML}
-          </div>
-        </div>`;
-    } else if(isLongRun){
+
+        } else if(isLongRun){
       const runBlock = plan.longKm ? `
         <div class="run-protocol">
           <div class="run-protocol-main">Easy conversational pace throughout</div>
