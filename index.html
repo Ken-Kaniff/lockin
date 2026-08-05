@@ -1359,12 +1359,8 @@ function buildDayCards(){
         '</div>';
       card.id = 'dc-' + satIdx;
       container.appendChild(card);
-      return;
-    } else if(false && isSatBike_disabled){
-      // placeholder to maintain else-if chain
-      card.innerHTML = '';
-        <div class="session-body">
-          <div class="session-section">
+      continue;
+    } else if(false){      <div class="session-section">
             <div class="session-section-title"><div class="section-dot" style="background:#35c8f1"></div><span style="color:#35c8f1">Physio Protocol — 15 min</span></div>
             ${PHYSIO_EXERCISES.map((w,i) => `<div class="warmup-item stretch-tap" data-stretch="${encodeURIComponent(w.move)}" data-color="#35c8f1" style="cursor:pointer"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#35c8f1">▶ tap</div></div>`).join('')}
           </div>
