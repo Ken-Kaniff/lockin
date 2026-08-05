@@ -719,17 +719,33 @@ const WORKOUTS = {
 };
 
 const DAYS_META = [
-  {day:'Monday',   label:'Push A',     wkey:'push',     col:'push-c'},
-  {day:'Tuesday',  label:'Pull A + Run',wkey:'pull',    col:'pull-c'},
-  {day:'Wednesday',label:'Legs A',     wkey:'legs',     col:'legs-c'},
-  {day:'Thursday', label:'Push B',     wkey:'pushb',    col:'push-c'},
-  {day:'Friday',   label:'Pull B + Run',wkey:'pullb',   col:'pull-c'},
-  {day:'Saturday', label:'Spin Bike',  wkey:'bike',     col:'rest-c'},
-  {day:'Sunday',   label:'Recovery',   wkey:'rest',     col:'rest-c'},
+  {day:'Monday',   label:'Push A — Bike',   wkey:'push',    col:'push-c',  hasBike:true,  hasRun:false},
+  {day:'Tuesday',  label:'Pull A — Run',     wkey:'pull',    col:'pull-c',  hasBike:false, hasRun:true},
+  {day:'Wednesday',label:'Legs A — Bike',    wkey:'legs',    col:'legs-c',  hasBike:true,  hasRun:false},
+  {day:'Thursday', label:'Push B — Bike',    wkey:'pushb',   col:'push-c',  hasBike:true,  hasRun:false},
+  {day:'Friday',   label:'Pull B — Run',     wkey:'pullb',   col:'pull-c',  hasBike:false, hasRun:true},
+  {day:'Saturday', label:'Long Bike',        wkey:'bike',    col:'pull-c',  hasBike:true,  hasRun:false},
+  {day:'Sunday',   label:'Recovery',         wkey:'rest',    col:'rest-c',  hasBike:false, hasRun:false},
 ];
 
 // ─── SPIN BIKE SESSIONS ──────────────────────────────────────────────────────
 const BIKE_SESSIONS = {
+  long: {
+    label: 'Long Bike — 75 min',
+    description: 'Long aerobic session. Replaces your long run. Builds endurance base. Heart rate 130–150 BPM. Nasal breathing throughout.',
+    intervals: [
+      {mins:10, label:'Warm up',          rpm:'60–70 RPM', resistance:'2–3', effort:'Very easy — legs waking up'},
+      {mins:15, label:'Steady state',     rpm:'75–85 RPM', resistance:'4–5', effort:'Comfortable — nasal breathing'},
+      {mins:5,  label:'Push',             rpm:'85–95 RPM', resistance:'6',   effort:'Moderate hard'},
+      {mins:5,  label:'Recovery',         rpm:'65–70 RPM', resistance:'3',   effort:'Easy — recover fully'},
+      {mins:5,  label:'Push',             rpm:'85–95 RPM', resistance:'6–7', effort:'Moderate hard'},
+      {mins:5,  label:'Recovery',         rpm:'65–70 RPM', resistance:'3',   effort:'Easy'},
+      {mins:5,  label:'Push',             rpm:'85–95 RPM', resistance:'7',   effort:'Hard — strongest effort'},
+      {mins:5,  label:'Recovery',         rpm:'65–70 RPM', resistance:'3',   effort:'Easy'},
+      {mins:10, label:'Final steady',     rpm:'75–80 RPM', resistance:'5',   effort:'Moderate — hold the pace'},
+      {mins:5,  label:'Cool down',        rpm:'55–65 RPM', resistance:'2',   effort:'Very easy'},
+    ]
+  },
   easy: {
     label: 'Spin Bike — Easy 45 min',
     description: 'Active recovery. Steady comfortable pace. Nasal breathing throughout. Heart rate 120–135 BPM.',
@@ -779,7 +795,7 @@ const TIMELINE_TRAINING_BASE = [
   {id:'wake',      time:'5:45 AM',   title:'Wake — water + salt + supplements',           sub:'Creatine 5g · D3 4,000IU + K2 100mcg · out the door by 6:15AM'},
   {id:'physio',    time:'6:00 AM',   title:'Physio protocol — 15 min (daily)',             sub:'Calf raise × 15 · Ankle dorsiflexion × 15 · Tibialis raise × 15 · Clamshells × 20 · Single leg bridge × 12 · Hip abduction × 15'},
   {id:'prerun',    time:'6:15 AM',   title:'Pre-run dynamic warm-up — 5 min',             sub:'Knee hugs · walking lunges with twist · ankle circles · high knees · leg swings'},
-  {id:'run',       time:'6:20 AM',   title:'Run — Tue/Fri only · 8.5 KPH · 20–25 min',   sub:'Nasal breathing sets pace. Treadmill 1% incline. Ice shins after every session.'},
+  {id:'run',       time:'6:20 AM',   title: (()=>{ const d=new Date().getDay(); return d===2||d===5 ? 'Run — 8.5 KPH · 20–25 min · 1% incline' : 'Spin Bike — 45 min · Moderate intervals'; })(),   sub: (()=>{ const d=new Date().getDay(); return d===2||d===5 ? 'Nasal breathing sets pace. Ice shins after. Physio protocol done first.' : 'Heart rate 140–155 BPM. Physio protocol done first. See Train tab for intervals.'; })()},
   {id:'postrun',   time:'6:50 AM',   title:'Post-run stretch — 12 min',                   sub:'Hip flexor lunge 90s · figure four 90s · knees to chest · child\'s pose · calf straight + bent knee · quad stretch'},
   {id:'prelift',   time:'7:05 AM',   title:'Pre-lift activation — 7 min',                 sub:'Leg swings · arm circles · hip circles · squats · dead bugs · bird dogs · glute bridges'},
   {id:'train',     time:'7:15 AM',   title:'Lift — 60–70 min',                            sub:'Same weight across all sets. Log every exercise. Progressive overload.'},
@@ -1271,7 +1287,9 @@ function buildDayCards(){
     card.className = 'session-card';
     card.id = 'dc-' + idx;
     const isLongRun = entry.wkey === 'longrun';
-    const isBike = entry.wkey === 'bike';
+    const isBike = entry.hasBike || false;
+    const isRun = entry.hasRun || false;
+    const isSatBike = entry.wkey === 'bike';
     const isRest = entry.wkey === 'rest';
 
     const warmupHTML = PRE_RUN_WARMUP.map((w,i) =>
@@ -1290,8 +1308,8 @@ function buildDayCards(){
 
     if(isRest){
       bodyHTML = `<div class="session-section"><div style="font-size:13px;color:var(--muted);line-height:1.7">Active recovery. 45–60 min brisk walk. 10,000 step target. No running. Sunday is meal prep day — cook 7 lunch containers.</div></div>`;
-    } else if(isBike){
-      const bs = BIKE_SESSIONS.moderate;
+    } else if(isSatBike){
+      const bs = BIKE_SESSIONS.long;
       const intervalsHTML = bs.intervals.map((iv,i) =>
         `<div class="warmup-item"><div class="warmup-num">${iv.mins}m</div><div class="lift-info"><div class="lift-name">${iv.label}</div><div class="lift-sets">${iv.rpm} · Resistance ${iv.resistance}</div><div class="lift-prev">${iv.effort}</div></div></div>`
       ).join('');
@@ -1372,19 +1390,20 @@ function buildDayCards(){
 
       const targetKm = (plan.kph * plan.mins / 60).toFixed(1);
       bodyHTML = `
+        ${entry.hasRun ? `
         <div class="session-section">
           <div class="session-section-title"><div class="section-dot" style="background:#35c8f1"></div><span style="color:#35c8f1">Pre-Run Warm-Up — 5 min</span></div>
           ${warmupHTML}
         </div>
         <div class="session-section">
-          <div class="session-section-title"><div class="section-dot" style="background:var(--accent2)"></div><span style="color:var(--accent2)">Run Protocol</span></div>
+          <div class="session-section-title"><div class="section-dot" style="background:var(--accent2)"></div><span style="color:var(--accent2)">Run Protocol — Tue/Fri only</span></div>
           <div class="run-protocol">
-            <div class="run-protocol-main">${plan.run}</div>
-            <div class="run-protocol-detail">1% incline · Nasal breathing · Arms relaxed, elbows front-back · Shoulder drop every 5 min</div>
+            <div class="run-protocol-main">20–25 min continuous · 8.5 KPH · 1% incline</div>
+            <div class="run-protocol-detail">Nasal breathing sets pace · Ice shins after every session · Physio protocol must be done first</div>
             <div class="run-target">
-              <div class="run-target-item"><div class="run-target-val" style="color:var(--accent2)">${plan.kph}</div><div class="run-target-lbl">KPH</div></div>
-              <div class="run-target-item"><div class="run-target-val" style="color:var(--accent)">${plan.mins}</div><div class="run-target-lbl">Mins</div></div>
-              <div class="run-target-item"><div class="run-target-val" style="color:var(--accent3)">${targetKm}</div><div class="run-target-lbl">Target KM</div></div>
+              <div class="run-target-item"><div class="run-target-val" style="color:var(--accent2)">8.5</div><div class="run-target-lbl">KPH</div></div>
+              <div class="run-target-item"><div class="run-target-val" style="color:var(--accent)">20–25</div><div class="run-target-lbl">Mins</div></div>
+              <div class="run-target-item"><div class="run-target-val" style="color:var(--accent3)">2.8–3.5</div><div class="run-target-lbl">Target KM</div></div>
             </div>
           </div>
         </div>
@@ -1392,6 +1411,21 @@ function buildDayCards(){
           <div class="session-section-title"><div class="section-dot" style="background:#c8f135"></div><span style="color:#c8f135">Post-Run Stretch — 12 min</span></div>
           ${stretchHTML}
         </div>
+        ` : `
+        <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:#c8f135"></div><span style="color:#c8f135">Spin Bike — 45 min</span></div>
+          <div class="run-protocol">
+            <div class="run-protocol-main">Moderate interval session · Heart rate 140–155 BPM</div>
+            <div class="run-protocol-detail">Physio protocol done first · Nasal breathing on easy intervals</div>
+            <div class="run-target">
+              <div class="run-target-item"><div class="run-target-val" style="color:#c8f135">45</div><div class="run-target-lbl">Minutes</div></div>
+              <div class="run-target-item"><div class="run-target-val" style="color:#35c8f1">140–155</div><div class="run-target-lbl">BPM</div></div>
+              <div class="run-target-item"><div class="run-target-val" style="color:#f1a835">5–8</div><div class="run-target-lbl">Resistance</div></div>
+            </div>
+          </div>
+          ${BIKE_SESSIONS.moderate.intervals.map(iv => `<div class="warmup-item"><div class="warmup-num">${iv.mins}m</div><div class="lift-info"><div class="lift-name">${iv.label}</div><div class="lift-sets">${iv.rpm} · Resistance ${iv.resistance}</div><div class="lift-prev">${iv.effort}</div></div></div>`).join('')}
+        </div>
+        `}
         <div class="session-section">
           <div class="session-section-title"><div class="section-dot" style="background:var(--accent2)"></div><span style="color:var(--accent2)">Pre-Lift Activation — 7 min</span></div>
           ${activationHTML}
