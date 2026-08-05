@@ -720,18 +720,66 @@ const WORKOUTS = {
 
 const DAYS_META = [
   {day:'Monday',   label:'Push A',     wkey:'push',     col:'push-c'},
-  {day:'Tuesday',  label:'Pull A',     wkey:'pull',     col:'pull-c'},
+  {day:'Tuesday',  label:'Pull A + Run',wkey:'pull',    col:'pull-c'},
   {day:'Wednesday',label:'Legs A',     wkey:'legs',     col:'legs-c'},
   {day:'Thursday', label:'Push B',     wkey:'pushb',    col:'push-c'},
-  {day:'Friday',   label:'Pull B',     wkey:'pullb',    col:'pull-c'},
-  {day:'Saturday', label:'Long Run',   wkey:'longrun',  col:'rest-c'},
+  {day:'Friday',   label:'Pull B + Run',wkey:'pullb',   col:'pull-c'},
+  {day:'Saturday', label:'Spin Bike',  wkey:'bike',     col:'rest-c'},
   {day:'Sunday',   label:'Recovery',   wkey:'rest',     col:'rest-c'},
 ];
 
+// ─── SPIN BIKE SESSIONS ──────────────────────────────────────────────────────
+const BIKE_SESSIONS = {
+  easy: {
+    label: 'Spin Bike — Easy 45 min',
+    description: 'Active recovery. Steady comfortable pace. Nasal breathing throughout. Heart rate 120–135 BPM.',
+    intervals: [
+      {mins:5,  label:'Warm up',        rpm:'60–70 RPM', resistance:'2–3', effort:'Easy — conversational'},
+      {mins:35, label:'Steady state',   rpm:'70–80 RPM', resistance:'4–5', effort:'Comfortable — nasal breathing only'},
+      {mins:5,  label:'Cool down',      rpm:'55–65 RPM', resistance:'2',   effort:'Very easy — heart rate dropping'},
+    ]
+  },
+  moderate: {
+    label: 'Spin Bike — Moderate 45 min',
+    description: 'Main cardio session. Builds aerobic base. Heart rate 140–155 BPM.',
+    intervals: [
+      {mins:5,  label:'Warm up',        rpm:'65–75 RPM', resistance:'3',   effort:'Easy build'},
+      {mins:8,  label:'Steady build',   rpm:'75–85 RPM', resistance:'5–6', effort:'Moderate — controlled breathing'},
+      {mins:5,  label:'Push interval',  rpm:'85–95 RPM', resistance:'6–7', effort:'Hard — mouth breathing acceptable'},
+      {mins:3,  label:'Recovery',       rpm:'65–70 RPM', resistance:'3',   effort:'Easy — recover fully'},
+      {mins:5,  label:'Push interval',  rpm:'85–95 RPM', resistance:'6–7', effort:'Hard'},
+      {mins:3,  label:'Recovery',       rpm:'65–70 RPM', resistance:'3',   effort:'Easy'},
+      {mins:5,  label:'Push interval',  rpm:'85–95 RPM', resistance:'7–8', effort:'Hard — strongest interval'},
+      {mins:3,  label:'Recovery',       rpm:'65–70 RPM', resistance:'3',   effort:'Easy'},
+      {mins:3,  label:'Final push',     rpm:'90–100 RPM',resistance:'7',   effort:'Hard — empty the tank'},
+      {mins:5,  label:'Cool down',      rpm:'55–65 RPM', resistance:'2',   effort:'Very easy'},
+    ]
+  },
+  hard: {
+    label: 'Spin Bike — Hard 45 min',
+    description: 'High intensity session. Maximum aerobic stimulus. Heart rate 155–170 BPM.',
+    intervals: [
+      {mins:5,  label:'Warm up',        rpm:'70–80 RPM', resistance:'3–4', effort:'Easy build'},
+      {mins:4,  label:'Hard interval',  rpm:'90–100 RPM',resistance:'7–8', effort:'Very hard'},
+      {mins:2,  label:'Recovery',       rpm:'60–70 RPM', resistance:'2',   effort:'Easy'},
+      {mins:4,  label:'Hard interval',  rpm:'90–100 RPM',resistance:'7–8', effort:'Very hard'},
+      {mins:2,  label:'Recovery',       rpm:'60–70 RPM', resistance:'2',   effort:'Easy'},
+      {mins:4,  label:'Hard interval',  rpm:'90–100 RPM',resistance:'8–9', effort:'Very hard'},
+      {mins:2,  label:'Recovery',       rpm:'60–70 RPM', resistance:'2',   effort:'Easy'},
+      {mins:4,  label:'Hard interval',  rpm:'90–100 RPM',resistance:'8–9', effort:'Very hard'},
+      {mins:2,  label:'Recovery',       rpm:'60–70 RPM', resistance:'2',   effort:'Easy'},
+      {mins:4,  label:'Hard interval',  rpm:'95–105 RPM',resistance:'8',   effort:'Maximum effort — last push'},
+      {mins:2,  label:'Recovery',       rpm:'60–70 RPM', resistance:'2',   effort:'Easy'},
+      {mins:5,  label:'Cool down',      rpm:'55–60 RPM', resistance:'2',   effort:'Very easy — full recovery'},
+    ]
+  }
+};
+
 const TIMELINE_TRAINING_BASE = [
   {id:'wake',      time:'5:45 AM',   title:'Wake — water + salt + supplements',           sub:'Creatine 5g · D3 4,000IU + K2 100mcg · out the door by 6:15AM'},
+  {id:'physio',    time:'6:00 AM',   title:'Physio protocol — 15 min (daily)',             sub:'Calf raise × 15 · Ankle dorsiflexion × 15 · Tibialis raise × 15 · Clamshells × 20 · Single leg bridge × 12 · Hip abduction × 15'},
   {id:'prerun',    time:'6:15 AM',   title:'Pre-run dynamic warm-up — 5 min',             sub:'Knee hugs · walking lunges with twist · ankle circles · high knees · leg swings'},
-  {id:'run',       time:'6:20 AM',   title:'Run — see Train tab for this week\'s protocol',sub:'Nasal breathing sets pace. Treadmill 1% incline. Log pace in app.'},
+  {id:'run',       time:'6:20 AM',   title:'Run — Tue/Fri only · 8.5 KPH · 20–25 min',   sub:'Nasal breathing sets pace. Treadmill 1% incline. Ice shins after every session.'},
   {id:'postrun',   time:'6:50 AM',   title:'Post-run stretch — 12 min',                   sub:'Hip flexor lunge 90s · figure four 90s · knees to chest · child\'s pose · calf straight + bent knee · quad stretch'},
   {id:'prelift',   time:'7:05 AM',   title:'Pre-lift activation — 7 min',                 sub:'Leg swings · arm circles · hip circles · squats · dead bugs · bird dogs · glute bridges'},
   {id:'train',     time:'7:15 AM',   title:'Lift — 60–70 min',                            sub:'Same weight across all sets. Log every exercise. Progressive overload.'},
@@ -1120,12 +1168,12 @@ function getCurrentWeek(){
 }
 
 const WEEK_PLANS = {
-  1:  {phase:'Base Building',       run:'3 min run / 2 min walk',  kph:8.0, mins:25, longMins:30,  longKm:4.0,  longKph:6.5},
-  2:  {phase:'Base Building',       run:'4 min run / 1 min walk',  kph:8.0, mins:25, longMins:35,  longKm:5.0,  longKph:7.0},
-  3:  {phase:'Base Building',       run:'8 min run / 2 min walk',  kph:8.0, mins:25, longMins:40,  longKm:5.5,  longKph:7.0},
-  4:  {phase:'Base Building',       run:'20 min continuous',        kph:8.0, mins:25, longMins:50,  longKm:7.0,  longKph:7.0},
-  5:  {phase:'Building Continuity', run:'30 min continuous',        kph:8.0, mins:30, longMins:55,  longKm:8.0,  longKph:7.0},
-  6:  {phase:'Building Continuity', run:'30 min continuous',        kph:8.0, mins:30, longMins:60,  longKm:9.0,  longKph:7.5},
+  1:  {phase:'Base Building',       run:'3 min run / 2 min walk',  kph:8.5, mins:25, longMins:30,  longKm:4.0,  longKph:6.5},
+  2:  {phase:'Base Building',       run:'4 min run / 1 min walk',  kph:8.5, mins:25, longMins:35,  longKm:5.0,  longKph:7.0},
+  3:  {phase:'Base Building',       run:'8 min run / 2 min walk',  kph:8.5, mins:25, longMins:40,  longKm:5.5,  longKph:7.0},
+  4:  {phase:'Base Building',       run:'20 min continuous',        kph:8.5, mins:25, longMins:50,  longKm:7.0,  longKph:7.0},
+  5:  {phase:'Building Continuity', run:'30 min continuous',        kph:8.5, mins:30, longMins:55,  longKm:8.0,  longKph:7.0},
+  6:  {phase:'Building Continuity', run:'30 min continuous',        kph:8.5, mins:30, longMins:60,  longKm:9.0,  longKph:7.5},
   7:  {phase:'Building Continuity', run:'35 min continuous',        kph:8.5, mins:35, longMins:65,  longKm:10.0, longKph:7.5},
   8:  {phase:'Building Continuity', run:'35 min continuous',        kph:8.5, mins:35, longMins:70,  longKm:11.0, longKph:7.5},
   9:  {phase:'Building Continuity', run:'35 min continuous',        kph:8.5, mins:35, longMins:75,  longKm:12.0, longKph:7.5},
@@ -1180,6 +1228,16 @@ const PRE_LIFT_ACTIVATION = [
   {move:'Pallof press',             detail:'3 × 12 each side — anti-rotation'},
 ];
 
+// ─── PHYSIO REHAB PROTOCOL (daily — ankle mobility + hip strength) ───────────
+const PHYSIO_EXERCISES = [
+  {move:'Single leg calf raise — wall',     detail:'3 × 15 each side · 2 feet from wall, one foot raised, knee locked'},
+  {move:'Ankle dorsiflexion — plate',       detail:'3 × 15 each side · heel on 2.5-5kg plate, front of foot drops to floor'},
+  {move:'Tibialis anterior raise — band',   detail:'3 × 15 · band around both feet, back against wall, raise toes up and down'},
+  {move:'Banded clamshells',                detail:'3 × 20 each side · band above knees, lying on side, rotate top knee up'},
+  {move:'Single leg glute bridge',          detail:'3 × 12 each side · one leg extended, drive hip up, squeeze at top'},
+  {move:'Standing hip abduction — band',    detail:'3 × 15 each side · band at ankles, kick leg out slowly and return'},
+];
+
 // ─── TRAIN ───────────────────────────────────────────────
 function buildWeekGrid(){
   const grid = document.getElementById('week-grid');
@@ -1213,6 +1271,7 @@ function buildDayCards(){
     card.className = 'session-card';
     card.id = 'dc-' + idx;
     const isLongRun = entry.wkey === 'longrun';
+    const isBike = entry.wkey === 'bike';
     const isRest = entry.wkey === 'rest';
 
     const warmupHTML = PRE_RUN_WARMUP.map((w,i) =>
@@ -1231,6 +1290,35 @@ function buildDayCards(){
 
     if(isRest){
       bodyHTML = `<div class="session-section"><div style="font-size:13px;color:var(--muted);line-height:1.7">Active recovery. 45–60 min brisk walk. 10,000 step target. No running. Sunday is meal prep day — cook 7 lunch containers.</div></div>`;
+    } else if(isBike){
+      const bs = BIKE_SESSIONS.moderate;
+      const intervalsHTML = bs.intervals.map((iv,i) =>
+        `<div class="warmup-item"><div class="warmup-num">${iv.mins}m</div><div class="lift-info"><div class="lift-name">${iv.label}</div><div class="lift-sets">${iv.rpm} · Resistance ${iv.resistance}</div><div class="lift-prev">${iv.effort}</div></div></div>`
+      ).join('');
+      card.innerHTML = `
+        <div class="session-card-head" onclick="toggleDC(${idx})">
+          <div class="session-card-day">${entry.day}</div>
+          <div class="session-card-type ${entry.col}">Spin Bike</div>
+          <div class="session-card-chev">▼</div>
+        </div>
+        <div class="session-body">
+          <div class="session-section">
+            <div class="session-section-title"><div class="section-dot" style="background:#35c8f1"></div><span style="color:#35c8f1">Physio Protocol — 15 min</span></div>
+            ${PHYSIO_EXERCISES.map((w,i) => `<div class="warmup-item stretch-tap" data-stretch="${encodeURIComponent(w.move)}" data-color="#35c8f1" style="cursor:pointer"><div class="warmup-num">${i+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#35c8f1">▶ tap</div></div>`).join('')}
+          </div>
+          <div class="session-section">
+            <div class="session-section-title"><div class="section-dot" style="background:#c8f135"></div><span style="color:#c8f135">${bs.label}</span></div>
+            <div class="run-protocol">
+              <div class="run-protocol-main">${bs.description}</div>
+              <div class="run-target">
+                <div class="run-target-item"><div class="run-target-val" style="color:#c8f135">45</div><div class="run-target-lbl">Minutes</div></div>
+                <div class="run-target-item"><div class="run-target-val" style="color:#35c8f1">140–155</div><div class="run-target-lbl">Target BPM</div></div>
+                <div class="run-target-item"><div class="run-target-val" style="color:#f1a835">5–8</div><div class="run-target-lbl">Resistance</div></div>
+              </div>
+            </div>
+            ${intervalsHTML}
+          </div>
+        </div>`;
     } else if(isLongRun){
       const runBlock = plan.longKm ? `
         <div class="run-protocol">
