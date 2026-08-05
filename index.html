@@ -1359,9 +1359,7 @@ function buildDayCards(){
         '</div>';
       card.id = 'dc-' + satIdx;
       container.appendChild(card);
-      continue;
-
-        } else if(isLongRun){
+    } else if(isLongRun){
       const runBlock = plan.longKm ? `
         <div class="run-protocol">
           <div class="run-protocol-main">Easy conversational pace throughout</div>
