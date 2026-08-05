@@ -1321,7 +1321,7 @@ function buildDayCards(){
       const satIdx = idx;
       const bs = BIKE_SESSIONS.long;
       const satIntervalsHTML = bs.intervals.map((iv) =>
-        '<div class="warmup-item"><div class="warmup-num">' + iv.mins + 'm</div><div class="lift-info"><div class="lift-name">' + iv.label + '</div><div class="lift-sets">' + iv.rpm + ' · Resistance ' + iv.resistance + '</div><div class="lift-prev">' + iv.effort + '</div></div></div>'
+        '<div class="warmup-item"><div class="warmup-num" style="color:#c8f135">' + iv.mins + 'm</div><div class="lift-info"><div class="lift-name" style="color:#c8f135">' + iv.label + '</div><div class="lift-sets" style="color:#c8f135">' + iv.rpm + ' · Resistance ' + iv.resistance + '</div><div class="lift-prev" style="color:#c8f135">' + iv.effort + '</div></div></div>'
       ).join('');
       const satWarmupHTML = BIKE_WARMUP.map((w) =>
         '<div class="warmup-item stretch-tap" data-stretch="' + encodeURIComponent(w.move) + '" data-color="#e05555" style="cursor:pointer"><div class="warmup-num">→</div><div class="warmup-text">' + w.move + '</div><div class="warmup-detail" style="color:#e05555">▶ tap</div></div>'
@@ -1435,17 +1435,21 @@ function buildDayCards(){
         </div>
         ` : `
         <div class="session-section">
+          <div class="session-section-title"><div class="section-dot" style="background:#e05555"></div><span style="color:#e05555">Bike Warm Up — 5 min</span></div>
+          ${BIKE_WARMUP.map((w,bi) => `<div class="warmup-item stretch-tap" data-stretch="${encodeURIComponent(w.move)}" data-color="#e05555" style="cursor:pointer"><div class="warmup-num">${bi+1}</div><div class="warmup-text">${w.move}</div><div class="warmup-detail" style="color:#e05555">${w.detail}</div></div>`).join('')}
+        </div>
+        <div class="session-section">
           <div class="session-section-title"><div class="section-dot" style="background:#c8f135"></div><span style="color:#c8f135">Spin Bike — 45 min</span></div>
           <div class="run-protocol">
-            <div class="run-protocol-main">Moderate interval session · Heart rate 140–155 BPM</div>
-            <div class="run-protocol-detail">Physio protocol done first · Nasal breathing on easy intervals</div>
+            <div class="run-protocol-main" style="color:#c8f135">Moderate interval session · Heart rate 140–155 BPM</div>
+            <div class="run-protocol-detail" style="color:#c8f135">Physio protocol done first · Nasal breathing on easy intervals</div>
             <div class="run-target">
               <div class="run-target-item"><div class="run-target-val" style="color:#c8f135">45</div><div class="run-target-lbl">Minutes</div></div>
               <div class="run-target-item"><div class="run-target-val" style="color:#35c8f1">140–155</div><div class="run-target-lbl">BPM</div></div>
               <div class="run-target-item"><div class="run-target-val" style="color:#f1a835">5–8</div><div class="run-target-lbl">Resistance</div></div>
             </div>
           </div>
-          ${BIKE_SESSIONS.moderate.intervals.map(iv => `<div class="warmup-item"><div class="warmup-num">${iv.mins}m</div><div class="lift-info"><div class="lift-name">${iv.label}</div><div class="lift-sets">${iv.rpm} · Resistance ${iv.resistance}</div><div class="lift-prev">${iv.effort}</div></div></div>`).join('')}
+          ${BIKE_SESSIONS.moderate.intervals.map(iv => `<div class="warmup-item"><div class="warmup-num" style="color:#c8f135">${iv.mins}m</div><div class="lift-info"><div class="lift-name" style="color:#c8f135">${iv.label}</div><div class="lift-sets" style="color:#c8f135">${iv.rpm} · Resistance ${iv.resistance}</div><div class="lift-prev" style="color:#c8f135">${iv.effort}</div></div></div>`).join('')}
         </div>
         `}
         <div class="session-section">
@@ -2748,3 +2752,5 @@ setTimeout(syncToGitHub, 3000);
 </div>
 </body>
 </html>
+  <div style="padding:20px 16px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:#2a2a2a">v1.13 · 2026-08-05</div>
+
