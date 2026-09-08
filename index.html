@@ -687,7 +687,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   <div style="height:8px"></div>
 </div>
 
-<div id="log-version" style="padding:16px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:#2a2a2a">v1.17 · 2026-09-02</div>
+<div id="log-version" style="padding:16px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:#2a2a2a">v1.18 · 2026-09-02</div>
 
 <!-- TAB BAR -->
 <div id="tabbar">
@@ -759,12 +759,12 @@ const WORKOUTS = {
 };
 
 const DAYS_META = [
-  {day:'Monday',   label:'Push A — Bike',   wkey:'push',    col:'push-c',  hasBike:true,  hasRun:false},
-  {day:'Tuesday',  label:'Pull A — Run',     wkey:'pull',    col:'pull-c',  hasBike:false, hasRun:true},
-  {day:'Wednesday',label:'Legs A — Bike',    wkey:'legs',    col:'legs-c',  hasBike:true,  hasRun:false},
-  {day:'Thursday', label:'Push B — Bike',    wkey:'pushb',   col:'push-c',  hasBike:true,  hasRun:false},
-  {day:'Friday',   label:'Pull B — Run',     wkey:'pullb',   col:'pull-c',  hasBike:false, hasRun:true},
-  {day:'Saturday', label:'Long Bike',        wkey:'bike',    col:'bike-c',  hasBike:true,  hasRun:false},
+  {day:'Monday',   label:'Day A — Lift',     wkey:'dayA',    col:'push-c',  hasBike:false, hasRun:false},
+  {day:'Tuesday',  label:'Run — 20 min',     wkey:'pull',    col:'pull-c',  hasBike:false, hasRun:true},
+  {day:'Wednesday',label:'Day B — Lift',     wkey:'dayB',    col:'legs-c',  hasBike:false, hasRun:false},
+  {day:'Thursday', label:'Bike — 45 min',    wkey:'bike',    col:'bike-c',  hasBike:true,  hasRun:false},
+  {day:'Friday',   label:'Day C + Run',      wkey:'dayC',    col:'pull-c',  hasBike:false, hasRun:true},
+  {day:'Saturday', label:'Long Bike',        wkey:'bike',    col:'bike-c',  hasBike:true,  hasRun:false, isSat:true},
   {day:'Sunday',   label:'Recovery',         wkey:'rest',    col:'rest-c',  hasBike:false, hasRun:false},
 ];
 
