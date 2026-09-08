@@ -687,7 +687,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   <div style="height:8px"></div>
 </div>
 
-<div id="log-version" style="padding:16px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:#2a2a2a">v1.15 · 2026-08-05</div>
+<div id="log-version" style="padding:16px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:#2a2a2a">v1.16 · 2026-09-02</div>
 
 <!-- TAB BAR -->
 <div id="tabbar">
@@ -712,12 +712,50 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <script>
 // ─── DATA ────────────────────────────────────────────────
 const WORKOUTS = {
+  // ── DAY A — Monday: Full Body — Strength & Stability ──
+  dayA: [
+    {n:'Goblet Squat',                  s:'4 × 8 — 3s descent, controlled',      t:'compound'},
+    {n:'Bulgarian Split Squat',         s:'3 × 10 each leg — primary run exercise',t:'compound'},
+    {n:'Romanian Deadlift',             s:'3 × 10 — posterior chain',             t:'compound'},
+    {n:'Single Leg Calf Raise (weighted)',s:'3 × 15 each side — shin rehab loaded',t:'isolation'},
+    {n:'Pallof Press',                  s:'3 × 12 each side — anti-rotation',     t:'isolation'},
+    {n:'Barbell Bench Press',           s:'4 × 6–8',                              t:'compound'},
+    {n:'Dumbbell Shoulder Press',       s:'3 × 10',                               t:'compound'},
+    {n:'Cable Row',                     s:'3 × 12',                               t:'compound'},
+  ],
+  // ── DAY B — Wednesday: Full Body — Power & Resilience ─
+  dayB: [
+    {n:'Trap Bar Deadlift',             s:'4 × 5 heavy — full posterior chain',   t:'compound'},
+    {n:'Step Up with Knee Drive',       s:'3 × 12 each leg — running specific',   t:'compound'},
+    {n:'Nordic Hamstring Curl',         s:'3 × 6 — injury prevention priority',   t:'compound'},
+    {n:'Tibialis Raise (loaded)',        s:'3 × 15 — direct shin strengthening',   t:'isolation'},
+    {n:'Seated Calf Raise',             s:'3 × 15 — soleus isolation',            t:'isolation'},
+    {n:'Weighted Pull Up / Lat Pulldown',s:'4 × 6–8',                             t:'compound'},
+    {n:'Chest Supported Row',           s:'3 × 10',                               t:'compound'},
+    {n:'Face Pulls',                    s:'3 × 15',                               t:'isolation'},
+    {n:'Bicep Curl',                    s:'3 × 12',                               t:'isolation'},
+  ],
+  // ── DAY C — Friday: Full Body — Endurance & Control ──
+  dayC: [
+    {n:'Single Leg Press',              s:'3 × 12 each leg — unilateral, no spinal load', t:'compound'},
+    {n:'Reverse Lunge',                 s:'3 × 10 each leg — eccentric control',  t:'compound'},
+    {n:'Hip Thrust',                    s:'4 × 12 heavy — max glute activation',  t:'compound'},
+    {n:'Ankle Dorsiflexion (loaded)',    s:'3 × 15 each side — fixes root cause',  t:'isolation'},
+    {n:'Standing Hip Abduction (band)', s:'3 × 20 each side — glute medius',      t:'isolation'},
+    {n:'Incline Dumbbell Press',        s:'4 × 8–10',                             t:'compound'},
+    {n:'Lateral Raise',                 s:'4 × 15',                               t:'isolation'},
+    {n:'Tricep Pushdown',               s:'3 × 12',                               t:'isolation'},
+    {n:'Overhead Tricep Extension',     s:'3 × 12',                               t:'isolation'},
+  ],
+  // Keep old keys for backward compatibility
   push:  [{n:'Barbell Bench Press',s:'4 × 4–6',t:'compound'},{n:'Overhead Press (Barbell)',s:'3 × 6–8',t:'compound'},{n:'Incline Dumbbell Press',s:'3 × 8–10',t:'isolation'},{n:'Cable Lateral Raise',s:'3 × 12–15',t:'isolation'},{n:'Tricep Rope Pushdown',s:'3 × 10–12',t:'isolation'},{n:'Overhead Tricep Extension',s:'2 × 12',t:'isolation'}],
-  pull:  [{n:'Deadlift (Conventional)',s:'4 × 4–5',t:'compound'},{n:'Weighted Pull-Ups',s:'3 × 5–8',t:'compound'},{n:'Barbell Row',s:'3 × 6–8',t:'compound'},{n:'Seated Cable Row',s:'3 × 10–12',t:'isolation'},{n:'Face Pulls',s:'3 × 15',t:'isolation'},{n:'Barbell Curl',s:'3 × 10–12',t:'isolation'}],
-  legs:  [{n:'Barbell Back Squat',s:'4 × 4–6',t:'compound'},{n:'Romanian Deadlift',s:'3 × 8–10',t:'compound'},{n:'Leg Press',s:'3 × 10–12',t:'isolation'},{n:'Leg Curl (Machine)',s:'3 × 10–12',t:'isolation'},{n:'Walking Lunges',s:'2 × 12/leg',t:'isolation'},{n:'Standing Calf Raise',s:'4 × 15–20',t:'isolation'}],
-  pushb: [{n:'Incline Barbell Press',s:'4 × 6–8',t:'compound'},{n:'Dumbbell Shoulder Press',s:'3 × 8–10',t:'compound'},{n:'Cable Fly (Low to High)',s:'3 × 12–15',t:'isolation'},{n:'Lateral Raise (Dumbbell)',s:'4 × 15',t:'isolation'},{n:'Dips (weighted)',s:'3 × 10–12',t:'isolation'},{n:'Skullcrushers (EZ Bar)',s:'3 × 10–12',t:'isolation'}],
-  pullb: [{n:'Weighted Pull-Ups / Lat Pulldown',s:'4 × 8–10',t:'compound'},{n:'Single-Arm Dumbbell Row',s:'3 × 10–12',t:'compound'},{n:'Chest-Supported Row',s:'3 × 10–12',t:'isolation'},{n:'Straight-Arm Pulldown',s:'3 × 12–15',t:'isolation'},{n:'Rear Delt Fly',s:'3 × 15',t:'isolation'},{n:'Hammer Curl',s:'3 × 12',t:'isolation'}],
-  legsb: [{n:'Front Squat / Hack Squat',s:'4 × 6–8',t:'compound'},{n:'Bulgarian Split Squat',s:'3 × 10/leg',t:'compound'},{n:'Leg Extension (Machine)',s:'3 × 12–15',t:'isolation'},{n:'Seated Leg Curl',s:'3 × 12–15',t:'isolation'},{n:'Hip Thrust (Barbell)',s:'3 × 12',t:'isolation'},{n:'Seated Calf Raise',s:'4 × 15–20',t:'isolation'}],
+  pull:  [{n:'Weighted Pull Up',s:'4 × 4–6',t:'compound'},{n:'Barbell Row',s:'3 × 6–8',t:'compound'},{n:'Cable Row Narrow',s:'3 × 8–10',t:'compound'},{n:'Face Pull',s:'3 × 15',t:'isolation'},{n:'Hammer Curl',s:'3 × 12',t:'isolation'},{n:'Incline Dumbbell Curl',s:'2 × 12',t:'isolation'}],
+  legs:  [{n:'Goblet Squat',s:'4 × 8',t:'compound'},{n:'Leg Press',s:'3 × 10',t:'compound'},{n:'Leg Extension',s:'3 × 12',t:'isolation'},{n:'Leg Curl',s:'3 × 12',t:'isolation'},{n:'Standing Calf Raise',s:'4 × 15',t:'isolation'}],
+  pushb: [{n:'Incline Barbell Press',s:'4 × 6–8',t:'compound'},{n:'Dumbbell Shoulder Press',s:'3 × 8–10',t:'compound'},{n:'Cable Fly Low to High',s:'3 × 12–15',t:'isolation'},{n:'Lateral Raise',s:'4 × 15',t:'isolation'},{n:'Dips',s:'3 × 10–12',t:'compound'},{n:'Skullcrushers',s:'3 × 10–12',t:'isolation'}],
+  pullb: [{n:'Chest Supported Row',s:'4 × 6–8',t:'compound'},{n:'Single Arm Dumbbell Row',s:'3 × 8–10',t:'compound'},{n:'Lat Pulldown Wide',s:'3 × 10–12',t:'compound'},{n:'Rear Delt Fly',s:'3 × 15',t:'isolation'},{n:'Barbell Curl',s:'3 × 10–12',t:'isolation'},{n:'Cable Curl',s:'2 × 12',t:'isolation'}],
+  longrun: [],
+  bike: [],
+  rest: [],
 };
 
 const DAYS_META = [
@@ -795,7 +833,7 @@ const BIKE_SESSIONS = {
 
 const TIMELINE_TRAINING_BASE = [
   {id:'wake',      time:'5:45 AM',   title:'Wake — water + salt + supplements',           sub:'Creatine 5g · D3 4,000IU + K2 100mcg · out the door by 6:15AM'},
-  {id:'physio',    time:'6:00 AM',   title:'Physio protocol — 15 min (daily)',             sub:'Calf raise × 15 · Ankle dorsiflexion × 15 · Tibialis raise × 15 · Clamshells × 20 · Single leg bridge × 12 · Hip abduction × 15'},
+  {id:'physio',    time:'6:00 AM',   title:'Daily mobility — 20 min (every day)',          sub:'Ankle rehab · Hip flexor release · Glute activation · Spine decompression · Core activation'},
   {id:'prerun',    time:'6:15 AM',   title:'Pre-run dynamic warm-up — 5 min',             sub:'Knee hugs · walking lunges with twist · ankle circles · high knees · leg swings'},
   {id:'run',       time:'6:20 AM',   title: (()=>{ const d=new Date().getDay(); return d===2||d===5 ? 'Run — 8.5 KPH · 20–25 min · 1% incline' : 'Spin Bike — 45 min · Moderate intervals'; })(),   sub: (()=>{ const d=new Date().getDay(); return d===2||d===5 ? 'Nasal breathing sets pace. Ice shins after. Physio protocol done first.' : 'Heart rate 140–155 BPM. Physio protocol done first. See Train tab for intervals.'; })()},
   {id:'postrun',   time:'6:50 AM',   title:'Post-run stretch — 12 min',                   sub:'Hip flexor lunge 90s · figure four 90s · knees to chest · child\'s pose · calf straight + bent knee · quad stretch'},
@@ -1269,12 +1307,38 @@ const BIKE_WARMUP = [
 
 // ─── PHYSIO REHAB PROTOCOL (daily — ankle mobility + hip strength) ───────────
 const PHYSIO_EXERCISES = [
-  {move:'Single leg calf raise — wall',     detail:'3 × 15 each side · 2 feet from wall, one foot raised, knee locked'},
-  {move:'Ankle dorsiflexion — plate',       detail:'3 × 15 each side · heel on 2.5-5kg plate, front of foot drops to floor'},
-  {move:'Tibialis anterior raise — band',   detail:'3 × 15 · band around both feet, back against wall, raise toes up and down'},
-  {move:'Banded clamshells',                detail:'3 × 20 each side · band above knees, lying on side, rotate top knee up'},
-  {move:'Single leg glute bridge',          detail:'3 × 12 each side · one leg extended, drive hip up, squeeze at top'},
-  {move:'Standing hip abduction — band',    detail:'3 × 15 each side · band at ankles, kick leg out slowly and return'},
+  {move:'Single leg calf raise — wall',       detail:'3 × 15 each side · 2 feet from wall, one foot raised, knee locked'},
+  {move:'Ankle dorsiflexion — plate',         detail:'3 × 15 each side · heel on plate, front of foot drops to floor'},
+  {move:'Tibialis anterior raise — band',     detail:'3 × 15 · band around both feet, back against wall, raise toes up and down'},
+  {move:'Banded clamshells',                  detail:'3 × 20 each side · band above knees, lying on side, rotate top knee up'},
+  {move:'Single leg glute bridge',            detail:'3 × 12 each side · one leg extended, drive hip up, squeeze at top'},
+  {move:'Standing hip abduction — band',      detail:'3 × 15 each side · band at ankles, kick leg out slowly and return'},
+];
+
+// ─── DAILY MOBILITY — every day regardless of session ────────────────────────
+const DAILY_MOBILITY = [
+  // Phase 1 — Ankle and shin
+  {move:'Single leg calf raise — wall',       detail:'3 × 15 each side'},
+  {move:'Ankle dorsiflexion — plate',         detail:'3 × 15 each side'},
+  {move:'Tibialis anterior raise — band',     detail:'3 × 15'},
+  // Phase 2 — Hip flexor and quad release
+  {move:'Hip flexor lunge',                   detail:'90s each side'},
+  {move:'Couch stretch',                      detail:'60s each side'},
+  {move:'Quad stretch',                       detail:'60s each side'},
+  // Phase 3 — Glute and posterior chain
+  {move:'Figure four glute stretch',          detail:'90s each side'},
+  {move:'Supine twist',                       detail:'60s each side'},
+  {move:'Cat cow',                            detail:'10 slow cycles'},
+  // Phase 4 — Spine and lower back
+  {move:'Knees to chest',                     detail:'60s — rock gently'},
+  {move:"Child's pose",                       detail:'60s — breathe into lower back'},
+  {move:'McGill curl up',                     detail:'3 × 5, hold 10s'},
+  // Phase 5 — Activation
+  {move:'Glute bridges',                      detail:'3 × 15, squeeze 2s at top'},
+  {move:'Dead bugs',                          detail:'3 × 8 each side — back flat'},
+  {move:'Bird dogs',                          detail:'3 × 8 each side, hold 3s'},
+  {move:'Banded clamshells',                  detail:'3 × 20 each side'},
+  {move:'Single leg glute bridge',            detail:'3 × 12 each side'},
 ];
 
 // ─── TRAIN ───────────────────────────────────────────────
@@ -1372,7 +1436,7 @@ function buildDayCards(){
           '</div>' +
           '<div class="session-section">' +
             '<div class="session-section-title"><div class="section-dot" style="background:#c8f135"></div><span style="color:#c8f135">Post-Bike Stretch — 10 min</span></div>' +
-            POST_BIKE_STRETCH.map((w,i) => '<div class="warmup-item"><div class="warmup-num">' + (i+1) + '</div><div class="warmup-text">' + w.move + '</div><div class="warmup-detail" style="color:#c8f135">' + w.detail + '</div></div>').join('') +
+            POST_BIKE_STRETCH.map((w,ii) => '<div class="warmup-item"><div class="warmup-num">' + (ii+1) + '</div><div class="warmup-text">' + w.move + '</div><div class="warmup-detail" style="color:#c8f135">' + w.detail + '</div></div>').join('') +
           '</div>' +
         '</div>';
       card.id = 'dc-' + satIdx;
